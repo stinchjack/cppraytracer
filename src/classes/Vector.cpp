@@ -1,4 +1,6 @@
 #include "Vector.hpp"
+#include <stdio.h>
+#include <iostream>
 
 
 void inline Vector::setup(void) {
@@ -16,27 +18,29 @@ Vector::Vector(FLOAT x, FLOAT y, FLOAT z) {
   hasLength = 0;
   hasNormalised = 0;
 
-  data[0] = x;
-  data[1] = y;
-  data[2] = z;
+  this->x = x;
+  this->y = y;
+  this->z = z;
 
 }
 
-Vector::Vector(const FLOAT *p) {
+Vector::Vector(const Point& p) {
 
   setup();
   hasLength = 0;
   hasNormalised = 0;
 
-  data[0] = p[0];
-  data[1] = p[1];
-  data[2] = p[2];
+  this->x = p.x;
+  this->y = p.y;
+  this->z = p.z;
+
 }
 
 
 FLOAT Vector::length() {
-  if (hasLength) {
-    myLength = sqrt ((data[0] * data[0]) + (data[1] * data[1]) + (data[2] * data[2]));
+
+  if (!hasLength) {
+    myLength = sqrt ((x * x) + (y * y) + (z * z));
     hasLength = 1;
   }
 
@@ -47,7 +51,7 @@ Vector& Vector::normalised() {
 
   if (!hasNormalised) {
 
-    myNormalised = new Vector (data[0] /  length(), data[1] / myLength, data[2]/ myLength);
+    myNormalised = new Vector (x /  length(), y / myLength, z/ myLength);
     hasNormalised = 1;
   }
   return *myNormalised;

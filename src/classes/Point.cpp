@@ -1,22 +1,33 @@
 #include "Point.hpp"
 #include "Float.hpp"
 
-FLOAT* point_add (FLOAT *lhs, const FLOAT *rhs) {
-
-  lhs[0] += rhs[0];
-  lhs[1] += rhs[1];
-  lhs[2] += rhs[2];
-
-  return lhs;
+Point::Point() {
+  x=0;
+  y=0;
+  z=0;
 }
 
-FLOAT* point_sub (FLOAT *lhs, const FLOAT *rhs) {
-
-  lhs[0] -= rhs[0];
-  lhs[1] -= rhs[1];
-  lhs[2] -= rhs[2];
-
-  return lhs;
+Point::Point(FLOAT x, FLOAT y, FLOAT z) {
+  this->x=x;
+  this->y=y;
+  this->z=z;
 }
 
-void nothing();
+Point& Point::operator+=(const Point &rhs)
+{
+  x += rhs.x;
+  y += rhs.y;
+  z += rhs.z;
+  return *this;
+}
+
+Point Point::operator+(const Point &rhs)
+{
+  Point p;
+
+  p.x = x + rhs.x;
+  p.y = y + rhs.y;
+  p.z = z + rhs.z;
+
+  return p;
+}

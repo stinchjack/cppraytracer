@@ -1,29 +1,50 @@
-#include "Point.hpp"
+#include "Colour.hpp"
 #include "Float.hpp"
 
-FLOAT* colour_add (FLOAT *lhs, const FLOAT *rhs) {
-
-  lhs[0] += rhs[0];
-  lhs[1] += rhs[1];
-  lhs[2] += rhs[2];
-
-  return lhs;
+Colour::Colour() {
+  fill((FLOAT)0);
 }
 
-FLOAT* colour_scale (FLOAT *lhs, const FLOAT *rhs) {
-
-  lhs[0] *= rhs[0];
-  lhs[1] *= rhs[1];
-  lhs[2] *= rhs[2];
-
-  return lhs;
+Colour::Colour (FLOAT r, FLOAT g, FLOAT b) {
+  this->operator[](0) = r;
+  this->operator[](1) = g;
+  this->operator[](2) = b;
 }
 
-FLOAT* colour_scale (FLOAT *lhs, FLOAT rhs) {
+Colour::Colour (const Colour &c) {
+  this->operator[](0) = c[0];
+  this->operator[](1) = c[1];
+  this->operator[](2) = c[2];
+}
 
-  lhs[0] *= rhs;
-  lhs[1] *= rhs;
-  lhs[2] *= rhs;
+Colour::Colour (const Colour *c) {
+  this->operator[](0) = c->operator[](0);
+  this->operator[](1) = c->operator[](1);
+  this->operator[](2) = c->operator[](2);
+}
 
-  return lhs;
+Colour Colour::operator+(const Colour &c) {
+  return Colour (this->operator[](0) + c[0],
+    this->operator[](1) + c[1],
+    this->operator[](2) + c[2]);
+}
+
+
+Colour& Colour::operator+=(const Colour &c) {
+  this->operator[](0) += c[0];
+  this->operator[](1) += c[1];
+  this->operator[](2) += c[2];
+  return *this;
+}
+
+Colour Colour::operator*(FLOAT scale) {
+  return Colour (this->operator[](0) * scale,
+    this->operator[](1)  * scale,
+    this->operator[](2)  * scale);
+}
+
+Colour Colour::operator*(const Colour &c) {
+  return Colour (this->operator[](0) * c[0],
+    this->operator[](1) * c[1],
+    this->operator[](2) * c[2]);
 }

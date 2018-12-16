@@ -6,9 +6,10 @@
 #include "Point.hpp"
 #include "Float.hpp"
 
+class Ray;
 
 class Vector {
-
+  friend class Ray;
   private:
 
     FLOAT myLength;
@@ -17,7 +18,7 @@ class Vector {
 
     int hasNormalised;
 
-    FLOAT data[3];
+    FLOAT x,y,z;
 
     inline void setup(void);
 
@@ -25,7 +26,7 @@ class Vector {
 
     Vector();
     Vector (FLOAT, FLOAT, FLOAT);
-    Vector (const FLOAT *);
+    Vector (const Point& p);
     ~Vector();
 
     FLOAT operator*(const Vector &rhs); // dot product
