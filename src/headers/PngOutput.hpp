@@ -1,7 +1,8 @@
 #ifndef PNGOUTPUT_HPP
 #define PNGOUTPUT_HPP
 
-#include "Output.cpp"
+#include "Output.hpp"
+#include "Colour.hpp"
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -9,38 +10,24 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <iostream>
 
 #define PNG_DEBUG 3
 
-#include <png.h>
+#include <png++/png.hpp>
 
+class PngOutput;
 
-template <int size_x, int size_y>
-class PngOutput: public FileOutput <size_x, size_y> {
+#define PNGOUTPUT_PTR std::shared_ptr<PngOutput>
+PNGOUTPUT_PTR PngOutputPtr(unsigned size_x, unsigned size_y);
+
+class PngOutput: public FileOutput {
 
 public:
-
+  PngOutput(unsigned size_x, unsigned size_y);
   int save(string filename);
 
-
-
 };
-
-
-template <int size_x, int size_y>
-int PngOutput<size_x,size_y>::save(string filename) {
-
-  float data [size_x * size_y];
-
-  //foreach row
-  int row=0;
-  for(typename std::array<FLOAT,size_y>::iterator it = this->pixel.begin(); it != this->pixel.end(); ++it) {
-
-    cout<<row++<<endl;
-  }
-
-  return 0;
-}
 
 
 #endif

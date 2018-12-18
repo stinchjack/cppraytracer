@@ -1,1 +1,3 @@
 # cppraytracer
+
+requires libpng++

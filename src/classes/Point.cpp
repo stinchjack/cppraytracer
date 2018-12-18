@@ -1,6 +1,7 @@
 #include "Point.hpp"
 #include "Float.hpp"
 
+#include "Vector.hpp"
 Point::Point() {
   x=0;
   y=0;
@@ -30,4 +31,18 @@ Point Point::operator+(const Point &rhs)
   p.z = z + rhs.z;
 
   return p;
+}
+
+FLOAT Point::operator*(Point &rhs)
+{
+
+  return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
+
+}
+
+FLOAT Point::operator*(Vector &rhs)
+{
+
+  return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
+
 }

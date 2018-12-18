@@ -1,30 +1,38 @@
 #ifndef OUTPUT_HPP
 #define OUTPUT_HPP
 
-#include <array>
+#include <vector>
 #include <string>
 #include "Float.hpp"
 #include "Colour.hpp"
+#include <memory>
 
 using namespace std;
 
-template <int size_x, int size_y>
+#define OUTPUT_PTR std::shared_ptr<Output>
+
+class View;
+
 class Output {
 
+  friend class View;
+
   protected:
-    int myWidth = size_x;
-    int myHeight = size_y;
+    vector<vector<Colour>> pixels;
+    void resize(unsigned int x, unsigned int y);
 
   public:
-    std::array<std::array<Colour,size_y>, size_x> pixel;
 
-    FLOAT width();
-    FLOAT height();
+    int width();
+    int height();
+
+    void setPixel(unsigned int x, unsigned int y, const Colour &c);
+    Colour getPixel(unsigned int x, unsigned int y);
 
 };
 
-template <int size_x, int size_y>
-class FileOutput: public Output <size_x, size_y> {
+
+class FileOutput: public Output {
 
   public:
   virtual int save(string filename) = 0;

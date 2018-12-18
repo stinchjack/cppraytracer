@@ -4,10 +4,13 @@
 
 #include <math.h>
 #include "Float.hpp"
+class Vector;
 
 class Point {
+  friend class Vector;
 
   private:
+
 
   public:
 
@@ -18,6 +21,8 @@ class Point {
 
     Point& operator+=(const Point &rhs);
     Point operator+(const Point &rhs);
+    FLOAT operator*(Point &rhs);
+    FLOAT operator*(Vector &rhs);
 
 };
 

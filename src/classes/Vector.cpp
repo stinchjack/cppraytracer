@@ -58,6 +58,17 @@ Vector& Vector::normalised() {
 
 }
 
+FLOAT Vector::operator*(Point &rhs)
+{
+  return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
+}
+
+FLOAT Vector::operator*(Vector &rhs)
+{
+  return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
+}
+
+
 Vector::~Vector() {
   if (hasNormalised) {
     delete myNormalised;
