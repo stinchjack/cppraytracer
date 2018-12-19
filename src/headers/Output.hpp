@@ -19,6 +19,7 @@ class Output {
 
   protected:
     vector<vector<Colour>> pixels;
+    vector<vector<int>> samples;
     void resize(unsigned int x, unsigned int y);
 
   public:
@@ -26,7 +27,9 @@ class Output {
     int width();
     int height();
 
+    int getSampleCount (unsigned int x, unsigned int y);
     void setPixel(unsigned int x, unsigned int y, const Colour &c);
+    void addPixel(unsigned int x, unsigned int y, const Colour &c);
     Colour getPixel(unsigned int x, unsigned int y);
 
 };

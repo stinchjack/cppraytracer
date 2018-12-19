@@ -27,7 +27,7 @@ class Shape {
   void setSpecular (const Colour &);
   void setTransparency (const Colour &);
 
-  virtual IntersectResult testIntersect (Ray &ray) = 0;
+  virtual map<int, IntersectHit> testIntersect (Ray &ray) = 0;
 };
 
 

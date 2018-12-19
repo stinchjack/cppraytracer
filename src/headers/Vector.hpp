@@ -8,6 +8,8 @@
 
 class Ray;
 
+class Vector;
+
 class Vector {
   friend class Ray;
   friend class Point;
@@ -15,7 +17,7 @@ class Vector {
   private:
 
     FLOAT myLength;
-    Vector *myNormalised;
+    FLOAT normX, normY, normZ;
     int hasLength;
 
     int hasNormalised;
@@ -29,13 +31,13 @@ class Vector {
     Vector();
     Vector (FLOAT, FLOAT, FLOAT);
     Vector (const Point& p);
-    ~Vector();
 
     FLOAT operator*(Vector &rhs); // dot product
     FLOAT operator*(Point &rhs); // dot product
+    Vector operator+(const Point &rhs);
     FLOAT cross (const Vector &rhs);
     FLOAT length();
-    Vector& normalised();
+    Vector normalised();
 
 };
 

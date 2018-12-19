@@ -2,6 +2,7 @@
 #define INTERSECTRESULT_HPP
 
 #include <memory>
+#include <map>
 #include "Ray.hpp"
 
 class Shape;
@@ -22,8 +23,10 @@ public:
 class IntersectHit: public IntersectResult {
 
   public:
+
     IntersectHit();
-    float t;
+    IntersectHit(Ray &ray);
+    IntersectHit(Ray &ray, Point &raw_point, Point &raw_normal);
     Shape *shape;
     Ray ray;
     Point raw_point;

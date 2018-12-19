@@ -7,7 +7,7 @@ SHAPE_PTR SpherePtr();
 
 class Sphere: public Shape {
 
-  IntersectResult testIntersect (Ray &ray);
+  map<int, IntersectHit> testIntersect (Ray &ray);
 };
 
 #endif

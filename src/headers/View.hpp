@@ -5,9 +5,10 @@
 #include <string>
 #include <memory>
 #include <map>
-#include <queue>
+#include <deque>
 #include "Ray.hpp"
 #include "Output.hpp"
+#include "Antialias.hpp"
 #include "ViewQueueItem.hpp"
 using namespace std;
 
@@ -22,28 +23,33 @@ friend class Scene;
 
 private:
   shared_ptr<Scene> scene;
-  //ANTIALIAS_PTR antialias = make_shared <NoAntiAlias> (new NoAntiAlias);
+  ANTIALIAS_PTR antialias = nullptr;
+
 
   float viewWidth, viewHeight;
   float eyeZ;
-  queue<ViewQueueItem> renderQueue;
+  deque<ViewQueueItem> renderQueue;
   Ray transform(Ray &ray);
 
   shared_ptr<Output> output = nullptr;
 
 
-  vector<vector<int>> status; // to support antialiasing
+
 
 public:
+
   //void setAntiAlias(ANTIALIAS_PTR a);
   View ();
   View (float viewWidth, float viewHeight, float eyeZ);
+
+  vector<vector<unsigned int>> sampleCount; // to support antialiasing
 
   ViewQueueItem popQueueItem();
   bool queueEmpty();
 
   void setScene(std::shared_ptr<Scene> sc);
   void setOutput(std::shared_ptr<Output> opt);
+  void setAntiAlias(ANTIALIAS_PTR antialias);
 
   void makeInitialRenderQueue();
 

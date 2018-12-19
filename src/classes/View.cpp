@@ -1,7 +1,7 @@
 
 #include "View.hpp"
 #include "Scene.hpp"
-
+#include <algorithm>
 View::View () {
 
 }
@@ -13,6 +13,10 @@ View::View (float viewWidth, float viewHeight, float eyeZ) {
 
 }
 
+void View::setAntiAlias(ANTIALIAS_PTR antialias) {
+  this->antialias = antialias;
+}
+
 void View::setScene(SCENE_PTR sc) {
   scene = sc;
 }
@@ -22,13 +26,15 @@ void View::setOutput(OUTPUT_PTR opt) {
 
 ViewQueueItem View::popQueueItem() {
   ViewQueueItem item = renderQueue.front();
-  renderQueue.pop();
+  renderQueue.pop_front();
   return item;
 }
 
 bool View::queueEmpty() {
   return renderQueue.empty();
 }
+
+
 
 void View::makeInitialRenderQueue() {
 
@@ -41,6 +47,9 @@ void View::makeInitialRenderQueue() {
   float step_x = viewWidth / output->width();
   float step_y = viewHeight / output->height();
 
+  if (antialias) {
+    antialias->setRange (step_x, step_y);
+  }
 
   unsigned int x=0, y=0;
   for(
@@ -53,13 +62,20 @@ void View::makeInitialRenderQueue() {
           Vector direction ( (x * step_x) + viewLeft, (y * step_y) + viewTop , eyeZ);
 
           Ray ray(eye, direction);
+          if (antialias == nullptr) {
 
-          ViewQueueItem item (ray, x, y);
-          renderQueue.push(item);
-          x++;
+            ViewQueueItem item (ray, x, y);
+            renderQueue.push_back(item);
+            output->samples[x][y] = 1;
+          }
+          else {
+            antialias->getQueueItems(renderQueue, ray, x, y);
+            output->samples[x][y] = antialias->samples;
+          }
+          y++;
       }
-      x=0;
-      y++;
+      y=0;
+      x++;
   }
 
 

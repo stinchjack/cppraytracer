@@ -14,7 +14,7 @@ Vector::Vector() {
 }
 
 Vector::Vector(FLOAT x, FLOAT y, FLOAT z) {
-  setup();
+
   hasLength = 0;
   hasNormalised = 0;
 
@@ -47,14 +47,17 @@ FLOAT Vector::length() {
   return myLength;
 }
 
-Vector& Vector::normalised() {
+Vector Vector::normalised() {
 
   if (!hasNormalised) {
 
-    myNormalised = new Vector (x /  length(), y / myLength, z/ myLength);
+    normX = x /  length();
+    normY = y / myLength;
+    normZ = z / myLength;
+
     hasNormalised = 1;
   }
-  return *myNormalised;
+  return Vector (normX, normY, normZ);
 
 }
 
@@ -68,10 +71,6 @@ FLOAT Vector::operator*(Vector &rhs)
   return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
 }
 
-
-Vector::~Vector() {
-  if (hasNormalised) {
-    delete myNormalised;
-  }
-
+Vector Vector::operator+(const Point &rhs) {
+  return Vector(x + rhs.x, y + rhs.y, z + rhs.z);
 }

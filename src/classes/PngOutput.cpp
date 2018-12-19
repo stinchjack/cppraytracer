@@ -26,7 +26,8 @@ int PngOutput::save(string filename) {
           typename vector<Colour>::iterator colour = col->begin();
           colour != col->end();  ++colour) {
 
-          pngImage[j][i] = png::rgb_pixel((*colour)[0] * 255, (*colour)[1] * 255, (*colour)[2] * 255);
+          //pngImage[j][i] = png::rgb_pixel((*colour)[0] * 255.0, (*colour)[1] * 255.0, (*colour)[2] * 255.0);
+          pngImage[j][i] = png::rgb_pixel((*colour)[0] * 255.0, (*colour)[1] * 255.0, (*colour)[2] * 255.0);
           i++;
 
       }
