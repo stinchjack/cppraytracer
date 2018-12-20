@@ -17,8 +17,9 @@ int main (int argc, char **argv) {
 
 void testPng() {
 
-   PNGOUTPUT_PTR output = PngOutputPtr(200,200);
+   PNGOUTPUT_PTR output = PngOutputPtr(400,400);
    Scene scene;
+   scene.useMultiThread = false;
    scene.shapes["sphere1"] = SpherePtr();
    scene.views["view1"] = View (3,3,3);
    scene.views["view1"].setOutput(output);

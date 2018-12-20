@@ -9,24 +9,16 @@ class Shape;
 
 using namespace std;
 
-class IntersectResult {
-public:
-  bool hit = false;
 
-};
 
-class NoIntersect: public IntersectResult {
-public:
-  bool hit = false;
-};
-
-class IntersectHit: public IntersectResult {
+class IntersectHit {
 
   public:
 
     IntersectHit();
-    IntersectHit(Ray &ray);
-    IntersectHit(Ray &ray, Point &raw_point, Point &raw_normal);
+    IntersectHit(Ray &ray, Shape *sh);
+    IntersectHit(Ray &ray, Point &raw_point, Point &raw_normal, Shape *sh);
+
     Shape *shape;
     Ray ray;
     Point raw_point;

@@ -20,11 +20,3 @@ class Ray {
 
 
 #endif
-
-
-/*
-FLOAT interesectPoint[3];
-Ray.calcPos(interesectPoint, t)
-
-Point Ipos = Ray.calcpos(t)
-*/

@@ -66,11 +66,9 @@ void View::makeInitialRenderQueue() {
 
             ViewQueueItem item (ray, x, y);
             renderQueue.push_back(item);
-            output->samples[x][y] = 1;
           }
           else {
             antialias->getQueueItems(renderQueue, ray, x, y);
-            output->samples[x][y] = antialias->samples;
           }
           y++;
       }

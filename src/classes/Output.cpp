@@ -30,6 +30,7 @@ int Output::getSampleCount (unsigned int x, unsigned int y) {
 }
 
 Colour Output::getPixel(unsigned int x, unsigned  int y) {
+  
     return pixels[x][y] * (1.0/samples[x][y]);
 }
 

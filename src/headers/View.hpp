@@ -34,8 +34,6 @@ private:
   shared_ptr<Output> output = nullptr;
 
 
-
-
 public:
 
   //void setAntiAlias(ANTIALIAS_PTR a);

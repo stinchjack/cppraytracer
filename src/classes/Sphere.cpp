@@ -5,7 +5,7 @@ SHAPE_PTR SpherePtr() {
   return std::make_shared<Sphere>();
 }
 
-map<int, IntersectHit> Sphere::testIntersect (Ray &ray) {
+void Sphere::testIntersect (QueueItemResults &results, Ray &ray) {
   FLOAT a = ray.start * ray.start;
   FLOAT b = 2.0 * (ray.start * ray.direction);
   FLOAT c = (ray.direction * ray.direction) - 1.0;
@@ -13,10 +13,8 @@ map<int, IntersectHit> Sphere::testIntersect (Ray &ray) {
 
   FLOAT discriminant = ((b * b) - (4.0 * a * c));
 
-  map<int, IntersectHit> results;
-
   if(discriminant < 0) {
-    return results;
+    return;
   }
 
   FLOAT sqroot = sqrt(discriminant);
@@ -26,35 +24,32 @@ map<int, IntersectHit> Sphere::testIntersect (Ray &ray) {
   FLOAT t2 = ((0.0 - b) - sqroot) / (two_a);
 
   if (t1 < 0 && t2 < 0) {
-    return results;
+    return;
   }
   else if (t1 < 0 && t2 >= 0) {
     Point p = ray.calcPos(t2);
-    results[t2] = IntersectHit (ray, p,  p);
-    results[t2].shape = this;
+    results.addResult(t2, IntersectHit (ray, p,  p, this));
   }
   else if (t1 >= 0 and t2 < 0) {
     Point p = ray.calcPos(t1);
-    results[t1] = IntersectHit (ray, p,  p);
-    results[t1].shape = this;
+
+    results.addResult(t1, IntersectHit (ray, p,  p, this));
+
   }
   else {
       if (t1 < t2) {
         Point p = ray.calcPos(t1);
-        results[t1] = IntersectHit (ray, p,  p);
-        results[t1].shape = this;
+        results.addResult(t1, IntersectHit (ray, p,  p, this));
 
-        results[t2] = IntersectHit (ray);
-        results[t2].shape = this;
+        results.addResult(t2, IntersectHit (ray, this));
+
       }
       else {
         Point p = ray.calcPos(t2);
-        results[t2] = IntersectHit (ray, p, p);
-        results[t2].shape = this;
-        results[t1] = IntersectHit (ray);
-        results[t1].shape = this;
+        results.addResult(t2, IntersectHit (ray, p,  p, this));
+
+        results.addResult(t1, IntersectHit (ray, this));
       }
   }
 
-  return results;
 }

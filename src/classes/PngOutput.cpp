@@ -18,6 +18,7 @@ int PngOutput::save(string filename) {
 
   //float data [width() * height() * 3];
 
+  /*
   int i=0, j=0;
   for(
       typename std::vector<vector<Colour>>::iterator col = this->pixels.begin();
@@ -33,7 +34,21 @@ int PngOutput::save(string filename) {
       }
       i=0;
       j++;
+  }*/
+
+
+
+  int iWidth = width();
+  int iHeight = height();
+
+  for (int x = 0;x<iWidth;x++) {
+    for (int y = 0;y<iHeight;y++) {
+      Colour c= getPixel(x,y);
+      pngImage[x][y] = png::rgb_pixel(c[0] * 255.0, c[1] * 255.0, c[2] * 255.0);
+    }
   }
+
+
 
   pngImage.write(filename);
 

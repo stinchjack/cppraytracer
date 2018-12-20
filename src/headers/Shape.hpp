@@ -2,9 +2,10 @@
 #define SHAPE_HPP
 
 #include <memory>
-#include <Colour.hpp>
-#include <Ray.hpp>
-#include <IntersectResult.hpp>
+#include "Colour.hpp"
+#include "Ray.hpp"
+#include "IntersectResult.hpp"
+#include "QueueItemResults.hpp"
 
 #define SHAPE_PTR shared_ptr<Shape>
 
@@ -27,7 +28,7 @@ class Shape {
   void setSpecular (const Colour &);
   void setTransparency (const Colour &);
 
-  virtual map<int, IntersectHit> testIntersect (Ray &ray) = 0;
+  virtual void testIntersect (QueueItemResults &results, Ray &ray) = 0;
 };
 
 
