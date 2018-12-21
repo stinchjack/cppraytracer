@@ -1,5 +1,6 @@
 #include "Colour.hpp"
 #include "Float.hpp"
+#include <stdlib.h>
 
 Colour::Colour() {
   fill((FLOAT)0);
@@ -42,9 +43,22 @@ Colour Colour::operator*(FLOAT scale) {
     this->operator[](1)  * scale,
     this->operator[](2)  * scale);
 }
+Colour Colour::operator/(FLOAT scale) {
+  return Colour (this->operator[](0) / scale,
+    this->operator[](1)  / scale,
+    this->operator[](2)  / scale);
+}
 
 Colour Colour::operator*(const Colour &c) {
   return Colour (this->operator[](0) * c[0],
     this->operator[](1) * c[1],
     this->operator[](2) * c[2]);
+}
+
+float Colour::diff (Colour &c1, Colour &c2) {
+  float diff = 0.0;
+
+  diff = abs(c1[0]-c2[0])+abs(c1[1]-c2[1])+abs(c1[2]-c2[2]);
+
+  return diff;
 }

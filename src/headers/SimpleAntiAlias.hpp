@@ -11,7 +11,7 @@ class SimpleAntiAlias:public Antialias{
 
   public:
   SimpleAntiAlias(unsigned int samples);
-  void getQueueItems(
+  void getInitalQueueItems(
       std::deque<ViewQueueItem> &queue,
       Ray & ray,
       unsigned int pixel_x,

@@ -1,12 +1,14 @@
 #include "IntersectResult.hpp"
 
+
+/*
 IntersectHit::IntersectHit() {
 
 }
 
 IntersectHit::IntersectHit(Ray &ray, Shape *sh) {
   this->ray = ray;
-  this->shape = sh;  
+  this->shape = sh;
 }
 
 
@@ -17,4 +19,4 @@ IntersectHit::IntersectHit(Ray &ray, Point &raw_point, Point &raw_normal, Shape 
   this->raw_normal = raw_normal;
   this->shape = sh;
 
-}
+}*/

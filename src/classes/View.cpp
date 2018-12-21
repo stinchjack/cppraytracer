@@ -38,6 +38,8 @@ bool View::queueEmpty() {
 
 void View::makeInitialRenderQueue() {
 
+  this->antialias->setOutput (this->output);
+
 
   Point eye = Point(0,0, 0.0 - eyeZ);
 
@@ -68,7 +70,7 @@ void View::makeInitialRenderQueue() {
             renderQueue.push_back(item);
           }
           else {
-            antialias->getQueueItems(renderQueue, ray, x, y);
+            antialias->getInitalQueueItems(renderQueue, ray, x, y);
           }
           y++;
       }

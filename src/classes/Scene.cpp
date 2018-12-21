@@ -5,6 +5,7 @@
 #include <iterator>
 #include "MultiThread.hpp"
 #include "QueueChunker.hpp"
+#include "EDAntialias.hpp"
 
 //unsigned int nthreads = std::thread::hardware_concurrency();
 
@@ -38,6 +39,9 @@ void Scene::render(const std::string &viewName) {
 }
 
 
+void Scene::threadRenderEntryPoint(MTInfo *info) {
+  info->scene->threadRenderQueue(info);
+}
 
 void Scene::threadRenderQueue (MTInfo *mtInfo) {
 
@@ -85,7 +89,7 @@ void Scene::MTrender(const std::string &viewName) {
 
       threadInfos[i].chunker = &chunker;
 
-      threads[i] = std::thread (Scene::threadRenderQueue, &threadInfos[i]);
+      threads[i] = std::thread (Scene::threadRenderEntryPoint, &threadInfos[i]);
   }
 
   for (int i = 0; i < processes; i++) {
@@ -111,17 +115,28 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
         it++;
       }
 
-      if (queueItemResults.resultCount() > 0) {
-        // map<int, IntersectHit>::iterator qu = queueItemResults.begin();
-        //FLOAT t = it->first;
-        //IntersectHit  resultInfo = it->second;
-        //Colour pixel = view->output->getPixel(queueItem.pixel_x, queueItem.pixel_y);
 
-        //unsigned int sampleCount = view->output->getSampleCount(queueItem.pixel_x, queueItem.pixel_y);
-        //pixel += Colour(1,1,1);
-        //pixel += (Colour(.2, .2,  .2)); // * (1.0f / views[viewName].sampleCount[queueItem.pixel_x][queueItem.pixel_y]));
+      Colour newCol(0,0,0);
+      //if there is a hit ....
+      if (queueItemResults.size() > 0) {
+        int  samples = view->antialias->getSamples(queueItem.pixel_x, queueItem.pixel_y);
 
-        view->output->addPixel(queueItem.pixel_x, queueItem.pixel_y, Colour(1,1,1));
+        newCol = Colour(1,1,1);
+
+        view->output->addPixel(
+          queueItem.pixel_x, queueItem.pixel_y,
+          (newCol / samples));
+
 
       }
+      else {
+        if(view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) == EDA_NOT_RENDERED) {
+          view->antialias->setPixelStatus(queueItem.pixel_x, queueItem.pixel_y, EDA_ONE_SAMPLE);
+        }
+
+      }
+      view->antialias->getExtraQueueItems(view->renderQueue,
+          queueItem.ray, queueItem.pixel_x,
+          queueItem.pixel_y, newCol);
+
 }

@@ -3,14 +3,9 @@
 #include <iostream>
 
 
-void inline Vector::setup(void) {
+Vector::Vector() {
   hasLength = 0;
   hasNormalised = 0;
-
-}
-
-Vector::Vector() {
-  setup();
 }
 
 Vector::Vector(FLOAT x, FLOAT y, FLOAT z) {
@@ -26,7 +21,6 @@ Vector::Vector(FLOAT x, FLOAT y, FLOAT z) {
 
 Vector::Vector(const Point& p) {
 
-  setup();
   hasLength = 0;
   hasNormalised = 0;
 

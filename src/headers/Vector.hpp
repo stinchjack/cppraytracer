@@ -24,8 +24,6 @@ class Vector {
 
     FLOAT x,y,z;
 
-    inline void setup(void);
-
   public:
 
     Vector();

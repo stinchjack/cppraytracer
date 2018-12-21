@@ -6,16 +6,16 @@
 
 using namespace std;
 
-class QueueItemResults {
+class QueueItemResults: public map<float, IntersectHit> {
 
-  private:
-    map<float, IntersectHit> queueItemResults;
+  //private:
+  //map<float, IntersectHit> queueItemResults;
 
   public:
     void addResult (float t, const IntersectHit &ih);
-    int resultCount();
+    //int resultCount();
     IntersectHit closestResult();
-    map<float, IntersectHit> getMap();
+    //map<float, IntersectHit> getMap();
 
 };
 

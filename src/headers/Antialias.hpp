@@ -5,26 +5,44 @@
 
 #include <deque>
 #include "ViewQueueItem.hpp"
+#include <memory>
+#include "Output.hpp"
 
 #define ANTIALIAS_PTR std::shared_ptr<Antialias>
 
+using namespace std;
 
 class Antialias {
 
+  protected:
+  shared_ptr<Output> output = nullptr;
+  vector<vector<int>> pixelStatus;
+
+  int samples;
 
   public:
 
   float rangeX, rangeY;
-  unsigned int samples;
 
+
+  void setupPixelStatus();
   void setRange (float rangeX, float rangeY);
+  virtual void setOutput (shared_ptr<Output> output);
+  virtual int getPixelStatus(int screenX, int screenY);
+  void setPixelStatus(int screenX, int screenY, int Status);
+  virtual int getSamples(int screenX, int screenY);
 
-
-  virtual void getQueueItems(
+  virtual void getInitalQueueItems(
         std::deque<ViewQueueItem> &queue,
         Ray & ray,
         unsigned int pixel_x,
         unsigned int pixel_y) = 0;
+
+  virtual void getExtraQueueItems(
+        std::deque<ViewQueueItem> &queue,
+        Ray & ray,
+        int pixel_x,
+        int pixel_y, Colour &newColour);
 
   //virtual std::deque<QueueItem> outputUpdated (const View&) = 0;
 
@@ -34,7 +52,7 @@ class NoAntiAlias:public Antialias{
 
   public:
   NoAntiAlias();
-  void getQueueItems(
+  void getInitalQueueItems(
       std::deque<ViewQueueItem> &queue,
       Ray & ray,
       unsigned int pixel_x,
@@ -43,17 +61,5 @@ class NoAntiAlias:public Antialias{
   //std::deque<QueueItem> outputUpdated (const View&);
 };
 
-/*
-class EDAntiAlias {
-
-  public:
-
-  float threshold;
-
-  EDAntiAlias (float th);
-
-  std::deque<QueueItem> antialias(int outputX, int outputY);
-  //std::deque<QueueItem> outputUpdated (const View&);
-};*/
 
 #endif

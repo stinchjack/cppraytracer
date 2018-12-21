@@ -7,14 +7,14 @@ SimpleAntiAlias::SimpleAntiAlias(unsigned int samples) {
   this->samples = samples;
 }
 
-void SimpleAntiAlias::getQueueItems(
+void SimpleAntiAlias::getInitalQueueItems(
       std::deque<ViewQueueItem> &queue,
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y) {
 
 
-  for (unsigned int i = 0; i < samples; i++) {
+  for (int i = 0; i < samples; i++) {
       float randX =  (((float)rand() / RAND_MAX) * rangeX) - (rangeX / 2.0);
       float randY =  (((float)rand() / RAND_MAX) * rangeY) - (rangeY / 2.0);
 

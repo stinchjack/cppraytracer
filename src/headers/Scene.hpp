@@ -13,8 +13,8 @@ using namespace std;
 
 #define SCENE_PTR std::shared_ptr<Scene>
 
-class MTInfo;
-
+#include "IntersectResult.hpp"
+#include "MultiThread.hpp"
 
 class Scene {
 
@@ -29,7 +29,8 @@ private:
 
     //void render(const view&);
     void renderQueue (View *view);
-    static void threadRenderQueue(MTInfo *info);
+    static void threadRenderEntryPoint(struct MTInfo *info);
+    void threadRenderQueue(struct MTInfo *info);
     void renderQueueItem(View *view, ViewQueueItem &queueItem);
     void render(const std::string &viewName);
     void MTrender(const std::string &viewName);

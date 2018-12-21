@@ -9,25 +9,10 @@
 #include <deque>
 
 
-/*public:
-  unsigned int screen_x;
-  unsigned int screen_y;
-  Colour colour;
-};
-
-class MTReturn {
-public:
-  deque<ViewQueueItem> renderQueue;
-  vector<MTPixel> pixels;
-};
-*/
 
 
-class MTInfo {
-public:
-  MTInfo();
-  MTInfo(Scene *scene,  View *view);
-  Scene *scene =0 ;
+struct MTInfo {
+  Scene *scene;
   View *view;
   QueueChunker *chunker;
 

@@ -17,6 +17,8 @@ class Colour: public std::array<float, 3> {
   Colour& operator+=(const Colour&);
   Colour operator*(const Colour&);
   Colour operator*(FLOAT scale);
+  Colour operator/(FLOAT scale);
+  float diff (Colour &c1, Colour &c2);
 };
 
 
