@@ -2,63 +2,82 @@
 #include "Float.hpp"
 #include <stdlib.h>
 
-Colour::Colour() {
-  fill((FLOAT)0);
+
+Colour::Colour () {
+}
+
+FLOAT & Colour::operator[](int i) {
+  switch (i) {
+    case 0:
+    return r;
+    break;
+
+    case 1: return g; break;
+
+    case 2: return b; break;
+
+    default:
+    return r;
+    break;
+  }
 }
 
 Colour::Colour (FLOAT r, FLOAT g, FLOAT b) {
-  this->operator[](0) = r;
-  this->operator[](1) = g;
-  this->operator[](2) = b;
+  this->r = r;
+  this->g = g;
+  this->b = b;
 }
 
 Colour::Colour (const Colour &c) {
-  this->operator[](0) = c[0];
-  this->operator[](1) = c[1];
-  this->operator[](2) = c[2];
+  this->r = c.r;
+  this->g = c.g;
+  this->b = c.b;
 }
 
 Colour::Colour (const Colour *c) {
-  this->operator[](0) = c->operator[](0);
-  this->operator[](1) = c->operator[](1);
-  this->operator[](2) = c->operator[](2);
+  this->r = c->r;
+  this->g = c->g;
+  this->b = c->b;
 }
 
 Colour Colour::operator+(const Colour &c) {
-  return Colour (this->operator[](0) + c[0],
-    this->operator[](1) + c[1],
-    this->operator[](2) + c[2]);
+  return Colour (
+    this->r + c.r,
+    this->g + c.g,
+    this->b + c.b);
 }
 
 
 Colour& Colour::operator+=(const Colour &c) {
-  this->operator[](0) += c[0];
-  this->operator[](1) += c[1];
-  this->operator[](2) += c[2];
+  this->r += c.r;
+  this->g += c.g;
+  this->b += c.b;
   return *this;
 }
 
 Colour Colour::operator*(FLOAT scale) {
-  return Colour (this->operator[](0) * scale,
-    this->operator[](1)  * scale,
-    this->operator[](2)  * scale);
+  return Colour (this->r * scale,
+    this->g  * scale,
+    this->b  * scale);
 }
 Colour Colour::operator/(FLOAT scale) {
-  return Colour (this->operator[](0) / scale,
-    this->operator[](1)  / scale,
-    this->operator[](2)  / scale);
+  return Colour (this->r / scale,
+    this->g  / scale,
+    this->b  / scale);
 }
 
 Colour Colour::operator*(const Colour &c) {
-  return Colour (this->operator[](0) * c[0],
-    this->operator[](1) * c[1],
-    this->operator[](2) * c[2]);
+  return Colour (this->operator[](0) * c.r,
+    this->g * c.g,
+    this->g * c.b);
 }
 
-float Colour::diff (Colour &c1, Colour &c2) {
+float Colour::diff (Colour &c1) {
   float diff = 0.0;
 
-  diff = abs(c1[0]-c2[0])+abs(c1[1]-c2[1])+abs(c1[2]-c2[2]);
+  diff = abs(c1.r - this->r)+
+      abs(c1.g- this->g)+
+      abs(c1.b- this->b);
 
   return diff;
 }

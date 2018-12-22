@@ -20,7 +20,7 @@ void testPng() {
 
    PNGOUTPUT_PTR output = PngOutputPtr(400,400);
    Scene scene;
-   scene.useMultiThread = true;
+   scene.useMultiThread = false;
    scene.shapes["sphere1"] = SpherePtr();
    scene.views["view1"] = View (3,3,3);
    scene.views["view1"].setOutput(output);

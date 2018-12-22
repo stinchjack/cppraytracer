@@ -4,8 +4,7 @@
 
 
 Vector::Vector() {
-  hasLength = 0;
-  hasNormalised = 0;
+
 }
 
 Vector::Vector(FLOAT x, FLOAT y, FLOAT z) {

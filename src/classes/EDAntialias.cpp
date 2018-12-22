@@ -62,18 +62,14 @@ void EDAntiAlias::getExtraQueueItems (View *view,
 
     for (int j = yStart; j <= yEnd && !doExtraSamples; j++ ) {
 
-      if (i==pixel_x && j==pixel_y) {
-        continue;
-      }
 
-      if (pixelStatus[i][j] == EDA_NOT_RENDERED) {
+      if (pixelStatus[i][j] == EDA_NOT_RENDERED || (i==pixel_x && j==pixel_y)) {
         continue;
       }
-      Colour adjColour = output->getPixel(i,j);
 
 
       //if one of mthe surrounding pixels is over the threshold, add extra sampling rays to the queue
-      float diff = adjColour.diff(newColour, adjColour);
+      float diff = output->getPixel(i,j).diff(newColour);
 
 
       if (diff>0) {
@@ -109,12 +105,10 @@ void EDAntiAlias::getExtraQueueItems (View *view,
     for (int i = xStart; i <= xEnd; i++ ) {
       for (int j = yStart; j <= yEnd; j++ ) {
 
-        if (i==pixel_x && j==pixel_y) {
+        if (pixelStatus[i][j] == EDA_NOT_RENDERED || (i==pixel_x && j==pixel_y)) {
           continue;
         }
-        if (pixelStatus[i][j] == EDA_NOT_RENDERED) {
-          continue;
-        }
+
 
         FLOAT xDiff = (i- pixel_x) * rangeX;
         FLOAT yDiff = (j- pixel_y) * rangeY;

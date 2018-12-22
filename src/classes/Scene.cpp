@@ -121,11 +121,11 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
       if (queueItemResults.size() > 0) {
         int  samples = view->antialias->getSamples(queueItem.pixel_x, queueItem.pixel_y);
 
-        Colour newCol = Colour(1,1,1);
+        Colour newCol = Colour(1 / samples, 1 / samples, 1 /samples);
 
         view->output->addPixel(
           queueItem.pixel_x, queueItem.pixel_y,
-          (newCol / samples));
+          newCol);
 
 
       }

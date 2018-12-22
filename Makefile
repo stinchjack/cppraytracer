@@ -5,7 +5,7 @@ CC=g++
 CFLAGS=-Werror -Wall -O2 -std=c++11
 
 CXXFLAGS=-Werror -Wall -O2 -std=c++14
-LDFLAGS = -lpng -flto -pthread
+LDFLAGS = -lpng -flto -pthread -pg
 
 #CXXFLAGS=-Werror -Wall -ggdb -pg -std=c++11
 #LDFLAGS = -lm -lpng -pg -pthread

@@ -44,7 +44,7 @@ int PngOutput::save(string filename) {
   for (int x = 0;x<iWidth;x++) {
     for (int y = 0;y<iHeight;y++) {
       Colour c= getPixel(x,y);
-      pngImage[x][y] = png::rgb_pixel(c[0] * 255.0, c[1] * 255.0, c[2] * 255.0);
+      pngImage[x][y] = png::rgb_pixel(c.r * 255.0, c.g * 255.0, c.b * 255.0);
     }
   }
 

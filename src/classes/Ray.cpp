@@ -1,13 +1,13 @@
 #include "Ray.hpp"
 
 Ray::Ray () {
-  this->start = Point ();
-  this->direction = Vector ();
+  //this->start = Point ();
+  //this->direction = Vector ();
 }
 
 Ray::Ray (const Point& start, const Vector& direction) {
-  this->start = Point (start);
-  this->direction = Vector (direction);
+  this->start = start;
+  this->direction = direction;
 }
 
 Point Ray::calcPos(FLOAT t) {
