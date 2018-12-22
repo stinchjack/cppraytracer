@@ -1,5 +1,6 @@
 #include "Antialias.hpp"
 #include "EDAntialias.hpp"
+#include "View.hpp"
 #include <algorithm>
 #include <iostream>
 
@@ -21,7 +22,6 @@ void Antialias::setRange (float rangeX,float  rangeY) {
 
 void Antialias::setupPixelStatus() {
 
-  cout<<"setupPixelStatus"<<endl;
 
   if (output != nullptr) {
     pixelStatus.resize(output->width());
@@ -54,11 +54,11 @@ void NoAntiAlias::getInitalQueueItems(
 
 }
 
-void Antialias::getExtraQueueItems(
+void Antialias::getExtraQueueItems(View *view,
       std::deque<ViewQueueItem> &queue,
       Ray & ray,
       int pixel_x,
-      int pixel_y, Colour &newColour) {
+      int pixel_y) {
 
           return;
 }

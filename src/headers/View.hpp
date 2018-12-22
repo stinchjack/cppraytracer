@@ -22,7 +22,7 @@ class View {
 friend class Scene;
 
 private:
-  shared_ptr<Scene> scene;
+  Scene *scene = 0;
   ANTIALIAS_PTR antialias = nullptr;
 
 
@@ -45,8 +45,9 @@ public:
   ViewQueueItem popQueueItem();
   bool queueEmpty();
 
-  void setScene(std::shared_ptr<Scene> sc);
-  void setOutput(std::shared_ptr<Output> opt);
+  Scene *getScene();
+  void setScene(Scene * sc);
+  void setOutput(shared_ptr<Output> opt);
   void setAntiAlias(ANTIALIAS_PTR antialias);
 
   void makeInitialRenderQueue();

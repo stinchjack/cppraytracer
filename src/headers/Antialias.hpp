@@ -12,11 +12,14 @@
 
 using namespace std;
 
+class View;
+
 class Antialias {
 
   protected:
   shared_ptr<Output> output = nullptr;
   vector<vector<int>> pixelStatus;
+
 
   int samples;
 
@@ -29,7 +32,7 @@ class Antialias {
   void setRange (float rangeX, float rangeY);
   virtual void setOutput (shared_ptr<Output> output);
   virtual int getPixelStatus(int screenX, int screenY);
-  void setPixelStatus(int screenX, int screenY, int Status);
+  void setPixelStatus(int screenX, int screenY, int status);
   virtual int getSamples(int screenX, int screenY);
 
   virtual void getInitalQueueItems(
@@ -38,11 +41,11 @@ class Antialias {
         unsigned int pixel_x,
         unsigned int pixel_y) = 0;
 
-  virtual void getExtraQueueItems(
+  virtual void getExtraQueueItems(View *view,
         std::deque<ViewQueueItem> &queue,
         Ray & ray,
         int pixel_x,
-        int pixel_y, Colour &newColour);
+        int pixel_y);
 
   //virtual std::deque<QueueItem> outputUpdated (const View&) = 0;
 

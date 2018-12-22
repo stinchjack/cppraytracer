@@ -4,7 +4,7 @@
 
 
 #include "Antialias.hpp"
-
+#include "Scene.hpp"
 // pixel not yet rendered
 #define EDA_NOT_RENDERED 0
 
@@ -32,11 +32,11 @@ class EDAntiAlias:public Antialias{
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y);
-  void getExtraQueueItems (
+  virtual void getExtraQueueItems (View *view,
         std::deque<ViewQueueItem> &queue,
         Ray & ray,
         int pixel_x,
-        int pixel_y, Colour &newColour);
+        int pixel_y);
 
 
 

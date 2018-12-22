@@ -18,11 +18,6 @@ void Output::resize(unsigned int size_x, unsigned int size_y) {
   samples.resize(size_y);
   std::fill(samples.begin(), samples.end(), vector<int>(size_y));
 
-  /*for (auto column =samples.begin(); column != samples.end();column++) {
-    std::fill(column->begin(), column->end(), 0);
-  }*/
-
-
 }
 
 int Output::getSampleCount (unsigned int x, unsigned int y) {
@@ -31,7 +26,6 @@ int Output::getSampleCount (unsigned int x, unsigned int y) {
 
 Colour Output::getPixel(unsigned int x, unsigned  int y) {
 
-  //cout << "samples[x][y] " << samples[x][y] <<endl;
   return pixels[x][y];
 }
 

@@ -17,9 +17,14 @@ void View::setAntiAlias(ANTIALIAS_PTR antialias) {
   this->antialias = antialias;
 }
 
-void View::setScene(SCENE_PTR sc) {
+void View::setScene(Scene *sc) {
   scene = sc;
 }
+
+Scene * View::getScene() {
+  return scene;
+}
+
 void View::setOutput(OUTPUT_PTR opt) {
   output = opt;
 }

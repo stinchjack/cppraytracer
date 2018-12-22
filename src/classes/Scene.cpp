@@ -26,6 +26,7 @@ void Scene::renderQueue (View *view) {
 
 
 void Scene::render(const std::string &viewName) {
+  views[viewName].setScene(this);
   if (useMultiThread) {
     cout << "MultiThread render ... " << endl;
     MTrender(viewName);
@@ -116,12 +117,11 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
       }
 
 
-      Colour newCol(0,0,0);
       //if there is a hit ....
       if (queueItemResults.size() > 0) {
         int  samples = view->antialias->getSamples(queueItem.pixel_x, queueItem.pixel_y);
 
-        newCol = Colour(1,1,1);
+        Colour newCol = Colour(1,1,1);
 
         view->output->addPixel(
           queueItem.pixel_x, queueItem.pixel_y,
@@ -129,14 +129,17 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
 
 
       }
-      else {
-        if(view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) == EDA_NOT_RENDERED) {
-          view->antialias->setPixelStatus(queueItem.pixel_x, queueItem.pixel_y, EDA_ONE_SAMPLE);
-        }
+
+      if(view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) == EDA_NOT_RENDERED) {
+        view->antialias->setPixelStatus(queueItem.pixel_x, queueItem.pixel_y, EDA_ONE_SAMPLE);
+        // cout << view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) <<endl;
+
 
       }
-      view->antialias->getExtraQueueItems(view->renderQueue,
+      view->antialias->getExtraQueueItems(
+        view,
+        view->renderQueue,
           queueItem.ray, queueItem.pixel_x,
-          queueItem.pixel_y, newCol);
+          queueItem.pixel_y);
 
 }
