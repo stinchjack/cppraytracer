@@ -17,9 +17,9 @@ private:
      {0, 0, 1}};
      
 
-  bool shift = false;
-  bool scale = false;
-  bool rotate = false;
+  bool doShift = false;
+  bool doScale = false;
+  bool doRotate = false;
     
   Point shift;
   FLOAT scale;
@@ -33,8 +33,8 @@ public:
   
   Point transform (Point &p);
   Vector transform (Vector &v);
-  Point transform (Point &p);
-  Vector transform (Vector &v);     
+  Point inverseTransform (Point &p);
+  Vector inverseTransform (Vector &v);     
   
 };
 
