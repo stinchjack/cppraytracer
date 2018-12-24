@@ -7,7 +7,6 @@ SHAPE_PTR SpherePtr();
 
 class Sphere: public Shape {
 
-  void testIntersect (QueueItemResults &results, Ray &ray);
-};
+  void shapeTestIntersect (QueueItemResults &results, Ray &ray);;
 
 #endif
