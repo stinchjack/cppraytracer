@@ -28,7 +28,9 @@ class Shape {
   void setSpecular (const Colour &);
   void setTransparency (const Colour &);
 
-  virtual void testIntersect (QueueItemResults &results, Ray &ray) = 0;
+  virtual void testIntersect (QueueItemResults &results, Ray &ray);
+  
+  virtual void shapeTestIntersect (QueueItemResults &results, Ray &ray) = 0;
 };
 
 
