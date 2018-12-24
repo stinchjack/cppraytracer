@@ -30,6 +30,7 @@ class Vector {
     Vector (FLOAT, FLOAT, FLOAT);
     Vector (const Point& p);
 
+    FLOAT operator*(FLOAT scale); // scale
     FLOAT operator*(Vector &rhs); // dot product
     FLOAT operator*(Point &rhs); // dot product
     Vector operator+(const Point &rhs);
