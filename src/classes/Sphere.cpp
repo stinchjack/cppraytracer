@@ -5,7 +5,7 @@ SHAPE_PTR SpherePtr() {
   return std::make_shared<Sphere>();
 }
 
-void Sphere::testIntersect (QueueItemResults &results, Ray &ray) {
+void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray) {
   FLOAT a = ray.start * ray.start;
   FLOAT b = 2.0 * (ray.start * ray.direction);
   FLOAT c = (ray.direction * ray.direction) - 1.0;
