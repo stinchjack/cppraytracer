@@ -20,14 +20,21 @@ private:
   bool shift = false;
   bool scale = false;
   bool rotate = false;
-
+    
+  Point shift;
+  FLOAT scale;
+  FLOAT rotateAngle;
+  Vector rotateAxis;
+     
 public:
   void setShift(Point &p);
   void setScale(FLOAT scale);
   void setRotate(Vector &axis, FLOAT angle);
   
-  void transform (Point &p);
-  void transform (Vector &v);
+  Point transform (Point &p);
+  Vector transform (Vector &v);
+  Point transform (Point &p);
+  Vector transform (Vector &v);     
   
 };
 
