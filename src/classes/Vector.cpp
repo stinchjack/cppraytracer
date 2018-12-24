@@ -54,6 +54,11 @@ Vector Vector::normalised() {
 
 }
 
+Vector Vector::operator*(FLOAT scale)
+{
+  return Vector(x * scale, y * scale, z* scale);
+}
+
 FLOAT Vector::operator*(Point &rhs)
 {
   return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
