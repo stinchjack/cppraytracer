@@ -10,3 +10,8 @@ void Shape::setTransparency (const Colour &c) {
   transparency =c;
 
 }
+
+void Shape::hapeTestIntersect (QueueItemResults &results, Ray &ray) {
+  testInteresect(results, this->transform.transfor(ray));
+}
+    
