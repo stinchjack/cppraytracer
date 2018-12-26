@@ -12,7 +12,7 @@ class Vector;
 
 class Vector {
   friend class Ray;
-  friend class Point;
+  friend class Transform;
 
   private:
 
@@ -30,7 +30,7 @@ class Vector {
     Vector (FLOAT, FLOAT, FLOAT);
     Vector (const Point& p);
 
-    FLOAT operator*(FLOAT scale); // scale
+    Vector operator*(FLOAT scale); // scale
     Vector& operator*=(FLOAT scale);
     FLOAT operator*(Vector &rhs); // dot product
     FLOAT operator*(Point &rhs); // dot product

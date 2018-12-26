@@ -6,10 +6,19 @@ Ray::Ray () {
 }
 
 Ray::Ray (const Point& start, const Vector& direction) {
-  this->start = start;
+  this->start[0] = start[0];
+  this->start[1] = start[1];
+  this->start[2] = start[2];
+
   this->direction = direction;
 }
 
-Point Ray::calcPos(FLOAT t) {
-  return Point (start.x + (direction.x * t),  start.y + (direction.y * t), start.z + (direction.z * t));
+
+/*modifies Ppint &p in place*/
+Point & Ray::calcPos(FLOAT t, Point &p) {
+  p[0] = start[0] + (direction.x * t);
+  p[1] = start[1] + (direction.y * t);
+  p[2] = start[2] + (direction.z * t);
+
+  return p;
 }

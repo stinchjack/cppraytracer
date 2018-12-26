@@ -13,7 +13,11 @@ class Ray {
   Ray();
 
   Ray(const Point& start, const Vector& direction);
-  Point calcPos(FLOAT t);
+
+  /*
+  Ray::calcPos modifies p in place
+  */
+  Point & calcPos(FLOAT t, Point &p) ;
 
 
 };

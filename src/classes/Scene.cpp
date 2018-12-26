@@ -119,9 +119,19 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
 
       //if there is a hit ....
       if (queueItemResults.size() > 0) {
-        int  samples = view->antialias->getSamples(queueItem.pixel_x, queueItem.pixel_y);
+        int  samples;
 
-        Colour newCol = Colour(1 / samples, 1 / samples, 1 /samples);
+        if (view->antialias) {
+          samples = view->antialias->getSamples(queueItem.pixel_x, queueItem.pixel_y);
+        }
+        else {
+          samples = 1;
+        }
+
+        if (samples>1) {
+          //cout<<samples<<endl;
+        }
+        Colour newCol = Colour(1.0f / samples, 0.0f / samples, 1.0f /samples);
 
         view->output->addPixel(
           queueItem.pixel_x, queueItem.pixel_y,
@@ -130,16 +140,19 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
 
       }
 
-      if(view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) == EDA_NOT_RENDERED) {
-        view->antialias->setPixelStatus(queueItem.pixel_x, queueItem.pixel_y, EDA_ONE_SAMPLE);
-        // cout << view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) <<endl;
+      if (view->antialias) {
+
+        if(view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) == EDA_NOT_RENDERED) {
+          view->antialias->setPixelStatus(queueItem.pixel_x, queueItem.pixel_y, EDA_ONE_SAMPLE);
+          // cout << view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) <<endl;
 
 
+        }
+        view->antialias->getExtraQueueItems(
+          view,
+          view->renderQueue,
+            queueItem.ray, queueItem.pixel_x,
+            queueItem.pixel_y);
       }
-      view->antialias->getExtraQueueItems(
-        view,
-        view->renderQueue,
-          queueItem.ray, queueItem.pixel_x,
-          queueItem.pixel_y);
 
 }

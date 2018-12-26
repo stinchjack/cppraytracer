@@ -6,6 +6,7 @@
 #include "Float.hpp"
 
 
+
 class Colour{
 //class Colour: public std::array<float, 3> {
 

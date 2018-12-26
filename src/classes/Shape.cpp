@@ -11,7 +11,12 @@ void Shape::setTransparency (const Colour &c) {
 
 }
 
-void Shape::shapeTestIntersect (QueueItemResults &results, Ray &ray) {
-  testInteresect(results, this->transform.transfor(ray));
+void Shape::testIntersect (QueueItemResults &results, Ray &ray) {
+  Ray newRay(this->transformation.transform(ray.start), this->transformation.transform (ray.direction));
+  shapeTestIntersect(results, newRay);
+
 }
-    
+
+Ray Shape::transform (Ray &ray) {
+  return Ray(this->transformation.transform(ray.start), this->transformation.transform (ray.direction));
+}

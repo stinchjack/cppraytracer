@@ -1,98 +1,143 @@
-#include "Transform.hpp
-Transform::setShift (Point &p) {
-  doShift = true;
-  shift = p;
+#include "Transform.hpp"
+#include <cmath>
+
+void Transform::setRotate(Vector &rotateAxis, FLOAT rotateAngle) {
+  this->rotateAngle = rotateAngle;
+  this->rotateAxis = rotateAxis;
+  doRotate = true;
 }
 
-Point Transform::transform(Point &p) {
-  
+void Transform::setScale(FLOAT scaleX, FLOAT scaleY, FLOAT scaleZ ) {
+  this->scaleX = scaleX;
+  this->scaleY = scaleY;
+  this->scaleZ = scaleZ;
+  doScale = true;
+}
+
+void Transform::setShift (const Point &p) {
+  doShift = true;
+  shift[0] = p[0];
+  shift[1] = p[1];
+  shift[2] = p[2];
+}
+
+Point & Transform::transform(Point &p) {
+
   if (doShift) {
-    return p + shift;
+    p[0]-=shift[0] ;
+    p[1]-=shift[1] ;
+    p[2]-=shift[2] ;
   }
+
   return p;
 }
 
 
-Point Transform::inverseTransform(Point &p) {
-  
+Point & Transform::inverseTransform(Point &p) {
+
   if (doShift) {
-    return p - shift;
+    p[0]-=shift[0] ;
+    p[1]-=shift[1] ;
+    p[2]-=shift[2] ;
   }
   return p;
 }
 
 Vector Transform::transform(Vector &v) {
-  
+
   if (!doScale && !doRotate) {
     return Vector(v);
   }
   if (doScale && !doRotate) {
-    return Vector * scale;
+    return Vector (v.x * scaleX, v.y * scaleY, v.z * scaleZ);
   }
 
+  // if rotation or rotation + scale
+
+  FLOAT new_vector_x = (mtxFwd[0][0] * v.x) + (mtxFwd[0][1] * v.y) + (mtxFwd[0][2] * v.z);
+  FLOAT new_vector_y = (mtxFwd[1][0] * v.x) + (mtxFwd[1][1] * v.y) + (mtxFwd[1][2] * v.z);
+  FLOAT new_vector_z = (mtxFwd[2][0] * v.x) + (mtxFwd[2][1] * v.y) + (mtxFwd[2][2] * v.z);
+
+
+  return Vector(new_vector_x, new_vector_y, new_vector_z);
 }
 
-/*
 
-class RotationMatrix(Matrix):
-    """A matrix for rotation about an arbitrary axis.
-        See http://math.kennesaw.edu/~plaval/math4490/rotgen.pd"""
+//    """A matrix for rotation about an arbitrary axis./
+//      See http://math.kennesaw.edu/~plaval/math4490/rotgen.pd"""
 
-    def __init__(self, vector, angle):
-        """Class constructor for RotationMatrix.
+void Transform::rotationMatrix() {
+    //def __init__(self, vector, angle):
+      /*  """Class constructor for RotationMatrix.
         :param vector: a cartesian vector as an axis.
         :param angle: the amount of rotation about the axis,
-                      in degrees"""
-        # rad = mpfr(angle) *(self.pi/mpfr(180))
-        rad = radians(angle)
-        one = mpfr(1)
-        zero = mpfr(0)
-        t = one - cos(rad)
-        S = sin(rad)
-        C = cos(rad)
-        u2x = mpfr(vector[1]) * mpfr(vector[1])
-        u2y = mpfr(vector[2]) * mpfr(vector[2])
-        u2z = mpfr(vector[3]) * mpfr(vector[3])
-        ux = mpfr(vector[1])
-        uy = mpfr(vector[2])
-        uz = mpfr(vector[3])
+                      in degrees"""*/
 
-        c1 = (t * u2x) + C
-        c2 = (t * ux * uy) - (S * uz)
-        c3 = (t * ux * uz) + (S * uy)
+        Vector &vector = rotateAxis;
 
-        c4 = (t * ux * uy) + (S * uz)
-        c5 = (t * u2y) + C
-        c6 = (t * uy * uz) - (S * ux)
+        FLOAT rad = (rotateAngle  * M_PI ) / 180.0;
+        //rad = radians(angle)
+        //one = mpfr(1)
+        //zero = mpfr(0)
+        FLOAT t = 1.0 - cos(rad);
+        FLOAT S = sin(rad);
+        FLOAT C = cos(rad);
+        FLOAT u2x = vector.x * vector.x;
+        FLOAT u2y = vector.y * vector.y;
+        FLOAT u2z = vector.z * vector.z;
+        FLOAT ux = vector.x;
+        FLOAT uy = vector.y;
+        FLOAT uz = vector.z;
 
-        c7 = (t * ux * uz) - (S * uy)
-        c8 = (t * uy * uz) + (S * ux)
-        c9 = (t * u2z) + C
+        FLOAT &c1 = &mtxFwd[1][1];
 
-        self.matrix = [[c1, c2, c3, zero],
-                       [c4, c5, c6, zero],
-                       [c7, c8, c9, zero],
-                       [zero, zero, zero, one]]
+        FLOAT  c1 = (t * u2x) + C ;
+        FLOAT c2 = (t * ux * uy) - (S * uz);
+        FLOAT c3 = (t * ux * uz) + (S * uy);
 
-        rad = zero - rad
-        t = one - cos(rad)
-        S = sin(rad)
-        C = cos(rad)
+        FLOAT c4 = (t * ux * uy) + (S * uz);
+        FLOAT c5 = (t * u2y) + C;
+        FLOAT c6 = (t * uy * uz) - (S * ux);
 
-        c1 = (t * u2x) + C
-        c2 = (t * ux * uy) - (S * uz)
-        c3 = (t * ux * uz) + (S * uy)
+        FLOAT c7 = (t * ux * uz) - (S * uy);
+        FLOAT c8 = (t * uy * uz) + (S * ux);
+        FLOAT c9 = (t * u2z) + C;
 
-        c4 = (t * ux * uy) + (S * uz)
-        c5 = (t * u2y) + C
-        c6 = (t * uy * uz) - (S * ux)
+        /*mtxFwd       = {{c1, c2, c3},
+                       {c4, c5, c6},
+                       {c7, c8, c9}};*/
 
-        c7 = (t * ux * uz) - (S * uy)
-        c8 = (t * uy * uz) + (S * ux)
-        c9 = (t * u2z) + C
 
-        self.inverse = [[c1, c2, c3, zero],
-                        [c4, c5, c6, zero],
-                        [c7, c8, c9, zero],
-                        [zero, zero, zero, one]]
-*/
+         mtxFwd       = {{c1 * scaleX, c2 * scaleY, c3 * scaleZ},
+                         {c4 * scaleX, c5 * scaleY, c6 * scaleZ},
+                         {c7 * scaleX, c8 * scaleY, c9 * scaleZ}};
+
+
+        rad = 0.0 - rad;
+
+         t = 1.0 - cos(rad);
+         S = sin(rad);
+         C = cos(rad);
+
+
+        c1 = (t * u2x) + C ;
+         c2 = (t * ux * uy) - (S * uz);
+         c3 = (t * ux * uz) + (S * uy);
+
+         c4 = (t * ux * uy) + (S * uz);
+         c5 = (t * u2y) + C;
+         c6 = (t * uy * uz) - (S * ux);
+
+         c7 = (t * ux * uz) - (S * uy);
+         c8 = (t * uy * uz) + (S * ux);
+         c9 = (t * u2z) + C;
+
+
+         /*mtxInv      = {{c1, c2, c3},
+                        {c4, c5, c6},
+                        {c7, c8, c9}*/
+
+         mtxInv      = {{c1 / scaleX, c2 / scaleY, c3 / scaleZ},
+                         {c4 / scaleX, c5 / scaleY, c6 / scaleZ},
+                         {c7 / scaleX, c8 / scaleY, c9 / scaleZ}};
+}

@@ -45,7 +45,7 @@ void EDAntiAlias::getExtraQueueItems (View *view,
     return;
   }
 
-  Colour newColour = output->getPixel(pixel_x, pixel_y);
+
 
   int xStart = max (pixel_x - 1, 0);
   int xEnd = min (pixel_x + 1, output->width() - 1);
@@ -54,7 +54,7 @@ void EDAntiAlias::getExtraQueueItems (View *view,
   int yEnd = min (pixel_y + 1, output->height() - 1);
 
 
-
+  Colour newColour = output->getPixel(pixel_x, pixel_y);
 
   bool doExtraSamples = false;
   // check the 8 pixels surrounding the current one
@@ -88,11 +88,11 @@ void EDAntiAlias::getExtraQueueItems (View *view,
 
     output->setPixel(pixel_x, pixel_y, newColour / samples);
 
-    for (int i = 1; i < samples; i++) {
+    for (int i = 0; i <= samples; i++) {
         float randX =  (((float)rand() / RAND_MAX) * rangeX) - (rangeX / 2.0);
         float randY =  (((float)rand() / RAND_MAX) * rangeY) - (rangeY / 2.0);
 
-        Ray extraRay = Ray(ray.start, ray.direction + Point(randX, randY, 0.0));
+        Ray extraRay = Ray(ray.start, ray.direction + Point{randX, randY, 0.0});
         pixelStatus[pixel_x][pixel_y] = EDA_MULTI_SAMPLE;
 
         ViewQueueItem vqi(extraRay, pixel_x, pixel_y);
@@ -101,7 +101,7 @@ void EDAntiAlias::getExtraQueueItems (View *view,
       }
 
     // recursively re-test the surrounding pixels
-
+    /*
     for (int i = xStart; i <= xEnd; i++ ) {
       for (int j = yStart; j <= yEnd; j++ ) {
 
@@ -115,12 +115,12 @@ void EDAntiAlias::getExtraQueueItems (View *view,
         //FLOAT newXDir = ray.direction.x + xDiff;
         //FLOAT newYDir = ray.direction.y + yDiff;
 
-        Ray adjRay(ray.start, ray.direction + Point(xDiff, yDiff, 0));
+        Ray adjRay(ray.start, ray.direction + (Point){xDiff, yDiff, 0});
 
         getExtraQueueItems (view, queue, adjRay, i, j);
 
       }
-    }
+    } */
   }
 
 

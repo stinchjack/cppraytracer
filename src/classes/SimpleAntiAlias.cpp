@@ -18,7 +18,9 @@ void SimpleAntiAlias::getInitalQueueItems(
       float randX =  (((float)rand() / RAND_MAX) * rangeX) - (rangeX / 2.0);
       float randY =  (((float)rand() / RAND_MAX) * rangeY) - (rangeY / 2.0);
 
-      Ray extraRay = Ray(ray.start, ray.direction + Point(randX, randY, 0.0));
+      Point p = {randX, randY, 0.0};
+
+      Ray extraRay = Ray(ray.start, ray.direction + p);
 
       queue.push_back(ViewQueueItem(extraRay, pixel_x, pixel_y));
   }

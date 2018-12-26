@@ -2,11 +2,20 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
-#include <math.h>
 #include "Float.hpp"
+
+#include <math.h>
+
+
 class Vector;
 
-class Point {
+typedef FLOAT Point[3];
+
+FLOAT dot (Point &lhs, Point &rhs);
+//FLOAT operator*(Point &lhs, Vector &rhs);
+
+
+/*class Point {
   friend class Vector;
 
   private:
@@ -21,10 +30,11 @@ class Point {
 
     Point& operator+=(const Point &rhs);
     Point operator+(const Point &rhs);
+    Point operator-(const Point &rhs);
     FLOAT operator*(Point &rhs);
     FLOAT operator*(Vector &rhs);
 
-};
+};*/
 
 
 #endif

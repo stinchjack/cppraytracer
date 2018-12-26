@@ -43,10 +43,12 @@ bool View::queueEmpty() {
 
 void View::makeInitialRenderQueue() {
 
-  this->antialias->setOutput (this->output);
+  if (this->antialias) {
+    this->antialias->setOutput (this->output);
+  }
 
 
-  Point eye = Point(0,0, 0.0 - eyeZ);
+  Point eye={0,0, 0- eyeZ};
 
   float viewLeft = 0.0 - (viewWidth / 2.0);
   float viewTop = 0.0 - (viewHeight / 2.0);
