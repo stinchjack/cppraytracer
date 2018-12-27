@@ -137,7 +137,7 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
 
 
         Colour newCol = LightModel::getColour(queueItemResults, samples, this);
-
+        //newCol = Colour(1,1,1);
 
         view->output->addPixel(
           queueItem.pixel_x, queueItem.pixel_y,

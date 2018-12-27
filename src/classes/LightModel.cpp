@@ -24,6 +24,8 @@ Colour LightModel::getColour(
   //foreach light ...
   for (auto lightIterator = lights.begin(); lightIterator != lights.end(); lightIterator++) {
     shared_ptr<Light> light = lightIterator->second;
+    //PointLight p = *((shared_ptr<PointLight>)light);
+    //cout<<light->colour.r<<endl;
 
     vector<Ray> shadowRays;
     light->getShadowRays(result, shadowRays);
