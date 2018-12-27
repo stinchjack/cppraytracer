@@ -1,3 +1,4 @@
+#include "Transform.hpp"
 #include "Scene.hpp"
 #include "IntersectResult.hpp"
 #include <map>
@@ -128,10 +129,18 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
           samples = 1;
         }
 
-        if (samples>1) {
-          //cout<<samples<<endl;
+        IntersectHit &result = queueItemResults.begin()->second;
+
+        //calcPos methods fills hitPoint with calulation
+        result.ray.calcPos(queueItemResults.begin()->first, result.hitPoint);
+
+        Colour diffuse(.5 / samples, .5 / samples, .5 / samples);
+        if (result.shape->diffuse != nullptr) { //} && result.shape->mapping != nullptr) {
+          diffuse = result.shape->diffuse->getColour(result, result.shape->mapping) /samples ;
         }
-        Colour newCol = Colour(1.0f / samples, 0.0f / samples, 1.0f /samples);
+
+        Colour newCol(diffuse);
+
 
         view->output->addPixel(
           queueItem.pixel_x, queueItem.pixel_y,

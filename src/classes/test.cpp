@@ -29,9 +29,12 @@ void testPng() {
    //scene.views["view1"].setAntiAlias(
   //std::make_shared<EDAntiAlias> (EDAntiAlias(50, 0.3)));
 
-   scene.shapes["sphere1"]->transformation.setShift((Point){0.0,0,5});
+   //scene.shapes["sphere1"]->transformation.setShift((Point){3, 0 ,5});
+   scene.shapes["sphere1"]->transformation.setScale(3.0, 1.0 , 1.0);
+   scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
+   scene.shapes["sphere1"]->diffuse = make_shared<PlainTexture>(Colour (1,1,0));
 
    scene.render("view1");
 
-   output->save ("test8.png");
+   output->save ("test9.png");
 }

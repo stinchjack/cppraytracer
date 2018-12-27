@@ -4,6 +4,9 @@
 #include "Point.hpp"
 #include "Vector.hpp"
 
+
+
+
 class Transform {
 private:
   FLOAT mtxFwd[3][3] = { {1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
@@ -22,9 +25,10 @@ private:
   void rotationMatrix();
 
 public:
+  Transform();
   void setShift(const Point &p);
   void setScale(FLOAT scaleX, FLOAT scaleY, FLOAT scaleZ );
-  void setRotate(Vector &axis, FLOAT angle);
+  void setRotate(const Vector &axis, FLOAT angle);
 
   Vector transform (Vector &v);
 

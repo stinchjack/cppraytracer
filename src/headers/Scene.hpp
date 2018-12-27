@@ -1,6 +1,8 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
+#include "Texture.hpp"
+
 #include "Shape.hpp"
 #include "View.hpp"
 #include <map>
@@ -8,6 +10,7 @@
 #include <vector>
 #include <thread>
 #include <iostream>
+
 
 using namespace std;
 

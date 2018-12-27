@@ -16,6 +16,7 @@ struct IntersectHit {
     Ray ray;
     Point raw_point;
     Point raw_normal;
+    Point hitPoint;
 };
 
 #endif

@@ -6,30 +6,36 @@
 #include "Ray.hpp"
 #include "IntersectResult.hpp"
 #include "QueueItemResults.hpp"
+
 #include "Transform.hpp"
+#include "Texture.hpp"
+#include <memory>
+using namespace std;
+
+
+//class Transform;
 
 #define SHAPE_PTR shared_ptr<Shape>
 
+//class Shape;
+//typedef shared_ptr<Shape> ShapePtr;
+
+
 class Shape {
 
-  protected:
-
-  Colour diffuse;
-  Colour specular;
-  Colour transparency;
-
-
-
-  /*
-  Transform transform;
-  virtual Ray transformRay(const Ray &) = 0;
-  */
 
   public:
+  Shape();
   Transform transformation;
-  void setDiffuse (const Colour &);
-  void setSpecular (const Colour &);
-  void setTransparency (const Colour &);
+  shared_ptr<Texture> diffuse = nullptr;
+  shared_ptr<Texture> specular = nullptr;
+  shared_ptr<Texture> transparency = nullptr;
+  shared_ptr<Mapping> mapping = nullptr;
+
+  /*void setDiffuse (const shared_ptr<Texture>);
+  void setSpecular (const shared_ptr<Texture>);
+  void setTransparency (const shared_ptr<Texture>);*/
+  void setMapping (const shared_ptr<Mapping>);
 
   void testIntersect (QueueItemResults &results, Ray &ray);
   Ray transform (Ray &ray);

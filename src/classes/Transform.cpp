@@ -1,11 +1,15 @@
 #include "Transform.hpp"
 #include <cmath>
 
-void Transform::setRotate(Vector &rotateAxis, FLOAT rotateAngle) {
+Transform::Transform() {};
+
+void Transform::setRotate(const Vector &rotateAxis, FLOAT rotateAngle) {
   this->rotateAngle = rotateAngle;
   this->rotateAxis = rotateAxis;
   doRotate = true;
+  this->rotationMatrix();
 }
+
 
 void Transform::setScale(FLOAT scaleX, FLOAT scaleY, FLOAT scaleZ ) {
   this->scaleX = scaleX;
@@ -89,7 +93,7 @@ void Transform::rotationMatrix() {
         FLOAT uy = vector.y;
         FLOAT uz = vector.z;
 
-        FLOAT &c1 = &mtxFwd[1][1];
+
 
         FLOAT  c1 = (t * u2x) + C ;
         FLOAT c2 = (t * ux * uy) - (S * uz);
@@ -103,14 +107,17 @@ void Transform::rotationMatrix() {
         FLOAT c8 = (t * uy * uz) + (S * ux);
         FLOAT c9 = (t * u2z) + C;
 
-        /*mtxFwd       = {{c1, c2, c3},
-                       {c4, c5, c6},
-                       {c7, c8, c9}};*/
+        mtxFwd[0][0] = c1 * scaleX;
+        mtxFwd[1][0] = c2 * scaleY;
+        mtxFwd[2][0] = c3 * scaleZ;
 
+        mtxFwd[0][1] = c4 * scaleX;
+        mtxFwd[1][1] = c5 * scaleY;
+        mtxFwd[2][1] = c6 * scaleZ;
 
-         mtxFwd       = {{c1 * scaleX, c2 * scaleY, c3 * scaleZ},
-                         {c4 * scaleX, c5 * scaleY, c6 * scaleZ},
-                         {c7 * scaleX, c8 * scaleY, c9 * scaleZ}};
+        mtxFwd[0][2] = c7 * scaleX;
+        mtxFwd[1][2] = c8 * scaleY;
+        mtxFwd[2][2] = c9 * scaleZ;
 
 
         rad = 0.0 - rad;
@@ -133,11 +140,16 @@ void Transform::rotationMatrix() {
          c9 = (t * u2z) + C;
 
 
-         /*mtxInv      = {{c1, c2, c3},
-                        {c4, c5, c6},
-                        {c7, c8, c9}*/
 
-         mtxInv      = {{c1 / scaleX, c2 / scaleY, c3 / scaleZ},
-                         {c4 / scaleX, c5 / scaleY, c6 / scaleZ},
-                         {c7 / scaleX, c8 / scaleY, c9 / scaleZ}};
+         mtxInv[0][0] = c1 / scaleX;
+         mtxInv[1][0] = c2 / scaleY;
+         mtxInv[2][0] = c3 / scaleZ;
+
+         mtxInv[0][1] = c4 / scaleX;
+         mtxInv[1][1] = c5 / scaleY;
+         mtxInv[2][1] = c6 / scaleZ;
+
+         mtxInv[0][2] = c7 / scaleX;
+         mtxInv[1][2] = c8 / scaleY;
+         mtxInv[2][2] = c9 / scaleZ;
 }

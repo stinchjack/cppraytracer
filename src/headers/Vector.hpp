@@ -13,6 +13,7 @@ class Vector;
 class Vector {
   friend class Ray;
   friend class Transform;
+  friend class Light;
 
   private:
 
