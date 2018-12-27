@@ -8,16 +8,16 @@ SHAPE_PTR SpherePtr() {
 Vector Sphere::getShapeNormal(IntersectHit &ih) {
   if (!ih.hasShapeNormal) {
     if (!ih.hasShapePoint) {
-      shapeRay.calcPos(ih.t, ih.shapePoint);
+      ih.shapeRay.calcPos(ih.t, ih.shapePoint);
       ih.hasShapePoint = true;
     }
     ih.shapeNormal = Vector (ih.shapePoint[0],ih.shapePoint[1], ih.shapePoint[2] );
     ih.hasShapeNormal = true;
   }
-  return ih.shapeNormal();
+  return ih.shapeNormal;
 }
 
-void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &worldRay)) {
+void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &worldRay) {
   FLOAT a = (ray.direction * ray.direction);
   FLOAT b = 2.0 * (ray.direction * ray.start);
 

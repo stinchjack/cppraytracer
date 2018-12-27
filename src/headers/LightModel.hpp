@@ -3,13 +3,15 @@
 
 #include "IntersectResult.hpp"
 #include "Colour.hpp"
+#include "QueueItemResults.hpp"
+#include "Scene.hpp"
 
 using namespace std;
 
 class LightModel {
 
 private:
-  static Colour calcDiffuse(IntersectHit &ih);
+  //static Colour calcDiffuse(IntersectHit &ih);
 public:
   static Colour getColour (
     QueueItemResults &itemResults,

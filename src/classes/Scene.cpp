@@ -130,8 +130,8 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
           samples = 1;
         }
 
-        FLOAT hitT = *queueItemResults.begin->first();
-        IntersectHit &ih = *queueItemResults.begin->second();
+        FLOAT hitT = queueItemResults.begin()->first;
+        IntersectHit &ih = queueItemResults.begin()->second;
 
         ih.t = hitT;
 

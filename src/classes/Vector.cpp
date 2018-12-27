@@ -59,15 +59,16 @@ Vector Vector::normalised() {
 
 }
 
-Vector Vector::normalised() {
+Vector & Vector::normalise() {
 
   if (length() != 1.0) {
 
     x /=  myLength;
     y /=  myLength;
     z /= myLength;
-    length = 1;
-    hasNormalised = 1;
+    myLength = 1;
+    hasLength = true;
+    hasNormalised = true;
   }
   return *this;
 

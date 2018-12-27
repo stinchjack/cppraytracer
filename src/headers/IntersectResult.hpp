@@ -16,7 +16,7 @@ struct IntersectHit {
     Shape *shape;
     Ray worldRay;
     Ray shapeRay;
-    Float t;
+    FLOAT t;
     bool hasShapePoint;
     bool hasShapeNormal;
     Point shapePoint;

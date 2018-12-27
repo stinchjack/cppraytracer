@@ -15,26 +15,27 @@ Colour LightModel::getColour(
   IntersectHit &result = itemResults.begin()->second;
 
   //Ray::calcPos method fills IntersectHit::hitPoint with calulation
-  result.ray.calcPos(itemResults.begin()->first, result.hitPoint);
+  result.worldRay.calcPos(itemResults.begin()->first, result.hitPoint);
 
   map<string, shared_ptr<Light>> &lights = scene->lights;
 
+  Colour diffuse(0,0,0);
 
   //foreach light ...
   for (auto lightIterator = lights.begin(); lightIterator != lights.end(); lightIterator++) {
-    shared_ptr<Light> light = lights->second;
+    shared_ptr<Light> light = lightIterator->second;
 
     vector<Ray> shadowRays;
     light->getShadowRays(result, shadowRays);
 
     Vector averageLightDir;
     for (auto shadowRay = shadowRays.begin(); shadowRay != shadowRays.end(); shadowRay ++) {
-      averageLightDir += shadowRay.direction;
+      averageLightDir += shadowRay->direction;
     }
 
     averageLightDir *= 1.0/ shadowRays.size();
 
-    Vector shapeSpaceNormal = result.shape->getShapeNormal(ih);
+    Vector shapeSpaceNormal = result.shape->getShapeNormal(result);
     Vector normal = result.shape->transformation.inverseTransform(shapeSpaceNormal);
 
     normal.normalise();
@@ -42,10 +43,11 @@ Colour LightModel::getColour(
 
     FLOAT diffuseFactor = abs (normal * averageLightDir);
 
+    diffuse += (result.shape->diffuse->getColour(result, result.shape->mapping)
+      / (antialiasSamples)) * diffuseFactor;
   }
 
-  Colour diffuse = (result.shape->diffuse->getColour(result, result.shape->mapping)
-    / (antialiasSamples)) * diffuseFactor;
+
 
   return diffuse;
 }
