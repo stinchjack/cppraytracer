@@ -14,6 +14,7 @@ class Vector {
   friend class Ray;
   friend class Transform;
   friend class Light;
+  friend class PointLight;
 
   private:
 
@@ -36,9 +37,12 @@ class Vector {
     FLOAT operator*(Vector &rhs); // dot product
     FLOAT operator*(Point &rhs); // dot product
     Vector operator+(const Point &rhs);
+    Vector& operator+=(const Vector &rhs);
     FLOAT cross (const Vector &rhs);
     FLOAT length();
     Vector normalised();
+    Vector &normalise();
+
 
 };
 

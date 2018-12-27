@@ -49,8 +49,27 @@ Vector Vector::normalised() {
     normZ = z / myLength;
 
     hasNormalised = 1;
+
   }
-  return Vector (normX, normY, normZ);
+  Vector newVec(normX, normY, normZ);
+  newVec.myLength = 1;
+  newVec.hasLength = true;
+  newVec.hasNormalised =true;
+  return newVec;
+
+}
+
+Vector Vector::normalised() {
+
+  if (length() != 1.0) {
+
+    x /=  myLength;
+    y /=  myLength;
+    z /= myLength;
+    length = 1;
+    hasNormalised = 1;
+  }
+  return *this;
 
 }
 
@@ -88,4 +107,11 @@ FLOAT Vector::operator*(Vector &rhs)
 
 Vector Vector::operator+(const Point &rhs) {
   return Vector(x + rhs[0], y + rhs[1], z + rhs[2]);
+}
+
+Vector & Vector::operator+=(const Vector &rhs) {
+  x += rhs.x;
+  y += rhs.y;
+  z += rhs.z;
+  return *this;
 }

@@ -8,6 +8,7 @@ SHAPE_PTR SpherePtr();
 class Sphere: public Shape {
 
   void shapeTestIntersect (QueueItemResults &results, Ray &ray);
+  virtual Vector getShapeNormal(IntersectHit &ih);
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include "MultiThread.hpp"
 #include "QueueChunker.hpp"
 #include "EDAntialias.hpp"
+#include "LightModel.hpp"
 
 //unsigned int nthreads = std::thread::hardware_concurrency();
 
@@ -129,23 +130,18 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
           samples = 1;
         }
 
-        IntersectHit &result = queueItemResults.begin()->second;
+        FLOAT hitT = *queueItemResults.begin->first();
+        IntersectHit &ih = *queueItemResults.begin->second();
 
-        //calcPos methods fills hitPoint with calulation
-        result.ray.calcPos(queueItemResults.begin()->first, result.hitPoint);
+        ih.t = hitT;
 
-        Colour diffuse(.5 / samples, .5 / samples, .5 / samples);
-        if (result.shape->diffuse != nullptr) { //} && result.shape->mapping != nullptr) {
-          diffuse = result.shape->diffuse->getColour(result, result.shape->mapping) /samples ;
-        }
 
-        Colour newCol(diffuse);
+        Colour newCol = LightModel::getColour(queueItemResults, samples, this);
 
 
         view->output->addPixel(
           queueItem.pixel_x, queueItem.pixel_y,
           newCol);
-
 
       }
 

@@ -5,8 +5,19 @@ SHAPE_PTR SpherePtr() {
   return std::make_shared<Sphere>();
 }
 
+Vector Sphere::getShapeNormal(IntersectHit &ih) {
+  if (!ih.hasShapeNormal) {
+    if (!ih.hasShapePoint) {
+      shapeRay.calcPos(ih.t, ih.shapePoint);
+      ih.hasShapePoint = true;
+    }
+    ih.shapeNormal = Vector (ih.shapePoint[0],ih.shapePoint[1], ih.shapePoint[2] );
+    ih.hasShapeNormal = true;
+  }
+  return ih.shapeNormal();
+}
 
-void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray) {
+void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &worldRay)) {
   FLOAT a = (ray.direction * ray.direction);
   FLOAT b = 2.0 * (ray.direction * ray.start);
 
@@ -32,7 +43,10 @@ void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray) {
 
   IntersectHit hit;
   hit.shape = this;
-  hit.ray = ray;
+  hit.shapeRay = ray;
+  hit.worldRay = worldRay;
+  hit.hasShapePoint = false;
+  hit.hasShapeNormal = false;
 
   if (t1 < 0 && t2 >= 0) {
     //Point p = ray.calcPos(t2);

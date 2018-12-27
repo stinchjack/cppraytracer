@@ -11,12 +11,18 @@ using namespace std;
 
 
 
+
 struct IntersectHit {
     Shape *shape;
-    Ray ray;
-    Point raw_point;
-    Point raw_normal;
+    Ray worldRay;
+    Ray shapeRay;
+    Float t;
+    bool hasShapePoint;
+    bool hasShapeNormal;
+    Point shapePoint;
+    Vector shapeNormal;
     Point hitPoint;
 };
+
 
 #endif

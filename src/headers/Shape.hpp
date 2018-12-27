@@ -40,7 +40,9 @@ class Shape {
   void testIntersect (QueueItemResults &results, Ray &ray);
   Ray transform (Ray &ray);
 
-  virtual void shapeTestIntersect (QueueItemResults &results, Ray &ray) = 0;
+  virtual void shapeTestIntersect (QueueItemResults &results, Ray &shapeRay, Ray &worldRay) = 0;
+  virtual Vector getShapeNormal(IntersectHit &ih) = 0;
+
 };
 
 

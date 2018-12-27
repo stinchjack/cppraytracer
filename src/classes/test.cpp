@@ -24,6 +24,7 @@ void testPng() {
    scene.shapes["sphere1"] = SpherePtr();
    scene.views["view1"] = View (5,5,3);
    scene.views["view1"].setOutput(output);
+   scene.lights["pointlight1"] = make_shared<PointLight>(Colour(1,1,1), (Point){3,3,-3});
    //scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (SimpleAntiAlias(120)));
 
    //scene.views["view1"].setAntiAlias(

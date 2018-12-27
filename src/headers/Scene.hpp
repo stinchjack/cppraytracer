@@ -2,7 +2,7 @@
 #define SCENE_HPP
 
 #include "Texture.hpp"
-
+#include "Light.hpp"
 #include "Shape.hpp"
 #include "View.hpp"
 #include <map>
@@ -26,8 +26,9 @@ private:
   public:
     bool useMultiThread = false;
 
-    std::map<std::string, SHAPE_PTR> shapes;
-    std::map<std::string, View> views;
+    map<std::string, SHAPE_PTR> shapes;
+    map<std::string, View> views;
+    map<std::string, shared_ptr<Light>> lights;
 
 
     //void render(const view&);
