@@ -66,6 +66,24 @@ Vector Transform::transform(Vector &v) {
   return Vector(new_vector_x, new_vector_y, new_vector_z);
 }
 
+Vector Transform::inverseTransform(Vector &v) {
+
+  if (!doScale && !doRotate) {
+    return Vector(v);
+  }
+  if (doScale && !doRotate) {
+    return Vector (v.x / scaleX, v.y / scaleY, v.z / scaleZ);
+  }
+
+  // if rotation or rotation + scale
+
+  FLOAT new_vector_x = (mtxInv[0][0] * v.x) + (mtxInv[0][1] * v.y) + (mtxInv[0][2] * v.z);
+  FLOAT new_vector_y = (mtxInv[1][0] * v.x) + (mtxInv[1][1] * v.y) + (mtxInv[1][2] * v.z);
+  FLOAT new_vector_z = (mtxInv[2][0] * v.x) + (mtxInv[2][1] * v.y) + (mtxInv[2][2] * v.z);
+
+
+  return Vector(new_vector_x, new_vector_y, new_vector_z);
+}
 
 //    """A matrix for rotation about an arbitrary axis./
 //      See http://math.kennesaw.edu/~plaval/math4490/rotgen.pd"""
