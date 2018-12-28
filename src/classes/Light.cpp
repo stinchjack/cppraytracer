@@ -7,7 +7,7 @@ Light::getShadowRays is the general csae for shadow rays, allowing
 for area-lights + soft sahdows
 }
 */
-void Light::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
+/*void Light::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
   if (shadowRays.size() != shadowTests) {
     shadowRays.resize(shadowTests);
   }
@@ -21,9 +21,9 @@ void Light::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
 
 
     Vector shadowDir (
-        testPoints[0][0] - ih.hitPoint[0],
-        testPoints[0][1] - ih.hitPoint[1],
-        testPoints[0][2] - ih.hitPoint[2]);
+        testPoints[0][0] - point[0],
+        testPoints[0][1] - point[1],
+        testPoints[0][2] - point[2]);
 
     Point shadowStart = {ih.hitPoint[0] + ((FLOAT).0001 * shadowDir.x),
       ih.hitPoint[1] + ((FLOAT).0001 * shadowDir.y),
@@ -33,7 +33,7 @@ void Light::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
     shadowRays[i] = shadowRay;
     i++;
   }
-}
+}*/
 
 
 void PointLight::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
@@ -45,15 +45,16 @@ void PointLight::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
   Point testPoint {ih.hitPoint[0],  ih.hitPoint[1], ih.hitPoint[2]};
 
   Vector shadowDir (
-      testPoint[0] - ih.worldRay.start[0],
-      testPoint[1] - ih.worldRay.start[1],
-      testPoint[2] - ih.worldRay.start[2]);
+      point[0] - testPoint[0],
+      point[1] - testPoint[1],
+      point[2] - testPoint[2]);
 
   Point shadowStart = {ih.hitPoint[0] + ((FLOAT).0001 * shadowDir.x),
     ih.hitPoint[1] + ((FLOAT).0001 * shadowDir.y),
     ih.hitPoint[2] + ((FLOAT).0001 * shadowDir.z)};
 
   Ray shadowRay (shadowStart, shadowDir);
+  shadowRay.isShadowRay = true;
   shadowRays[0] = shadowRay;
 
 }

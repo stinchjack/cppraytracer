@@ -32,6 +32,7 @@ private:
 
 
     //void render(const view&);
+    bool shadowTest(Ray &ray);
     void renderQueue (View *view);
     static void threadRenderEntryPoint(struct MTInfo *info);
     void threadRenderQueue(struct MTInfo *info);

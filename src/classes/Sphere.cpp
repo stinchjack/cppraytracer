@@ -43,8 +43,14 @@ void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
 
   IntersectHit hit;
   hit.shape = this;
-  hit.shapeRay = ray;
+
+  if (worldRay.isShadowRay) {
+    results.addResult(0, hit);
+    return;
+  }
+
   hit.worldRay = worldRay;
+  hit.shapeRay = ray;
   hit.hasShapePoint = false;
   hit.hasShapeNormal = false;
 

@@ -11,12 +11,20 @@ using namespace std;
 class LightModel {
 
 private:
-  //static Colour calcDiffuse(IntersectHit &ih);
+  static Colour getDiffuse(
+    QueueItemResults &itemResults,
+    int samples,
+    Scene *scene);
+
 public:
   static Colour getColour (
     QueueItemResults &itemResults,
     int samples,
     Scene *scene);
+
+  static FLOAT shadowTest (
+      Scene *scene,
+      vector<Ray> &shadowRays);
 
 
 };

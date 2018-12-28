@@ -9,6 +9,7 @@ class Ray {
   public:
   Point start;
   Vector direction;
+  bool isShadowRay = false;
 
   Ray();
 

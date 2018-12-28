@@ -24,15 +24,15 @@ void testPng() {
    scene.shapes["sphere1"] = SpherePtr();
    scene.views["view1"] = View (5,5,3);
    scene.views["view1"].setOutput(output);
-   scene.lights["pointlight1"] = make_shared<PointLight>(Colour(1,1,1), (Point){3,3,-3});
+   scene.lights["pointlight1"] = make_shared<PointLight>(Colour(1,1,1), (Point){0,0,-30});
    //scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (SimpleAntiAlias(120)));
 
    //scene.views["view1"].setAntiAlias(
   //std::make_shared<EDAntiAlias> (EDAntiAlias(50, 0.3)));
 
-   //scene.shapes["sphere1"]->transformation.setShift((Point){3, 0 ,5});
-   scene.shapes["sphere1"]->transformation.setScale(3.0, 1.0 , 1.0);
-   scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
+   scene.shapes["sphere1"]->transformation.setShift((Point){1, 1 ,5});
+   //scene.shapes["sphere1"]->transformation.setScale(3.0, 1.0 , 1.0);
+   //scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
    scene.shapes["sphere1"]->diffuse = make_shared<PlainTexture>(Colour (1,1,0));
 
    scene.render("view1");

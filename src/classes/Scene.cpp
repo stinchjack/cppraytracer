@@ -123,6 +123,7 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
       if (queueItemResults.size() > 0) {
         int  samples;
 
+
         if (view->antialias) {
           samples = view->antialias->getSamples(queueItem.pixel_x, queueItem.pixel_y);
         }
@@ -159,5 +160,27 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
             queueItem.ray, queueItem.pixel_x,
             queueItem.pixel_y);
       }
+
+}
+
+
+bool Scene::shadowTest(Ray &ray) {
+
+
+      //cout <<"RQi  "<<endl;
+      QueueItemResults queueItemResults;
+      //loop thru each shape
+      map<string, SHAPE_PTR>::iterator it = shapes.begin();
+
+      while (it !=shapes.end()) {
+        SHAPE_PTR shape = it->second;
+
+        shape->testIntersect(queueItemResults, ray);
+
+        it++;
+      }
+
+      return queueItemResults.size();
+
 
 }
