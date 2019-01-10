@@ -16,7 +16,7 @@ using namespace std;
 
 #define SCENE_PTR std::shared_ptr<Scene>
 
-#include "IntersectResult.hpp"
+#include "IntersectHit.hpp"
 #include "MultiThread.hpp"
 
 class Scene {

@@ -4,7 +4,7 @@
 #include "Colour.hpp"
 #include "Point.hpp"
 #include "Vector.hpp"
-#include "IntersectResult.hpp"
+#include "IntersectHit.hpp"
 #include <vector>
 class Light {
 

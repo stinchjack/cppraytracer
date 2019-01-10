@@ -2,7 +2,7 @@
 #define TEXTURE_HPP
 
 #include "Colour.hpp"
-#include "IntersectResult.hpp"
+#include "IntersectHit.hpp"
 #include <memory>
 
 

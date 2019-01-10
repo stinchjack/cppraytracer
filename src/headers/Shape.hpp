@@ -4,7 +4,7 @@
 #include <memory>
 #include "Colour.hpp"
 #include "Ray.hpp"
-#include "IntersectResult.hpp"
+#include "IntersectHit.hpp"
 #include "QueueItemResults.hpp"
 
 #include "Transform.hpp"

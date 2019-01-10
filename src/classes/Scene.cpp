@@ -1,6 +1,6 @@
 #include "Transform.hpp"
 #include "Scene.hpp"
-#include "IntersectResult.hpp"
+#include "IntersectHit.hpp"
 #include <map>
 #include <thread>
 #include <iterator>

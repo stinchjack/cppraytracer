@@ -81,6 +81,8 @@ Colour LightModel::getDiffuse (
     normal.normalise();
     averageLightDir.normalise();
 
+
+
     FLOAT diffuseFactor = abs (normal * averageLightDir);
 
     diffuse +=

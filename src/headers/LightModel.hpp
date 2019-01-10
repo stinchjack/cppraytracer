@@ -1,7 +1,7 @@
 #ifndef LIGHTMODEL_HPP
 #define LIGHTMODEL_HPP
 
-#include "IntersectResult.hpp"
+#include "IntersectHit.hpp"
 #include "Colour.hpp"
 #include "QueueItemResults.hpp"
 #include "Scene.hpp"

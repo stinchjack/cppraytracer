@@ -2,7 +2,7 @@
 #define QUEUEITEMRESULTS_HPP
 
 #include <map>
-#include "IntersectResult.hpp"
+#include "IntersectHit.hpp"
 
 using namespace std;
 
