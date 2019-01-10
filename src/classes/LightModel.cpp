@@ -2,6 +2,9 @@
 #include "Ray.hpp"
 #include <cmath>
 
+
+bool LightModel::processShadows  = true;
+
 Colour LightModel::getColour(
     QueueItemResults &itemResults,
     int antialiasSamples,
@@ -22,9 +25,15 @@ Colour LightModel::getColour(
   return getDiffuse(itemResults, antialiasSamples, scene) / antialiasSamples;
 }
 
+
 FLOAT LightModel::shadowTest (
     Scene *scene,
     vector<Ray> &shadowRays) {
+
+
+    if (!processShadows) {
+      return 1.0;
+    }
 
     int shadows = 0;
     int totalShadows = 0;

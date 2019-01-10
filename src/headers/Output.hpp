@@ -15,22 +15,24 @@ class View;
 
 class Output {
 
-  friend class View;
-
   protected:
-    vector<vector<Colour>> pixels;
-    vector<vector<int>> samples;
-    void resize(unsigned int x, unsigned int y);
+
+    FLOAT *pixels = nullptr;
+
+    virtual void resize(int x, int y);
+
+    int myWidth;
+    int myHeight;
 
   public:
 
     int width();
     int height();
 
-    int getSampleCount (unsigned int x, unsigned int y);
-    void setPixel(unsigned int x, unsigned int y, const Colour &c);
-    void addPixel(unsigned int x, unsigned int y, const Colour &c);
-    Colour getPixel(unsigned int x, unsigned int y);
+    virtual void setPixel(int x, int y, const Colour &c);
+    virtual void addPixel(int x, int y, const Colour &c);
+    virtual Colour getPixel(int x, int y);
+    ~Output();
 
 };
 

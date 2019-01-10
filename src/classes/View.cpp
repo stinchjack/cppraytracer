@@ -57,16 +57,14 @@ void View::makeInitialRenderQueue() {
   float step_y = viewHeight / output->height();
 
   if (antialias) {
+    // tell the antialiasong object the size of the pixel in which
+    // to generate extra rays
     antialias->setRange (step_x, step_y);
   }
 
-  unsigned int x=0, y=0;
-  for(
-      typename std::vector<vector<Colour>>::iterator col = output->pixels.begin();
-      col != output->pixels.end(); ++col) {
-      for(
-          typename vector<Colour>::iterator colour = col->begin();
-          colour != col->end();  ++colour) {
+
+  for (int x = 0; x< output->width(); x++ ) {
+    for (int y = 0; y< output->height(); y++ ) {
 
           Vector direction ( (x * step_x) + viewLeft, (y * step_y) + viewTop , eyeZ);
 
@@ -79,10 +77,9 @@ void View::makeInitialRenderQueue() {
           else {
             antialias->getInitalQueueItems(renderQueue, ray, x, y);
           }
-          y++;
+
       }
-      y=0;
-      x++;
+
   }
 
 

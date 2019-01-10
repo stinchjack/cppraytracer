@@ -27,11 +27,49 @@ void Transform::setShift (const Point &p) {
 
 Point & Transform::transform(Point &p) {
 
-  if (doShift) {
-    p[0]-=shift[0] ;
-    p[1]-=shift[1] ;
-    p[2]-=shift[2] ;
+
+
+
+    if (doShift) {
+      p[0]+=shift[0] ;
+      p[1]+=shift[1] ;
+      p[2]+=shift[2] ;
+    }
+
+
+
+  if (doScale && !doRotate) {
+
+    p[0] *= scaleX;
+    p[1] *= scaleY;
+    p[2] *= scaleZ;
+
   }
+
+  if (doRotate) {
+
+    // if rotation or rotation + scale
+
+    // 3x3 by 3x1 matrix multiplcation
+
+    FLOAT new_x = (mtxFwd[0][0] * p[0]) + (mtxFwd[0][1] * p[1]) + (mtxFwd[0][2] * p[2]);
+    FLOAT new_y = (mtxFwd[1][0] * p[0]) + (mtxFwd[1][1] * p[1]) + (mtxFwd[1][2] * p[2]);
+    FLOAT new_z = (mtxFwd[2][0] * p[0]) + (mtxFwd[2][1] * p[1]) + (mtxFwd[2][2] * p[2]);
+
+    p[0] = new_x;
+    p[1] = new_y;
+    p[2] = new_z;
+
+    // 1x3 by 3x3 matrix multiplcation
+
+  /*
+    p[0] = (p[0] * mtxFwd[0][0]) +  (p[1]* mtxFwd[0][1])  +  (p[2] * mtxFwd[0][2]);
+    p[1] = (p[0] * mtxFwd[1][0]) +  (p[1]* mtxFwd[1][1])  +  (p[2] * mtxFwd[1][2]);
+    p[2] = (p[0] * mtxFwd[2][0]) +  (p[1]* mtxFwd[2][1])  +  (p[2] * mtxFwd[2][2]);*/
+
+  }
+
+
 
   return p;
 }
@@ -58,9 +96,19 @@ Vector Transform::transform(Vector &v) {
 
   // if rotation or rotation + scale
 
-  FLOAT new_vector_x = (mtxFwd[0][0] * v.x) + (mtxFwd[0][1] * v.y) + (mtxFwd[0][2] * v.z);
+
+// 1x3 by 3x1 matrix multiplcation
+ FLOAT new_vector_x = (mtxFwd[0][0] * v.x) + (mtxFwd[0][1] * v.y) + (mtxFwd[0][2] * v.z);
   FLOAT new_vector_y = (mtxFwd[1][0] * v.x) + (mtxFwd[1][1] * v.y) + (mtxFwd[1][2] * v.z);
   FLOAT new_vector_z = (mtxFwd[2][0] * v.x) + (mtxFwd[2][1] * v.y) + (mtxFwd[2][2] * v.z);
+
+// 1x3 by 3x3 matrix multiplcation
+
+
+  /*FLOAT new_vector_x = (v.x * mtxFwd[0][0]) +  (v.y* mtxFwd[0][1])  +  (v.z * mtxFwd[0][2]);
+  FLOAT new_vector_y = (v.x * mtxFwd[1][0]) +  (v.y* mtxFwd[1][1])  +  (v.z * mtxFwd[1][2]);
+  FLOAT new_vector_z = (v.x * mtxFwd[2][0]) +  (v.y* mtxFwd[2][1])  +  (v.z * mtxFwd[2][2]);*/
+
 
 
   return Vector(new_vector_x, new_vector_y, new_vector_z);
@@ -77,16 +125,19 @@ Vector Transform::inverseTransform(Vector &v) {
 
   // if rotation or rotation + scale
 
-  FLOAT new_vector_x = (mtxInv[0][0] * v.x) + (mtxInv[0][1] * v.y) + (mtxInv[0][2] * v.z);
+/*  FLOAT new_vector_x = (mtxInv[0][0] * v.x) + (mtxInv[0][1] * v.y) + (mtxInv[0][2] * v.z);
   FLOAT new_vector_y = (mtxInv[1][0] * v.x) + (mtxInv[1][1] * v.y) + (mtxInv[1][2] * v.z);
-  FLOAT new_vector_z = (mtxInv[2][0] * v.x) + (mtxInv[2][1] * v.y) + (mtxInv[2][2] * v.z);
+  FLOAT new_vector_z = (mtxInv[2][0] * v.x) + (mtxInv[2][1] * v.y) + (mtxInv[2][2] * v.z);*/
 
+  FLOAT new_vector_x = (v.x * mtxInv[0][0]) +  (v.y* mtxInv[0][1])  +  (v.z * mtxInv[0][2]);
+  FLOAT new_vector_y = (v.x * mtxInv[1][0]) +  (v.y* mtxInv[1][1])  +  (v.z * mtxInv[1][2]);
+  FLOAT new_vector_z = (v.x * mtxInv[2][0]) +  (v.y* mtxInv[2][1])  +  (v.z * mtxInv[2][2]);
 
   return Vector(new_vector_x, new_vector_y, new_vector_z);
 }
 
 //    """A matrix for rotation about an arbitrary axis./
-//      See http://math.kennesaw.edu/~plaval/math4490/rotgen.pd"""
+//      See http://math.kennesaw.edu/~plaval/math4490/rotgen.pdf"""
 
 void Transform::rotationMatrix() {
     //def __init__(self, vector, angle):

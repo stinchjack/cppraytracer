@@ -16,7 +16,11 @@ private:
     int samples,
     Scene *scene);
 
+
 public:
+
+  static bool processShadows;
+
   static Colour getColour (
     QueueItemResults &itemResults,
     int samples,

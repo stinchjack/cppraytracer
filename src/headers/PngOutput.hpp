@@ -19,12 +19,11 @@
 class PngOutput;
 
 #define PNGOUTPUT_PTR std::shared_ptr<PngOutput>
-PNGOUTPUT_PTR PngOutputPtr(unsigned size_x, unsigned size_y);
 
 class PngOutput: public FileOutput {
 
 public:
-  PngOutput(unsigned size_x, unsigned size_y);
+  PngOutput(int size_x, int size_y);
   int save(string filename);
 
 };
