@@ -31,9 +31,9 @@ Point & Transform::transform(Point &p) {
 
 
   if (doShift) {
-    p[0]+=shift[0] ;
-    p[1]+=shift[1] ;
-    p[2]+=shift[2] ;
+    p[0]-=shift[0] ;
+    p[1]-=shift[1] ;
+    p[2]-=shift[2] ;
   }
 
 
@@ -69,9 +69,9 @@ Point & Transform::transform(Point &p) {
 Point & Transform::inverseTransform(Point &p) {
 
   if (doShift) {
-    p[0]-=shift[0] ;
-    p[1]-=shift[1] ;
-    p[2]-=shift[2] ;
+    p[0]+=shift[0] ;
+    p[1]+=shift[1] ;
+    p[2]+=shift[2] ;
   }
 
   if (doScale && !doRotate) {
