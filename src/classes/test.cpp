@@ -35,8 +35,8 @@ void testPng() {
    scene.shapes["sphere1"] = SpherePtr();
    scene.shapes["sphere1"]->transformation.setShift((Point){2, 0, 0});
    //scene.shapes["sphere1"]->transformation.setScale(1.0, 2.0 , 1.0);
-   scene.shapes["sphere1"]->transformation.setRotate(Vector(0,1,0), 90);
-   scene.shapes["sphere1"]->diffuse = make_shared<PlainTexture>(Colour (.8,.3,.6));
+   //scene.shapes["sphere1"]->transformation.setRotate(Vector(0,1,0), 90);
+   scene.shapes["sphere1"]->diffuse = make_shared<PlainTexture>(Colour (.8,0,0));
 
 /*
    scene.shapes["sphere3"] = SpherePtr();

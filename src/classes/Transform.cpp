@@ -30,11 +30,11 @@ Point & Transform::transform(Point &p) {
 
 
 
-    if (doShift) {
-      p[0]+=shift[0] ;
-      p[1]+=shift[1] ;
-      p[2]+=shift[2] ;
-    }
+  if (doShift) {
+    p[0]+=shift[0] ;
+    p[1]+=shift[1] ;
+    p[2]+=shift[2] ;
+  }
 
 
 
@@ -50,8 +50,6 @@ Point & Transform::transform(Point &p) {
 
     // if rotation or rotation + scale
 
-    // 3x3 by 3x1 matrix multiplcation
-
     FLOAT new_x = (mtxFwd[0][0] * p[0]) + (mtxFwd[0][1] * p[1]) + (mtxFwd[0][2] * p[2]);
     FLOAT new_y = (mtxFwd[1][0] * p[0]) + (mtxFwd[1][1] * p[1]) + (mtxFwd[1][2] * p[2]);
     FLOAT new_z = (mtxFwd[2][0] * p[0]) + (mtxFwd[2][1] * p[1]) + (mtxFwd[2][2] * p[2]);
@@ -59,13 +57,6 @@ Point & Transform::transform(Point &p) {
     p[0] = new_x;
     p[1] = new_y;
     p[2] = new_z;
-
-    // 1x3 by 3x3 matrix multiplcation
-
-  /*
-    p[0] = (p[0] * mtxFwd[0][0]) +  (p[1]* mtxFwd[0][1])  +  (p[2] * mtxFwd[0][2]);
-    p[1] = (p[0] * mtxFwd[1][0]) +  (p[1]* mtxFwd[1][1])  +  (p[2] * mtxFwd[1][2]);
-    p[2] = (p[0] * mtxFwd[2][0]) +  (p[1]* mtxFwd[2][1])  +  (p[2] * mtxFwd[2][2]);*/
 
   }
 
@@ -82,6 +73,31 @@ Point & Transform::inverseTransform(Point &p) {
     p[1]-=shift[1] ;
     p[2]-=shift[2] ;
   }
+
+  if (doScale && !doRotate) {
+
+    p[0] /= scaleX;
+    p[1] /= scaleY;
+    p[2] /= scaleZ;
+
+  }
+
+  if (doRotate) {
+
+    // if rotation or rotation + scale
+
+    FLOAT new_x = (mtxInv[0][0] * p[0]) + (mtxInv[0][1] * p[1]) + (mtxInv[0][2] * p[2]);
+    FLOAT new_y = (mtxInv[1][0] * p[0]) + (mtxInv[1][1] * p[1]) + (mtxInv[1][2] * p[2]);
+    FLOAT new_z = (mtxInv[2][0] * p[0]) + (mtxInv[2][1] * p[1]) + (mtxInv[2][2] * p[2]);
+
+    p[0] = new_x;
+    p[1] = new_y;
+    p[2] = new_z;
+
+  }
+
+
+
   return p;
 }
 
@@ -91,7 +107,7 @@ Vector Transform::transform(Vector &v) {
     return Vector(v);
   }
   if (doScale && !doRotate) {
-    return Vector (v.x * scaleX, v.y * scaleY, v.z * scaleZ);
+    return Vector (v.x / scaleX, v.y / scaleY, v.z / scaleZ);
   }
 
   // if rotation or rotation + scale
@@ -120,18 +136,18 @@ Vector Transform::inverseTransform(Vector &v) {
     return Vector(v);
   }
   if (doScale && !doRotate) {
-    return Vector (v.x / scaleX, v.y / scaleY, v.z / scaleZ);
+    return Vector (v.x * scaleX, v.y * scaleY, v.z * scaleZ);
   }
 
   // if rotation or rotation + scale
 
-/*  FLOAT new_vector_x = (mtxInv[0][0] * v.x) + (mtxInv[0][1] * v.y) + (mtxInv[0][2] * v.z);
+ FLOAT new_vector_x = (mtxInv[0][0] * v.x) + (mtxInv[0][1] * v.y) + (mtxInv[0][2] * v.z);
   FLOAT new_vector_y = (mtxInv[1][0] * v.x) + (mtxInv[1][1] * v.y) + (mtxInv[1][2] * v.z);
-  FLOAT new_vector_z = (mtxInv[2][0] * v.x) + (mtxInv[2][1] * v.y) + (mtxInv[2][2] * v.z);*/
+  FLOAT new_vector_z = (mtxInv[2][0] * v.x) + (mtxInv[2][1] * v.y) + (mtxInv[2][2] * v.z);
 
-  FLOAT new_vector_x = (v.x * mtxInv[0][0]) +  (v.y* mtxInv[0][1])  +  (v.z * mtxInv[0][2]);
+  /*FLOAT new_vector_x = (v.x * mtxInv[0][0]) +  (v.y* mtxInv[0][1])  +  (v.z * mtxInv[0][2]);
   FLOAT new_vector_y = (v.x * mtxInv[1][0]) +  (v.y* mtxInv[1][1])  +  (v.z * mtxInv[1][2]);
-  FLOAT new_vector_z = (v.x * mtxInv[2][0]) +  (v.y* mtxInv[2][1])  +  (v.z * mtxInv[2][2]);
+  FLOAT new_vector_z = (v.x * mtxInv[2][0]) +  (v.y* mtxInv[2][1])  +  (v.z * mtxInv[2][2]);*/
 
   return Vector(new_vector_x, new_vector_y, new_vector_z);
 }
@@ -176,17 +192,17 @@ void Transform::rotationMatrix() {
         FLOAT c8 = (t * uy * uz) + (S * ux);
         FLOAT c9 = (t * u2z) + C;
 
-        mtxFwd[0][0] = c1 * scaleX;
-        mtxFwd[1][0] = c2 * scaleY;
-        mtxFwd[2][0] = c3 * scaleZ;
+        mtxFwd[0][0] = c1 / scaleX;
+        mtxFwd[1][0] = c2 / scaleY;
+        mtxFwd[2][0] = c3 / scaleZ;
 
-        mtxFwd[0][1] = c4 * scaleX;
-        mtxFwd[1][1] = c5 * scaleY;
-        mtxFwd[2][1] = c6 * scaleZ;
+        mtxFwd[0][1] = c4 / scaleX;
+        mtxFwd[1][1] = c5 / scaleY;
+        mtxFwd[2][1] = c6 / scaleZ;
 
-        mtxFwd[0][2] = c7 * scaleX;
-        mtxFwd[1][2] = c8 * scaleY;
-        mtxFwd[2][2] = c9 * scaleZ;
+        mtxFwd[0][2] = c7 / scaleX;
+        mtxFwd[1][2] = c8 / scaleY;
+        mtxFwd[2][2] = c9 / scaleZ;
 
 
         rad = 0.0 - rad;
@@ -210,15 +226,15 @@ void Transform::rotationMatrix() {
 
 
 
-         mtxInv[0][0] = c1 / scaleX;
-         mtxInv[1][0] = c2 / scaleY;
-         mtxInv[2][0] = c3 / scaleZ;
+         mtxInv[0][0] = c1 * scaleX;
+         mtxInv[1][0] = c2 * scaleY;
+         mtxInv[2][0] = c3 * scaleZ;
 
-         mtxInv[0][1] = c4 / scaleX;
-         mtxInv[1][1] = c5 / scaleY;
-         mtxInv[2][1] = c6 / scaleZ;
+         mtxInv[0][1] = c4 * scaleX;
+         mtxInv[1][1] = c5 * scaleY;
+         mtxInv[2][1] = c6 * scaleZ;
 
-         mtxInv[0][2] = c7 / scaleX;
-         mtxInv[1][2] = c8 / scaleY;
-         mtxInv[2][2] = c9 / scaleZ;
+         mtxInv[0][2] = c7 * scaleX;
+         mtxInv[1][2] = c8 * scaleY;
+         mtxInv[2][2] = c9 * scaleZ;
 }
