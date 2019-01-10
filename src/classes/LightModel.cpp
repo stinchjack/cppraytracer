@@ -14,13 +14,6 @@ Colour LightModel::getColour(
     return Colour(0,0,0);
   }
 
-  //get the closest hit from the itemResults
-  IntersectHit &result = itemResults.begin()->second;
-
-  //Ray::calcPos method fills IntersectHit::hitPoint with calulation
-  result.worldRay.calcPos(itemResults.begin()->first, result.hitPoint);
-
-
 
   return getDiffuse(itemResults, antialiasSamples, scene) / antialiasSamples;
 }
@@ -68,15 +61,15 @@ Colour LightModel::getDiffuse (
     light->getShadowRays(result, shadowRays);
     FLOAT shadowFactor =  LightModel::shadowTest(scene, shadowRays);
 
-    Vector averageLightDir;
+    Vector averageLightDir(0,0,0);
     for (auto shadowRay = shadowRays.begin(); shadowRay != shadowRays.end(); shadowRay ++) {
       averageLightDir += shadowRay->direction;
     }
 
     averageLightDir *= 1.0/ shadowRays.size();
 
-    Vector shapeSpaceNormal = result.shape->getShapeNormal(result);
-    Vector normal = result.shape->transformation.inverseTransform(shapeSpaceNormal);
+    Vector shapeSpaceNormal = result.getShapeNormal();
+    Vector normal = result.getShape()->transformation.inverseTransform(shapeSpaceNormal);
 
     normal.normalise();
     averageLightDir.normalise();
@@ -86,7 +79,7 @@ Colour LightModel::getDiffuse (
     FLOAT diffuseFactor = abs (normal * averageLightDir);
 
     diffuse +=
-      (result.shape->diffuse->getColour(result, result.shape->mapping))
+      (result.getShape()->diffuse->getColour(result, result.getShape()->mapping))
       * diffuseFactor * shadowFactor;
   }
 

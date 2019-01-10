@@ -8,15 +8,16 @@
 
 class Shape;
 
+
 using namespace std;
 
 
 
 
 class IntersectHit {
-    Shape *shape;
+  private:
+    Shape *shape = 0;
 
-    IntersectHit (Shape *shape, FLOAT t);
 
     bool hasShapePoint  = false;
     bool hasShapeNormal = false;
@@ -35,15 +36,19 @@ class IntersectHit {
     FLOAT t;
 
   public:
-
+    IntersectHit ();
+    IntersectHit (Shape *shape, FLOAT t);
+    IntersectHit (const IntersectHit &ih);
+    void getShapePoint(Point &p);
     void getWorldPoint(Point &p);
     void setWorldRay(Ray &worldRay);
-    void getWorldRay();
+    Ray getWorldRay();
     void setShapeRay(Ray &shapeRay);
-    void getShapeRay();
+    Ray getShapeRay();
+    Shape *getShape();
 
     Vector getShapeNormal() ;
-    void getShapePoint(Point &p);
+
 
 
 

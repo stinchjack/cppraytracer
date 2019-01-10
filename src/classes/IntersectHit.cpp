@@ -1,30 +1,44 @@
 #include "IntersectHit.hpp"
+#include "Shape.hpp"
 
-
-/*
-IntersectHit::IntersectHit() {
-
+IntersectHit::IntersectHit () {
 }
 
-IntersectHit::IntersectHit(Ray &ray, Shape *sh) {
-  this->ray = ray;
-  this->shape = sh;
+IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
+  this->shape = shape;
+  this->t = t;
 }
 
 
-IntersectHit::IntersectHit(Ray &ray, Point &raw_point, Point &raw_normal, Shape *sh) {
+  IntersectHit::IntersectHit (const IntersectHit &ih) {
+    hasShapePoint  = ih.hasShapePoint;
+    hasShapeNormal = ih.hasShapeNormal;
+    hasWorldRay = ih.hasWorldRay;
+    hasWorldPoint = ih.hasWorldPoint;
 
-  this->ray = ray;
-  this->raw_point = raw_point;
-  this->raw_normal = raw_normal;
-  this->shape = sh;
+    hasShapeRay = hasShapeRay;
+    hasHitPoint = hasHitPoint;
 
-}*/
 
-  IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
-    this->shape = shape;
-    this->t = t;
+    shapePoint[0] =  ih.shapePoint[0];
+    shapePoint[1] =  ih.shapePoint[1];
+    shapePoint[2] =  ih.shapePoint[2];
+
+    shapeNormal=  ih.shapeNormal;
+
+
+    worldRay =  ih.worldRay;
+    shapeRay = ih.shapeRay;
+    worldPoint[0] = ih.worldPoint[0];
+    worldPoint[1] = ih.worldPoint[1];
+    worldPoint[2] = ih.worldPoint[2];
+    t = ih.t;
   }
+
+  Shape *IntersectHit::getShape() {
+    return shape;
+  }
+
 
   void IntersectHit::getWorldPoint(Point &p) {
     if (!hasWorldPoint) {
@@ -48,7 +62,7 @@ IntersectHit::IntersectHit(Ray &ray, Point &raw_point, Point &raw_normal, Shape 
     hasWorldRay = true;
   }
 
-  void IntersectHit::getWorldRay() {
+  Ray IntersectHit::getWorldRay() {
     if (!hasWorldRay) {
       throw std::logic_error( "No WorldRay set" );
     }
@@ -60,7 +74,7 @@ IntersectHit::IntersectHit(Ray &ray, Point &raw_point, Point &raw_normal, Shape 
     hasShapeRay = true;
   }
 
-  void IntersectHit::getShapeRay() {
+  Ray IntersectHit::getShapeRay() {
     if (!hasShapeRay) {
       throw std::logic_error( "No shape ray set" );
     }
@@ -72,7 +86,7 @@ IntersectHit::IntersectHit(Ray &ray, Point &raw_point, Point &raw_normal, Shape 
   Vector IntersectHit::getShapeNormal() {
 
       if(!hasShapeNormal) {
-          shapeNormal = shape->getShapeNormal();
+          shapeNormal = shape->getShapeNormal(*this);
           hasShapeNormal = true;
       }
       return shapeNormal;

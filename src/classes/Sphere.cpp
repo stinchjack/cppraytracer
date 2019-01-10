@@ -6,15 +6,12 @@ SHAPE_PTR SpherePtr() {
 }
 
 Vector Sphere::getShapeNormal(IntersectHit &ih) {
-  if (!ih.hasShapeNormal) {
-    if (!ih.hasShapePoint) {
-      ih.shapeRay.calcPos(ih.t, ih.shapePoint);
-      ih.hasShapePoint = true;
-    }
-    ih.shapeNormal = Vector (ih.shapePoint[0],ih.shapePoint[1], ih.shapePoint[2] );
-    ih.hasShapeNormal = true;
-  }
-  return ih.shapeNormal;
+
+  Point point;
+  ih.getShapePoint(point);
+
+  return Vector(point[0], point[1], point[2]);
+
 }
 
 void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &worldRay) {
@@ -41,44 +38,50 @@ void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
     return;
   }
 
-  IntersectHit hit;
-  hit.shape = this;
+
 
   if (worldRay.isShadowRay) {
-    results.addResult(0, hit);
+    results.addResult(0, IntersectHit (this, 0));
     return;
   }
 
-  hit.worldRay = worldRay;
-  hit.shapeRay = ray;
-  hit.hasShapePoint = false;
-  hit.hasShapeNormal = false;
 
   if (t1 < 0 && t2 >= 0) {
     //Point p = ray.calcPos(t2);
+
+    IntersectHit hit(this, t2);
+    hit.setShapeRay(ray);
+    hit.setWorldRay(worldRay);
+
     results.addResult(t2, hit);
   }
   else if (t1 >= 0 && t2 < 0) {
     //Point p = ray.calcPos(t1);
 
+    IntersectHit hit(this, t1);
+    hit.setShapeRay(ray);
+    hit.setWorldRay(worldRay);
+
+
     results.addResult(t1, hit);
 
   }
-  else {
-      if (t1 < t2) {
+  else if (t1 > 0  &&  t2 > 0) {
+
+      IntersectHit hit1(this, t1);
+      hit1.setShapeRay(ray);
+      hit1.setWorldRay(worldRay);
 
 
-        results.addResult(t1, hit);
+      results.addResult(t1, hit1);
 
-        results.addResult(t2, hit);
+      IntersectHit hit2(this, t2);
+      hit2.setShapeRay(ray);
+      hit2.setWorldRay(worldRay);
 
-      }
-      else {
-        //Point p = ray.calcPos(t2);
-        results.addResult(t2, hit);
+      results.addResult(t2, hit2);
 
-        results.addResult(t1, hit);
-      }
+
   }
 
 }
