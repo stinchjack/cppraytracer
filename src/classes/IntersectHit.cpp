@@ -45,7 +45,7 @@ IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
       if (!hasWorldRay) {
         throw std::logic_error( "No world ray set" );
       }
-      shapeRay.calcPos(t, worldPoint);
+      worldRay.calcPos(t, worldPoint);
       hasWorldPoint = true;
 
     }
