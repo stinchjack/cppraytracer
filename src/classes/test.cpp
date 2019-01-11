@@ -9,21 +9,38 @@
 #include "GLWindowOutput.hpp"
 #include "LightModel.hpp"
 #include "Square.hpp"
+
+#include <chrono>
+#include <thread>
+
+
+using Clock = std::chrono::steady_clock;
+using std::chrono::time_point;
+using std::chrono::duration_cast;
+using std::chrono::milliseconds;
+//using namespace std::literals::chrono_literals;
+using std::this_thread::sleep_for;
+
 void testPng();
 
 int main (int argc, char **argv) {
 
 
+
   testPng();
+
+
   return 0;
 }
 
 void testPng() {
 
+  time_point<Clock> start = Clock::now();
+
    //PNGOUTPUT_PTR output = make_shared<PngOutput>(640, 640);
    shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
    Scene scene;
-   scene.useMultiThread = false;
+   scene.useMultiThread = true;
 
 
    scene.shapes["square1"] = SquarePtr(-100, 100, -100, 100);
@@ -65,6 +82,10 @@ void testPng() {
 
    //LightModel::processShadows  = false;
    scene.render("view1");
+
+   time_point<Clock> end = Clock::now();
+   milliseconds diff = duration_cast<milliseconds>(end - start);
+   std::cout << diff.count() << "ms" << std::endl;
 
    output->makeWindow("hello world");
    output->show();
