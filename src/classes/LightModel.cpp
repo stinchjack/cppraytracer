@@ -61,6 +61,10 @@ Colour LightModel::getDiffuse (
     light->getShadowRays(result, shadowRays);
     FLOAT shadowFactor =  LightModel::shadowTest(scene, shadowRays);
 
+    if (shadowFactor == 0.0) {
+      return Colour(0,0,0);
+    }
+
     Vector averageLightDir(0,0,0);
     for (auto shadowRay = shadowRays.begin(); shadowRay != shadowRays.end(); shadowRay ++) {
       averageLightDir += shadowRay->direction;
@@ -74,12 +78,16 @@ Colour LightModel::getDiffuse (
     averageLightDir.normalise();
 
 
+    FLOAT diffuseFactor = normal * averageLightDir;
+    if (result.getWorldRay().direction.normalised() * normal > 0) {
+      diffuseFactor = 0 - diffuseFactor;
+    }
 
-    FLOAT diffuseFactor = abs (normal * averageLightDir);
-
-    diffuse +=
-      (result.getShape()->diffuse->getColour(result, result.getShape()->mapping))
-      * diffuseFactor * shadowFactor;
+    if (diffuseFactor > 0) {
+      diffuse +=
+        (result.getShape()->diffuse->getColour(result, result.getShape()->mapping))
+        * diffuseFactor * shadowFactor;
+    }
   }
 
 

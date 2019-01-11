@@ -75,7 +75,6 @@ Point Transform::inverseTransform(const Point &p) const {
   }
 
   if (doRotate) {
-
     // if rotation or rotation + scale
 
     FLOAT new_x = (mtxInv[0][0] * newPoint.x) + (mtxInv[0][1] * newPoint.y) + (mtxInv[0][2] * newPoint.z);
@@ -85,7 +84,6 @@ Point Transform::inverseTransform(const Point &p) const {
     newPoint.x = new_x;
     newPoint.y = new_y;
     newPoint.z = new_z;
-
   }
 
 
