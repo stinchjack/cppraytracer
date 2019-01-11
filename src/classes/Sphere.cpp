@@ -6,11 +6,7 @@ SHAPE_PTR SpherePtr() {
 }
 
 Vector Sphere::getShapeNormal(IntersectHit &ih) {
-
-  Point point;
-  ih.getShapePoint(point);
-
-  return Vector(point[0], point[1], point[2]);
+  return Vector(ih.getShapePoint());
 
 }
 
@@ -18,7 +14,8 @@ void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
   FLOAT a = (ray.direction * ray.direction);
   FLOAT b = 2.0 * (ray.direction * ray.start);
 
-  FLOAT c = dot(ray.start, ray. start) - 1.0;//ray.start * ray.start;
+  FLOAT c = (ray.start * ray. start) - 1.0;//ray.start * ray.start;
+  //FLOAT c = dot(ray.start, ray. start) - 1.0;//ray.start * ray.start;
 
   FLOAT discriminant = ((b * b) - (4.0 * a * c));
 

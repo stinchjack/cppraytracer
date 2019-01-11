@@ -11,9 +11,6 @@ class Shape;
 
 using namespace std;
 
-
-
-
 class IntersectHit {
   private:
     Shape *shape = 0;
@@ -39,8 +36,8 @@ class IntersectHit {
     IntersectHit ();
     IntersectHit (Shape *shape, FLOAT t);
     IntersectHit (const IntersectHit &ih);
-    void getShapePoint(Point &p);
-    void getWorldPoint(Point &p);
+    Point getShapePoint();
+    Point getWorldPoint();
     void setWorldRay(Ray &worldRay);
     Ray getWorldRay();
     void setShapeRay(Ray &shapeRay);

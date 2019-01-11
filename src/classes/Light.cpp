@@ -42,18 +42,11 @@ void PointLight::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
     shadowRays.resize(1);
   }
 
-  Point testPoint;
+  Point testPoint = ih.getWorldPoint();
 
-  ih.getWorldPoint(testPoint);
+  Vector shadowDir (point - testPoint);
 
-  Vector shadowDir (
-      point[0] - testPoint[0],
-      point[1] - testPoint[1],
-      point[2] - testPoint[2]);
-
-  Point shadowStart = {testPoint[0] + ((FLOAT).0001 * shadowDir.x),
-    testPoint[1] + ((FLOAT).0001 * shadowDir.y),
-    testPoint[2] + ((FLOAT).0001 * shadowDir.z)};
+  Point shadowStart =  testPoint + (shadowDir * 0.00001);
 
   Ray shadowRay (shadowStart, shadowDir);
   shadowRay.isShadowRay = true;
@@ -66,16 +59,9 @@ void PointLight::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
 PointLight::PointLight (const Colour &c, const Point &p) {
   shadowTests = 1;
   colour = c;
-  point[0] = p[0];
-  point[1] = p[1];
-  point[2] = p[2];
+  point = p;
 }
 
  void PointLight::getTestPoints(Point testPoints[], IntersectHit &ih) {
-
-   testPoints[0][0] = point[0];
-   testPoints[0][1] = point[1];
-   testPoints[0][2] = point[2];
-
-
+   testPoints[0] = point;
  }

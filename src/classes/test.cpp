@@ -27,14 +27,14 @@ void testPng() {
 
     scene.shapes["sphere2"] = SpherePtr();
     scene.shapes["sphere2"]->transformation.setShift((Point){0, 0, 30});
-    scene.shapes["sphere2"]->transformation.setScale(100, 100, 0.5);
+    scene.shapes["sphere2"]->transformation.setScale(1000, 1000, 1);
     //scene.shapes["sphere2"]->transformation.setRotate(Vector(0,0,1), 45);
     scene.shapes["sphere2"]->diffuse = make_shared<PlainTexture>(Colour (1,1,1));
 
 
    scene.shapes["sphere1"] = SpherePtr();
    scene.shapes["sphere1"]->transformation.setShift((Point){3, 0, 0});
-   //scene.shapes["sphere1"]->transformation.setScale(1.0, 2.0 , 1.0);
+   scene.shapes["sphere1"]->transformation.setScale(1.0, 1.0 , 1.0);
    //scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
    scene.shapes["sphere1"]->diffuse = make_shared<PlainTexture>(Colour (.8,0,0));
 
@@ -55,7 +55,7 @@ void testPng() {
   //std::make_shared<EDAntiAlias> (EDAntiAlias(50, 0.3)));
 
 
-   LightModel::processShadows  = false;
+   //LightModel::processShadows  = false;
    scene.render("view1");
 
    cout << "correct output" << endl;

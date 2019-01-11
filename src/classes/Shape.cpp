@@ -20,8 +20,8 @@ void Shape::setTransparency (const shared_ptr<Texture> c) {
 }*/
 
 void Shape::testIntersect (QueueItemResults &results, Ray &worldRay) {
-  Point worldRayStart = {worldRay.start[0], worldRay.start[1], worldRay.start[2]};
-  Ray newRay(this->transformation.transform(worldRayStart), this->transformation.transform (worldRay.direction));
+  //Point worldRayStart = {worldRay.start[0], worldRay.start[1], worldRay.start[2]};
+  Ray newRay(this->transformation.transform(worldRay.start), this->transformation.transform (worldRay.direction));
   shapeTestIntersect(results, newRay, worldRay);
 
 }

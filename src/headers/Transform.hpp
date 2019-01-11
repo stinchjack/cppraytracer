@@ -35,8 +35,8 @@ public:
   Vector inverseTransform (Vector &v);
 
   // the two methods below transform in-place
-  Point &inverseTransform (Point &p);
-  Point &transform (Point &p);
+  Point inverseTransform (const Point &p) const;
+  Point transform (const Point &p) const;
 
 };
 

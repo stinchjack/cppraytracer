@@ -23,9 +23,9 @@ Vector::Vector(const Point& p) {
   hasLength = 0;
   hasNormalised = 0;
 
-  this->x = p[0];
-  this->y = p[1];
-  this->z = p[2];
+  this->x = p.x;
+  this->y = p.y;
+  this->z = p.z;
 
 }
 
@@ -89,14 +89,14 @@ Vector &Vector::operator*=(FLOAT scale)
 }
 
 
-Vector Vector::operator*(FLOAT scale)
+Vector Vector::operator*(FLOAT scale) const
 {
   return Vector(x * scale, y * scale, z* scale);
 }
 
-FLOAT Vector::operator*(Point &rhs) //dot product
+FLOAT Vector::operator*(const Point &rhs) const //dot product
 {
-  return (x * rhs[0]) + (y * rhs[1]) + (z * rhs[2]);
+  return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
 }
 
 
@@ -106,8 +106,8 @@ FLOAT Vector::operator*(Vector &rhs)
   return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
 }
 
-Vector Vector::operator+(const Point &rhs) {
-  return Vector(x + rhs[0], y + rhs[1], z + rhs[2]);
+Vector Vector::operator+(const Point &rhs) const {
+  return Vector(x + rhs.x, y + rhs.y, z + rhs.z);
 }
 
 Vector & Vector::operator+=(const Vector &rhs) {

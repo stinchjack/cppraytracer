@@ -20,18 +20,16 @@ IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
     hasHitPoint = hasHitPoint;
 
 
-    shapePoint[0] =  ih.shapePoint[0];
-    shapePoint[1] =  ih.shapePoint[1];
-    shapePoint[2] =  ih.shapePoint[2];
+    shapePoint =  ih.shapePoint;
+
 
     shapeNormal=  ih.shapeNormal;
 
 
     worldRay =  ih.worldRay;
     shapeRay = ih.shapeRay;
-    worldPoint[0] = ih.worldPoint[0];
-    worldPoint[1] = ih.worldPoint[1];
-    worldPoint[2] = ih.worldPoint[2];
+    worldPoint = ih.worldPoint;
+
     t = ih.t;
   }
 
@@ -40,19 +38,18 @@ IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
   }
 
 
-  void IntersectHit::getWorldPoint(Point &p) {
+  Point IntersectHit::getWorldPoint() {
     if (!hasWorldPoint) {
       if (!hasWorldRay) {
         throw std::logic_error( "No world ray set" );
       }
-      worldRay.calcPos(t, worldPoint);
+      worldPoint = worldRay.calcPos(t);
       hasWorldPoint = true;
 
     }
 
-    p[0] = worldPoint[0];
-    p[1] = worldPoint[1];
-    p[2] = worldPoint[2];
+    return  worldPoint;
+
 
   }
 
@@ -92,18 +89,16 @@ IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
       return shapeNormal;
   }
 
-  void IntersectHit::getShapePoint(Point &p) {
+  Point IntersectHit::getShapePoint() {
     if (!hasShapePoint) {
       if (!hasShapeRay) {
         throw std::logic_error( "No shape ray set" );
       }
-      shapeRay.calcPos(t, shapePoint);
+      shapePoint = shapeRay.calcPos(t);
       hasShapePoint = true;
 
     }
 
-    p[0] = shapePoint[0];
-    p[1] = shapePoint[1];
-    p[2] = shapePoint[2];
+    return shapePoint;
 
   }

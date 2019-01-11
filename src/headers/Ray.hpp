@@ -18,7 +18,7 @@ class Ray {
   /*
   Ray::calcPos modifies p in place
   */
-  Point & calcPos(FLOAT t, Point &p) ;
+  Point calcPos(FLOAT t) const;
 
 
 };

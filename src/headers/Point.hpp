@@ -9,17 +9,14 @@
 
 class Vector;
 
-typedef FLOAT Point[3];
+//typedef FLOAT Point[3];
 
-FLOAT dot (Point &lhs, Point &rhs);
+//FLOAT dot (Point &lhs, Point &rhs);
 //FLOAT operator*(Point &lhs, Vector &rhs);
 
 
-/*class Point {
+class Point {
   friend class Vector;
-
-  private:
-
 
   public:
 
@@ -29,12 +26,14 @@ FLOAT dot (Point &lhs, Point &rhs);
     Point (const FLOAT &);
 
     Point& operator+=(const Point &rhs);
-    Point operator+(const Point &rhs);
-    Point operator-(const Point &rhs);
-    FLOAT operator*(Point &rhs);
-    FLOAT operator*(Vector &rhs);
+    Point& operator-=(const Point &rhs);
+    Point operator+(const Point &rhs) const;
+    Point operator+(const Vector &rhs) const;
+    Point operator-(const Point &rhs) const;
+    FLOAT operator*(Point &rhs) const;
+    FLOAT operator*(Vector &rhs) const;
 
-};*/
+};
 
 
 #endif
