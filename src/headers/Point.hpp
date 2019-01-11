@@ -29,6 +29,7 @@ class Point {
     Point& operator-=(const Point &rhs);
     Point operator+(const Point &rhs) const;
     Point operator+(const Vector &rhs) const;
+    Point operator-(const Vector &rhs) const;
     Point operator-(const Point &rhs) const;
     FLOAT operator*(Point &rhs) const;
     FLOAT operator*(Vector &rhs) const;

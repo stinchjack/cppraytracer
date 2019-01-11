@@ -68,8 +68,7 @@ Colour LightModel::getDiffuse (
 
     averageLightDir *= 1.0/ shadowRays.size();
 
-    Vector shapeSpaceNormal = result.getShapeNormal();
-    Vector normal = result.getShape()->transformation.inverseTransform(shapeSpaceNormal);
+    Vector normal = result.getWorldNormal();
 
     normal.normalise();
     averageLightDir.normalise();

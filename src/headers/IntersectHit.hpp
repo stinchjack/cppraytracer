@@ -18,6 +18,7 @@ class IntersectHit {
 
     bool hasShapePoint  = false;
     bool hasShapeNormal = false;
+    bool hasWorldNormal = false;
     bool hasWorldRay = false;
     bool hasWorldPoint = false;
 
@@ -27,6 +28,7 @@ class IntersectHit {
 
     Point shapePoint; // the hit point in shape-space
     Vector shapeNormal; // the hit normal in shape-space
+    Vector worldNormal; // the hit normal in shape-space
     Ray worldRay; // the original ray
     Ray shapeRay;
     Point worldPoint;
@@ -45,6 +47,7 @@ class IntersectHit {
     Shape *getShape();
 
     Vector getShapeNormal() ;
+    Vector getWorldNormal() ;
 
 
 

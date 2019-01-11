@@ -13,6 +13,7 @@ IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
   IntersectHit::IntersectHit (const IntersectHit &ih) {
     hasShapePoint  = ih.hasShapePoint;
     hasShapeNormal = ih.hasShapeNormal;
+    hasWorldNormal = ih.hasWorldNormal;
     hasWorldRay = ih.hasWorldRay;
     hasWorldPoint = ih.hasWorldPoint;
 
@@ -24,6 +25,7 @@ IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
 
 
     shapeNormal=  ih.shapeNormal;
+    worldNormal=  ih.worldNormal;
 
 
     worldRay =  ih.worldRay;
@@ -78,6 +80,19 @@ IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
     return shapeRay;
   }
 
+
+
+  Vector IntersectHit::getWorldNormal() {
+
+      if (!hasWorldNormal) {
+        if(!hasShapeNormal) {
+            shapeNormal = shape->getShapeNormal(*this);
+            hasShapeNormal = true;
+        }
+        worldNormal = shape->transformation.inverseTransform(shapeNormal);
+      }
+      return worldNormal;
+  }
 
 
   Vector IntersectHit::getShapeNormal() {

@@ -110,6 +110,10 @@ Vector Vector::operator+(const Point &rhs) const {
   return Vector(x + rhs.x, y + rhs.y, z + rhs.z);
 }
 
+Vector Vector::operator-(const Point &rhs) const {
+  return Vector(x - rhs.x, y - rhs.y, z- rhs.z);
+}
+
 Vector & Vector::operator+=(const Vector &rhs) {
   x += rhs.x;
   y += rhs.y;
