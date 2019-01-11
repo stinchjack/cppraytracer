@@ -33,9 +33,9 @@ Point Transform::transform(const Point &p) const {
 
   if (doScale && !doRotate) {
 
-    newPoint.x *= scaleX;
-    newPoint.y *= scaleY;
-    newPoint.z *= scaleZ;
+    newPoint.x /= scaleX;
+    newPoint.y /= scaleY;
+    newPoint.z /= scaleZ;
 
   }
 
@@ -68,9 +68,9 @@ Point Transform::inverseTransform(const Point &p) const {
 
   if (doScale && !doRotate) {
 
-    newPoint.x /= scaleX;
-    newPoint.y /= scaleY;
-    newPoint.z /= scaleZ;
+    newPoint.x *= scaleX;
+    newPoint.y *= scaleY;
+    newPoint.z *= scaleZ;
 
   }
 

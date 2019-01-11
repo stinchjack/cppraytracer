@@ -26,8 +26,8 @@ void testPng() {
    scene.useMultiThread = false;
 
 
-   scene.shapes["square1"] = SquarePtr();
-   //scene.shapes["square1"]->transformation.setShift((Point){3, 0, 0});
+   scene.shapes["square1"] = SquarePtr(-100, 100, -100, 100);
+   scene.shapes["square1"]->transformation.setShift((Point){0, 0, 5});
    //scene.shapes["sqaure1"]->transformation.setScale(1.0, 1.0 , 1.0);
    //scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
    scene.shapes["square1"]->diffuse = make_shared<PlainTexture>(Colour (.8,.80,0));
@@ -40,11 +40,11 @@ void testPng() {
     scene.shapes["sphere2"]->diffuse = make_shared<PlainTexture>(Colour (1,1,1));*/
 
 
-   /*scene.shapes["sphere1"] = SpherePtr();
-   scene.shapes["sphere1"]->transformation.setShift((Point){3, 0, 0});
-   scene.shapes["sphere1"]->transformation.setScale(1.0, 1.0 , 1.0);
+   scene.shapes["sphere1"] = SpherePtr();
+   scene.shapes["sphere1"]->transformation.setShift((Point){0, 0, 0});
+   scene.shapes["sphere1"]->transformation.setScale(1.0, 2 , 1.0);
    //scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
-   scene.shapes["sphere1"]->diffuse = make_shared<PlainTexture>(Colour (.8,0,0));*/
+   scene.shapes["sphere1"]->diffuse = make_shared<PlainTexture>(Colour (.8,0,0));
 
 
    /*scene.shapes["sphere3"] = SpherePtr();
@@ -56,7 +56,7 @@ void testPng() {
 
    scene.views["view1"] = View (12,12,30);
    scene.views["view1"].setOutput(output);
-   scene.lights["pointlight1"] = make_shared<PointLight>(Colour(1,1,1), (Point){0,10,-30});
+   scene.lights["pointlight1"] = make_shared<PointLight>(Colour(1,1,1), (Point){0,2,-2});
    //scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (SimpleAntiAlias(120)));
 
    //scene.views["view1"].setAntiAlias(
