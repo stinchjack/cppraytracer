@@ -3,7 +3,7 @@
 
 #include  "Shape.hpp"
 
-SHAPE_PTR SpherePtr();
+SQAURE_PTR SquarePtr();
 
 class Square: public Shape {
 

@@ -2,6 +2,16 @@
 #include <math.h>
 
 
+SQAURE_PTR SquarePtr() {
+  return std::make_shared<Sphere>();
+}
+
+SQAURE_PTR SquarePtr(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom) {
+  return std::make_shared<Sphere> (left, right, top, bottom);
+}
+
+
+
 Square::Square ();
 Square::Square (FLOAT left, FLOAT right, FLOAT top, FLOAT bottom) {
   this->top = top;

@@ -25,6 +25,13 @@ void testPng() {
    scene.useMultiThread = false;
 
 
+   scene.shapes["square1"] = SquarePtr();
+   //scene.shapes["square1"]->transformation.setShift((Point){3, 0, 0});
+   //scene.shapes["sqaure1"]->transformation.setScale(1.0, 1.0 , 1.0);
+   //scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
+   scene.shapes["square1"]->diffuse = make_shared<PlainTexture>(Colour (.8,0,0));
+
+
     scene.shapes["sphere2"] = SpherePtr();
     scene.shapes["sphere2"]->transformation.setShift((Point){0, 0, 30});
     scene.shapes["sphere2"]->transformation.setScale(1000, 1000, 1);
