@@ -181,6 +181,10 @@ bool Scene::shadowTest(Ray &ray) {
         it++;
       }
 
+      if (queueItemResults.size() > 0) {
+        cout << "werwer";
+      }
+
       return queueItemResults.size() > 0;
 
 

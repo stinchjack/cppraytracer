@@ -42,6 +42,7 @@ else {
 #endif
 Ray newRay(start, this->transformation.transform (worldRay.direction));
 
+  newRay.isShadowRay = worldRay.isShadowRay;
 
   shapeTestIntersect(results, newRay, worldRay);
 
