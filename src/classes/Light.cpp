@@ -51,10 +51,10 @@ void PointLight::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
   Vector normal = ih.getWorldNormal().normalised();
 
   if (shadowDir.normalised() * normal < 0.0) {
-    shadowStart =  testPoint - (normal * 0.0001);
+    shadowStart =  testPoint - (normal * 0.0008);
   }
   else {
-    shadowStart =  testPoint + (normal * 0.0001);
+    shadowStart =  testPoint + (normal * 0.0008);
   }
 
   Ray shadowRay (shadowStart, shadowDir);

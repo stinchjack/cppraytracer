@@ -173,7 +173,7 @@ bool Scene::shadowTest(Ray &ray) {
       //loop thru each shape
       map<string, SHAPE_PTR>::iterator it = shapes.begin();
 
-      while (it !=shapes.end()) {
+      while ((it !=shapes.end()) && (queueItemResults.size() == 0)) {
         SHAPE_PTR shape = it->second;
 
         shape->testIntersect(queueItemResults, ray);
@@ -181,7 +181,7 @@ bool Scene::shadowTest(Ray &ray) {
         it++;
       }
 
-      return queueItemResults.size();
+      return queueItemResults.size() > 0;
 
 
 }
