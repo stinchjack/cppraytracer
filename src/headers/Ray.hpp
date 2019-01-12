@@ -10,8 +10,9 @@ class Ray {
   Point start;
   Vector direction;
   bool isShadowRay = false;
+#ifdef EYE_TRANSFORM_SHORTCUT
   bool startIsEye = false;
-
+#endif
   Ray();
 
   Ray(const Point& start, const Vector& direction);
