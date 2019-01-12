@@ -68,7 +68,7 @@ void testPng() {
 
 
    scene.shapes["sphere1"] = SpherePtr();
-   scene.shapes["sphere1"]->transformation.setShift((Point){0, 3, -3});
+   scene.shapes["sphere1"]->transformation.setShift((Point){0, 0, -6});
    //scene.shapes["sphere1"]->transformation.setScale(1.0, 2 , 1.0);
    //scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
    scene.shapes["sphere1"]->diffuse = make_shared<PlainTexture>(Colour (.8,0,0));
@@ -81,9 +81,9 @@ void testPng() {
 
 
 
-   scene.views["view1"] = View (18,18,3);
+   scene.views["view1"] = View (18,18,4);
    scene.views["view1"].setOutput(output);
-  // scene.lights["pointlight1"] = make_shared<PointLight>(Colour(1,1,1), (Point){0,0,-6});
+   scene.lights["pointlight1"] = make_shared<PointLight>(Colour(1,1,1), (Point){0,0,-4});
 
    scene.lights["pointlight2"] = make_shared<PointLight>(Colour(1,1,1), (Point){0,3,-.5});
 

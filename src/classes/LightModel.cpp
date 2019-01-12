@@ -16,7 +16,7 @@ Colour LightModel::getColour(
   if (scene->lights.size() > 0) {
     c += getDiffuse(itemResults, antialiasSamples, scene) / antialiasSamples;
   }
-
+  itemResults.begin()->second.scene = scene;
   c += reflection(itemResults.begin()->second, reflectionCount);
 
   return c;
@@ -111,8 +111,16 @@ Colour LightModel::reflection(IntersectHit &ih, int reflectionCount) {
     return Colour(0,0,0);
   }
   Vector normal = ih.getWorldNormal();
+  Point start;
+  if (ih.getWorldRay().direction.normalised() * normal < 0.0) {
+    start = ih.getWorldPoint() - (normal * 0.0008);
+  }
+  else {
+    start = ih.getWorldPoint() + (normal * 0.0008);
+  }
+
   Vector dir = ih.getWorldRay().reflection(normal);
-  Point start = ih.getWorldPoint();
+
   Ray reflectedRay(start, dir);
   ViewQueueItem newQueueItem(reflectedRay);
   QueueItemResults queueItemResults;
@@ -120,6 +128,6 @@ Colour LightModel::reflection(IntersectHit &ih, int reflectionCount) {
   if (queueItemResults.size() == 0) {
     return Colour (0,0,0);
   }
-
-  return LightModel::getColour(queueItemResults, 1, ih.scene, reflectionCount - 1) * specular;
+  Colour worldColour = LightModel::getColour(queueItemResults, 1, ih.scene, reflectionCount - 1);
+  return worldColour * specular;
 }

@@ -29,7 +29,7 @@ Vector Ray::reflection (Vector &normal)
 
   Vector twoN_expr = normal * (ri_dot_n * 2.0);
 
-  Vector reflectedVector = twoN_expr - ir; // cartesian_sub(twoN_expr, ir )
+  Vector reflectedVector = ir - twoN_expr ; // cartesian_sub(twoN_expr, ir )
 
   return reflectedVector;
 

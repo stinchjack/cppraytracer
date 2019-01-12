@@ -3,6 +3,8 @@
 
 Shape::Shape() {
   diffuse = make_shared<PlainTexture> (Colour (0.5, 0.5, 0.5));
+  specular = make_shared<PlainTexture> (Colour (0,0,0));
+  transparency = make_shared<PlainTexture> (Colour (0,0,0));
   mapping = make_shared<NoMapping>();
 }
 
