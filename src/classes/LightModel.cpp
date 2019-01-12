@@ -66,7 +66,7 @@ Colour LightModel::getDiffuse (
     FLOAT shadowFactor =  LightModel::shadowTest(scene, shadowRays);
 
     if (shadowFactor == 0.0) {
-      return Colour(0,0,0);
+      continue;
     }
 
     Vector averageLightDir(0,0,0);
