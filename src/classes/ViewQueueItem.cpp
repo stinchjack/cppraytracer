@@ -5,3 +5,7 @@ ViewQueueItem::ViewQueueItem (Ray &ray, unsigned int pixel_x,  unsigned int pixe
   this->pixel_x = pixel_x;
   this->pixel_y = pixel_y;
 }
+
+ViewQueueItem::ViewQueueItem (Ray &ray){
+  this->ray = ray;
+}

@@ -10,17 +10,15 @@ class Ray {
   Point start;
   Vector direction;
   bool isShadowRay = false;
+  bool startIsEye = false;
 
   Ray();
 
   Ray(const Point& start, const Vector& direction);
 
-  /*
-  Ray::calcPos modifies p in place
-  */
-  Point calcPos(FLOAT t) const;
+  Point calcPos(FLOAT t);
 
-
+  Vector reflection (Vector &normal);
 };
 
 

@@ -102,21 +102,27 @@ void Scene::MTrender(const std::string &viewName) {
 
 }
 
+void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults) {
+  //loop thru each shape
+  map<string, SHAPE_PTR>::iterator it = shapes.begin();
+
+  while (it !=shapes.end()) {
+    SHAPE_PTR shape = it->second;
+
+    shape->testIntersect(queueItemResults, queueItem.ray);
+
+    it++;
+  }
+}
+
 void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
 
 
       //cout <<"RQi  "<<endl;
       QueueItemResults queueItemResults;
-      //loop thru each shape
-      map<string, SHAPE_PTR>::iterator it = shapes.begin();
 
-      while (it !=shapes.end()) {
-        SHAPE_PTR shape = it->second;
+      testQueueItem(queueItem, queueItemResults);
 
-        shape->testIntersect(queueItemResults, queueItem.ray);
-
-        it++;
-      }
 
 
       //if there is a hit ....
@@ -132,7 +138,7 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
         }
 
 
-        Colour newCol = LightModel::getColour(queueItemResults, samples, this);
+        Colour newCol = LightModel::getColour(queueItemResults, samples, this, maxReflections);
         //newCol = Colour(1,1,1);
 
         view->output->addPixel(

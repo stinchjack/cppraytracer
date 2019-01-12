@@ -23,7 +23,7 @@ class Point {
     FLOAT x,y,z;
     Point();
     Point (FLOAT x, FLOAT y, FLOAT z);
-    Point (const FLOAT &);
+    Point (Vector &v);
 
     Point& operator+=(const Point &rhs);
     Point& operator-=(const Point &rhs);

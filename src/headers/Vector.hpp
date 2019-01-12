@@ -35,12 +35,13 @@ class Vector {
     Vector (FLOAT, FLOAT, FLOAT);
     Vector (const Point& p);
 
-    Vector operator*(const FLOAT scale) const; // scale
+    Vector operator*(FLOAT scale); // scale
     Vector& operator*=(FLOAT scale);
     FLOAT operator*(Vector &rhs); // dot product
     FLOAT operator*(const Point &rhs) const; // dot product
     Vector operator+(const Point &rhs) const;
-    Vector operator-(const Point &rhs) const;
+    Vector operator-(Point &rhs) const;
+    Vector operator-(Vector &rhs) const;
     Vector& operator+=(const Vector &rhs);
     FLOAT cross (const Vector &rhs);
     FLOAT length();

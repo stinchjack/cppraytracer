@@ -2,12 +2,14 @@
 #define TEXTURE_HPP
 
 #include "Colour.hpp"
-#include "IntersectHit.hpp"
+
 #include <memory>
 
 
 using namespace std;
 
+
+class IntersectHit;
 
 struct UVPair{
   FLOAT u, v;

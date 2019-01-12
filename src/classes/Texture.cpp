@@ -1,4 +1,5 @@
 #include "Texture.hpp"
+#include "IntersectHit.hpp"
 
 Colour Texture::getColour (IntersectHit &ir, shared_ptr<Mapping> map) {
   return getColour (ir, map->getUVPair(ir));

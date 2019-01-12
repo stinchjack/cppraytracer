@@ -6,8 +6,8 @@
 #include "Ray.hpp"
 #include <stdexcept>
 
+class Scene;
 class Shape;
-
 
 using namespace std;
 
@@ -35,6 +35,8 @@ class IntersectHit {
     FLOAT t;
 
   public:
+    Scene *scene = 0;
+
     IntersectHit ();
     IntersectHit (Shape *shape, FLOAT t);
     IntersectHit (const IntersectHit &ih);

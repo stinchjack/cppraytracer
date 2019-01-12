@@ -25,6 +25,7 @@ private:
 
   public:
     bool useMultiThread = false;
+    int maxReflections = 5;
 
     map<std::string, SHAPE_PTR> shapes;
     map<std::string, View> views;
@@ -36,6 +37,7 @@ private:
     void renderQueue (View *view);
     static void threadRenderEntryPoint(struct MTInfo *info);
     void threadRenderQueue(struct MTInfo *info);
+    void testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults);
     void renderQueueItem(View *view, ViewQueueItem &queueItem);
     void render(const std::string &viewName);
     void MTrender(const std::string &viewName);

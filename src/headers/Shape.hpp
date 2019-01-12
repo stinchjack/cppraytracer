@@ -24,6 +24,9 @@ using namespace std;
 class Shape {
 
 
+  bool hasTransformedEyePoint = false;
+  Point transformedEyePoint;
+
   public:
   Shape();
   Transform transformation;
@@ -31,6 +34,7 @@ class Shape {
   shared_ptr<Texture> specular = nullptr;
   shared_ptr<Texture> transparency = nullptr;
   shared_ptr<Mapping> mapping = nullptr;
+
 
   /*void setDiffuse (const shared_ptr<Texture>);
   void setSpecular (const shared_ptr<Texture>);

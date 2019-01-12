@@ -69,6 +69,7 @@ void View::makeInitialRenderQueue() {
           Vector direction ( (x * step_x) + viewLeft, (y * step_y) + viewTop , eyeZ);
 
           Ray ray(eye, direction);
+          ray.startIsEye = true;
           if (antialias == nullptr) {
 
             ViewQueueItem item (ray, x, y);

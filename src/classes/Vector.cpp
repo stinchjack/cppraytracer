@@ -89,7 +89,7 @@ Vector &Vector::operator*=(FLOAT scale)
 }
 
 
-Vector Vector::operator*(FLOAT scale) const
+Vector Vector::operator*(FLOAT scale)
 {
   return Vector(x * scale, y * scale, z* scale);
 }
@@ -110,7 +110,10 @@ Vector Vector::operator+(const Point &rhs) const {
   return Vector(x + rhs.x, y + rhs.y, z + rhs.z);
 }
 
-Vector Vector::operator-(const Point &rhs) const {
+Vector Vector::operator-(Point &rhs) const {
+  return Vector(x - rhs.x, y - rhs.y, z- rhs.z);
+}
+Vector Vector::operator-(Vector &rhs) const {
   return Vector(x - rhs.x, y - rhs.y, z- rhs.z);
 }
 

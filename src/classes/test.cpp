@@ -40,7 +40,7 @@ void testPng() {
    //PNGOUTPUT_PTR output = make_shared<PngOutput>(640, 640);
    shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
    Scene scene;
-   scene.useMultiThread = true;
+   scene.useMultiThread = false;
 
 
    scene.shapes["square1"] = SquarePtr(-100, 100, -100, 100);
@@ -59,8 +59,8 @@ void testPng() {
 
    scene.shapes["sphere1"] = SpherePtr();
    scene.shapes["sphere1"]->transformation.setShift((Point){0, 0, 0});
-   scene.shapes["sphere1"]->transformation.setScale(1.0, 1 , 1.0);
-   //scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
+   scene.shapes["sphere1"]->transformation.setScale(1.0, 2 , 1.0);
+   scene.shapes["sphere1"]->transformation.setRotate(Vector(0,0,1), 45);
    scene.shapes["sphere1"]->diffuse = make_shared<PlainTexture>(Colour (.8,0,0));
 
 

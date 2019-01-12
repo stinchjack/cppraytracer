@@ -16,6 +16,9 @@ private:
     int samples,
     Scene *scene);
 
+  static Colour reflection(IntersectHit &ih, int reflectionCount);
+
+
 
 public:
 
@@ -24,7 +27,7 @@ public:
   static Colour getColour (
     QueueItemResults &itemResults,
     int samples,
-    Scene *scene);
+    Scene *scene, int reflectionCount);
 
   static FLOAT shadowTest (
       Scene *scene,

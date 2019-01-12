@@ -8,14 +8,18 @@ bool LightModel::processShadows  = true;
 Colour LightModel::getColour(
     QueueItemResults &itemResults,
     int antialiasSamples,
-    Scene *scene) {
+    Scene *scene, int reflectionCount)
+     {
 
-  if (scene->lights.size() == 0) {
-    return Colour(0,0,0);
+  Colour c (0,0,0);
+
+  if (scene->lights.size() > 0) {
+    c += getDiffuse(itemResults, antialiasSamples, scene) / antialiasSamples;
   }
 
+  c += reflection(itemResults.begin()->second, reflectionCount);
 
-  return getDiffuse(itemResults, antialiasSamples, scene) / antialiasSamples;
+  return c;
 }
 
 
@@ -93,4 +97,29 @@ Colour LightModel::getDiffuse (
 
 
   return diffuse;
+}
+
+Colour LightModel::reflection(IntersectHit &ih, int reflectionCount) {
+
+  if (!ih.scene || reflectionCount < 1) {
+    return Colour (0,0,0);
+  }
+
+  Colour specular = ih.getShape()->specular->getColour(ih, ih.getShape()->mapping);
+
+  if (specular.r <=0 && specular.g <=0  && specular.b <= 0) {
+    return Colour(0,0,0);
+  }
+  Vector normal = ih.getWorldNormal();
+  Vector dir = ih.getWorldRay().reflection(normal);
+  Point start = ih.getWorldPoint();
+  Ray reflectedRay(start, dir);
+  ViewQueueItem newQueueItem(reflectedRay);
+  QueueItemResults queueItemResults;
+  ih.scene->testQueueItem( newQueueItem, queueItemResults);
+  if (queueItemResults.size() == 0) {
+    return Colour (0,0,0);
+  }
+
+  return LightModel::getColour(queueItemResults, 1, ih.scene, reflectionCount - 1) * specular;
 }
