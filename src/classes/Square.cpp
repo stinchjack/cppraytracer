@@ -12,12 +12,16 @@ SHAPE_PTR SquarePtr(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom) {
 
 
 
-Square::Square() {}
+Square::Square() {
+  mapping = make_shared<SquareMapping>();
+
+}
 Square::Square (FLOAT left, FLOAT right, FLOAT top, FLOAT bottom) {
   this->top = top;
   this->left = left;
   this->right = right;
   this->bottom = bottom;
+  mapping = make_shared<SquareMapping>();
 }
 
 Vector Square::getShapeNormal(IntersectHit &ih) {
