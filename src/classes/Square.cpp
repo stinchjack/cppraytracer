@@ -57,7 +57,7 @@ void Square::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
     ih.setWorldRay(worldRay);
     results.addResult(t, ih);
   }
-  if (worldRay.isShadowRay && t < 1.0 && t>0.0) {
+  if (worldRay.isShadowRay && t < 1.0) {
     results.addResult(t, ih);
   }
 
