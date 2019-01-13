@@ -56,19 +56,19 @@ void testPng() {
    scene.shapes["square2"]->transformation.setShift((Point){18, 0, 0});
    //scene.shapes["sqaure1"]->transformation.setScale(1.0, 1.0 , 1.0);
    scene.shapes["square2"]->transformation.setRotate(Vector(0,1,0), 90);
-   vector<Colour> rampColours = {Colour(1,0,0), Colour(0,1,0)};
-   scene.shapes["square3"]->diffuse = make_shared<CircularRampTexture>(rampColours);
+   vector<Colour> rampColours = {Colour(1,0,1), Colour(1,0,0), Colour (0,1,1), Colour (1,1,1)};
+   scene.shapes["square2"]->diffuse = make_shared<CircularRampTexture>(rampColours);
    //scene.shapes["square2"]->diffuse = make_shared<PlainTexture>(Colour (.2,.0,.2));
 
 
 
-  /*scene.shapes["square3"] = SquarePtr(-4, 4, -4, 4);
+  scene.shapes["square3"] = SquarePtr(-4, 4, -4, 4);
    scene.shapes["square3"]->transformation.setShift((Point){0, 0, 8});
    //scene.shapes["sqaure1"]->transformation.setScale(1.0, 1.0 , 1.0);
    //scene.shapes["square3"]->transformation.setRotate(Vector(0,1,0), 00);
    //scene.shapes["square2"]->diffuse = make_shared<PlainTexture>(Colour (.2,.0,.2));
-   vector<Colour> rampColours = {Colour(1,0,0), Colour(0,1,0)};
-   scene.shapes["square3"]->diffuse = make_shared<CircularRampTexture>(rampColours);*/
+  rampColours = {Colour(1,0,1), Colour(1,0,0), Colour (0,1,1), Colour (1,1,1)};
+   scene.shapes["square3"]->diffuse = make_shared<CircularRampTexture>(rampColours);
 
 
 

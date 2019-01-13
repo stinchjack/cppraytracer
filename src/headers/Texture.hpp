@@ -52,8 +52,6 @@ public:
 };
 
 
-class SphereMapping: public Mapping {
-  virtual UVPair getUVPair(IntersectHit &ir);
-};
+
 
 #endif
