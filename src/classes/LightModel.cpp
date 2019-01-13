@@ -63,6 +63,9 @@ Colour LightModel::getDiffuse (
 
     vector<Ray> shadowRays;
     light->getShadowRays(result, shadowRays);
+
+    
+
     FLOAT shadowFactor =  LightModel::shadowTest(scene, shadowRays);
 
     if (shadowFactor == 0.0) {

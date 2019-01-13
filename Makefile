@@ -7,9 +7,8 @@
 TARGET_EXEC = rt
 SRC_DIRS = ./src
 BUILD_DIR = ./build
-CC=g++CFLAGS=-Werror -Wall -O2 -std=c++11
-
-
+CC=g++
+CFLAGS=-Werror -Wall -O2 -std=c++11
 
 ifeq ($(mode),debug)
 	CXXFLAGS=  $(shell Magick++-config --cppflags) -Werror -Wall -ggdb -pg -std=c++11
@@ -22,14 +21,7 @@ else
 
 endif
 
-#CXXFLAGS= $(shell Magick++-config --cppflags) -Werror -fpic -Wall -O3 -std=c++14
-#LDFLAGS = $(shell Magick++-config --ldflags --libs) -lm -lpng -flto  -pthread -pg -lGL -lglfw -lGLEW -lglut
-
-#CXXFLAGS=  $(shell Magick++-config --cppflags) -Werror -Wall -ggdb -pg -std=c++11
-#LDFLAGS =  $(shell Magick++-config --ldflags --libs) -lm -lpng -pg -pthread -lGL -lglfw -lGLEW -lglut
-
 #INC_DIRS = ./headers
-
 
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)

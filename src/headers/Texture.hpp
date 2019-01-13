@@ -15,9 +15,6 @@ struct UVPair{
   FLOAT u, v;
 };
 
-//class Texture;
-
-// typedef shared_ptr<Texture> TexturePtr;
 
 #define TEXTURE_PTR shared_ptr<Texture>
 
