@@ -1,5 +1,6 @@
 #include "SphereMapping.hpp"
 #include <math.h>
+#include "Point.hpp"
 
 UVPair SphereMapping::getUVPair(IntersectHit &ir) {
 /*
@@ -12,7 +13,7 @@ Maps an intersection result for a sphere to a UV pair.
 
     Point p = ir.getShapePoint();
     UVPair uvPair;
-    FLOAT radius = sqrt((p[1] * p[1]) + (p[3] * p[3])); // radius at intersect point
+    FLOAT radius = sqrt((p.x * p.x) + (p.z * p.z)); // radius at intersect point
 
     if (radius == 0) {
       uvPair.u = 0;
@@ -30,7 +31,7 @@ Maps an intersection result for a sphere to a UV pair.
     }
 
     //  degrees = (180/PI) * radians
-    ((180.0/M_PI) * asin(x)) + 90;
+  //  ((180.0/M_PI) * asin(x)) + 90;
     FLOAT a1 = ((180.0/M_PI) * asin(x)) + 90;
 
     if (p.z > 0) {

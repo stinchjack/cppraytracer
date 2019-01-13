@@ -1,7 +1,10 @@
 #ifndef SPHEREMAPPING_HPP
 #define SPHEREMAPPING_HPP
 
-class SphereMapping: public Mapping {
+#include "Texture.hpp"
+#include  "IntersectHit.hpp"
+
+class SphereMapping:public Mapping {
   virtual UVPair getUVPair(IntersectHit &ir);
 };
 
