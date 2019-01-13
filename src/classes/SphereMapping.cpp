@@ -29,8 +29,9 @@ Maps an intersection result for a sphere to a UV pair.
         x = 1;
     }
 
-
-    FLOAT a1 = math.degrees(asin(x)) + 90;
+    //  degrees = (180/PI) * radians
+    ((180.0/M_PI) * asin(x)) + 90;
+    FLOAT a1 = ((180.0/M_PI) * asin(x)) + 90;
 
     if (p.z > 0) {
       a1 = 180 + (180 - a1);
@@ -47,9 +48,9 @@ Maps an intersection result for a sphere to a UV pair.
       a2 = -90;
     }
 
-    else:
-        a2 = math.degrees(asin(p.y));
-
+    else {
+        a2 = ((180.0/M_PI) * asin(p.y));
+    }
     a2 += 90;
 
     uvPair.v = a2 / 180.0;
