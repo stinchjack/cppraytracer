@@ -8,7 +8,7 @@ UVPair SquareMapping::getUVPair(IntersectHit &ir) {
   Square * square = (Square *)ir.getShape();
   //width = rect['right'] - rect['left']
   FLOAT width = square->right - square->left;
-  FLOAT height = square->top - square->bottom;
+  FLOAT height = square->bottom - square->top;
 
   //u = (p[1] - rect['left']) / width
 

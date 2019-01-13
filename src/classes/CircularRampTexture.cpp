@@ -14,8 +14,7 @@ CircularRampTexture::CircularRampTexture(vector<Colour> &colourArray) {
 
 }
 
-Colour CircularRampTexture::getColour (IntersectHit &ir, shared_ptr<Mapping> map) {
-  UVPair uvPair = map->getUVPair(ir);
+Colour CircularRampTexture::getColour (IntersectHit &ir, const UVPair &uvPair) {
   FLOAT   dist = sqrt((uvPair.u - 0.5) *
                       (uvPair.u - 0.5) +
                       (uvPair.v - 0.5) *
@@ -27,8 +26,6 @@ Colour CircularRampTexture::getColour (IntersectHit &ir, shared_ptr<Mapping> map
   }
 
   FLOAT p1 = (dist / colourDist) - i;
-
-
   return colourArray[i] * (1.0 - p1) + (colourArray[i + 1] * p1);
 
 }

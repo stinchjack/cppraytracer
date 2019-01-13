@@ -13,7 +13,7 @@ private:
 
 public:
   CircularRampTexture(vector<Colour> &colourArray);
-  Colour getColour (IntersectHit &ir, shared_ptr<Mapping> map);
+  virtual Colour getColour (IntersectHit &ir, const UVPair &uvPair);
 
 };
 
