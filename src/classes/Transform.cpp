@@ -1,5 +1,6 @@
 #include "Transform.hpp"
 #include <cmath>
+#include <stdexcept>
 
 Transform::Transform() {};
 
@@ -15,6 +16,11 @@ void Transform::setScale(FLOAT scaleX, FLOAT scaleY, FLOAT scaleZ ) {
   this->scaleX = scaleX;
   this->scaleY = scaleY;
   this->scaleZ = scaleZ;
+
+  if (scaleX <= 0 || scaleY <= 0 || scaleZ <= 0) {
+    throw std::invalid_argument( "transformation scale values need to more than or equal to 0.0" );
+  }
+
   doScale = true;
 }
 
