@@ -75,6 +75,12 @@ Vector & Vector::normalise() {
 }
 
 
+void Vector::reverse(){
+  x = 0 - x;
+  y = 0 - y;
+  z = 0 - z;
+}
+
 Vector &Vector::operator*=(FLOAT scale)
 {
 

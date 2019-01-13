@@ -4,8 +4,8 @@ BUILD_DIR = ./build
 CC=g++
 CFLAGS=-Werror -Wall -O2 -std=c++11
 
-#CXXFLAGS=-Werror -fpic -Wall -O2 -std=c++14
-#LDFLAGS = -lpng -flto -fpic -pthread -pg -lGL -lglfw -lGLEW -lglut
+#CXXFLAGS=-Werror -fpic -Wall -O3 -std=c++14
+#LDFLAGS = -lpng -flto  -pthread -pg -lGL -lglfw -lGLEW -lglut
 
 CXXFLAGS=-Werror -Wall -ggdb -pg -std=c++11
 LDFLAGS = -lm -lpng -pg -pthread -lGL -lglfw -lGLEW -lglut

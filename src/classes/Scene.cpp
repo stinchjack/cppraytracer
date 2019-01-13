@@ -70,7 +70,7 @@ void Scene::threadRenderQueue (MTInfo *mtInfo) {
 
 void Scene::MTrender(const std::string &viewName) {
 
-  int processes = std::thread::hardware_concurrency();
+  int processes = 4; //std::thread::hardware_concurrency();
 
   View view = views[viewName];
   view.makeInitialRenderQueue();

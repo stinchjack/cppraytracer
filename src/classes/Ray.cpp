@@ -23,13 +23,14 @@ Vector Ray::reflection (Vector &normal)
 
 
   if (ri_dot_n  < 0) {
-    ir = Vector (0,0,0) - ir;
+    //ir = Vector (0,0,0) - ir;
+    ir.reverse();
     ri_dot_n = 0 - ri_dot_n;
   }
 
   Vector twoN_expr = normal * (ri_dot_n * 2.0);
 
-  Vector reflectedVector = ir - twoN_expr ; // cartesian_sub(twoN_expr, ir )
+  Vector reflectedVector = twoN_expr - ir ; // cartesian_sub(twoN_expr, ir )
 
   return reflectedVector;
 

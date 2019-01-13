@@ -2,14 +2,17 @@
 #define SQAURE_HPP
 
 #include  "Shape.hpp"
+#include "SquareMapping.hpp"
 #include <iostream>
 SHAPE_PTR SquarePtr();
 SHAPE_PTR SquarePtr(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom);
-class Square;
+//class Square;
 
-typedef Square Square;
+//typedef Square Square;
 
 class Square: public Shape {
+
+  friend class SquareMapping;
 
   Vector normal = Vector(0,0,1);
   FLOAT top = -1;

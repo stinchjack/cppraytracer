@@ -83,6 +83,7 @@ Colour LightModel::getDiffuse (
 
 
     FLOAT diffuseFactor = normal * averageLightDir;
+    //if (result.getWorldRay().direction.normalised() * normal > 0) {
     if (result.getWorldRay().direction.normalised() * normal > 0) {
       diffuseFactor = 0 - diffuseFactor;
     }
@@ -111,13 +112,11 @@ Colour LightModel::reflection(IntersectHit &ih, int reflectionCount) {
     return Colour(0,0,0);
   }
   Vector normal = ih.getWorldNormal();
-  Point start;
-  if (ih.getWorldRay().direction.normalised() * normal < 0.0) {
-    start = ih.getWorldPoint() - (normal * 0.0008);
+  if (ih.getWorldRay().direction.normalised() * normal > 0.0) {
+    normal.reverse();
   }
-  else {
-    start = ih.getWorldPoint() + (normal * 0.0008);
-  }
+
+  Point start = ih.getWorldPoint() + (normal * 0.0008);
 
   Vector dir = ih.getWorldRay().reflection(normal);
 

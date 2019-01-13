@@ -25,6 +25,10 @@ void Transform::setShift (const Point &p) {
 
 Point Transform::transform(const Point &p) const {
 
+  /*if (!doShift && !doScale && !doRotate) {
+    return p;
+  }*/
+
   Point newPoint (p.x, p.y, p.z);
 
   if (doShift) {

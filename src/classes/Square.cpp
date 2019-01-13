@@ -49,6 +49,7 @@ void Square::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
   FLOAT t = (0 - ray.start.z) / ray.direction.z;
 
   IntersectHit ih(this, t);
+  //shared_ptr<IntersectHit> ih (this, t);
   ih.setShapeRay(ray);
 
   Point point = ih.getShapePoint();

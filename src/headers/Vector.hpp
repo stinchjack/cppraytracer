@@ -43,6 +43,7 @@ class Vector {
     Vector operator-(Point &rhs) const;
     Vector operator-(Vector &rhs) const;
     Vector& operator+=(const Vector &rhs);
+    void reverse();
     FLOAT cross (const Vector &rhs);
     FLOAT length();
     Vector normalised();

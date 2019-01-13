@@ -24,6 +24,12 @@ Point::Point(FLOAT x, FLOAT y, FLOAT z) {
   this->z=z;
 }
 
+Point::Point (const Point &p) {
+  x = p.x;
+  y = p.y;
+  z = p.z;
+}
+
 Point::Point (Vector &v) {
   x = v.x;
   y = v.y;
