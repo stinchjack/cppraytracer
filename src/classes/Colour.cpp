@@ -69,7 +69,7 @@ Colour Colour::operator/(FLOAT scale) {
 Colour Colour::operator*(const Colour &c) {
   return Colour (this->operator[](0) * c.r,
     this->g * c.g,
-    this->g * c.b);
+    this->b * c.b);
 }
 
 float Colour::diff (Colour &c1) {
