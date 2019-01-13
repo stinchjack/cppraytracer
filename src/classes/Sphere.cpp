@@ -38,7 +38,8 @@ void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
 
 
   if (ray.isShadowRay) {
-    if (t1 <=1.0 ||  t2<=1.0 ) {
+    if ((t1 > 0  && t1 <=1.0 )||
+      (t2 > 0 && t2<=1.0)) {
       results.addResult(0, IntersectHit (this, 0));
     }
     return;
