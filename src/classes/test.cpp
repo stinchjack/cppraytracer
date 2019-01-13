@@ -10,6 +10,7 @@
 #include "LightModel.hpp"
 #include "Square.hpp"
 #include "CircularRampTexture.hpp"
+#include "SphereMapping.hpp"
 
 #include <chrono>
 #include <thread>
@@ -67,20 +68,24 @@ void testPng() {
    //scene.shapes["sqaure1"]->transformation.setScale(1.0, 1.0 , 1.0);
    //scene.shapes["square3"]->transformation.setRotate(Vector(0,1,0), 00);
    //scene.shapes["square2"]->diffuse = make_shared<PlainTexture>(Colour (.2,.0,.2));
-  rampColours = {Colour(1,0,1), Colour(1,0,0), Colour (0,1,1), Colour (1,1,1)};
+    rampColours = {Colour(1,0,0), Colour(0,1,0), Colour (1,0,1), Colour(0,0,0)};
    scene.shapes["square3"]->diffuse = make_shared<CircularRampTexture>(rampColours);
 
 
 
 
-  /*  scene.shapes["sphere2"] = SpherePtr();
-    scene.shapes["sphere2"]->transformation.setShift((Point){0, 0, 3});
-    scene.shapes["sphere2"]->transformation.setScale(1, 1, .5);
-    //scene.shapes["sphere2"]->transformation.setRotate(Vector(0,0,1), 45);
-    scene.shapes["sphere2"]->diffuse = make_shared<PlainTexture>(Colour (1,1,1));
-    scene.shapes["square2"]->specular = make_shared<PlainTexture>(Colour (1,1,1));
+    scene.shapes["sphere2"] = SpherePtr();
+    scene.shapes["sphere2"]->transformation.setShift((Point){4, 0, 4});
+    scene.shapes["sphere2"]->transformation.setScale(3,3,3);
+    scene.shapes["sphere2"]->transformation.setRotate(Vector(0,1,0), -300);
 
-   scene.shapes["sphere3"] = SpherePtr();
+    rampColours = {Colour(1,0,0), Colour(0,1,0), Colour (1,0,1), Colour(0,0,0)};
+    scene.shapes["sphere2"]->diffuse = make_shared<CircularRampTexture>(rampColours);
+    scene.shapes["sphere2"]->mapping = make_shared<SphereMapping>();
+    //scene.shapes["sphere2"]->diffuse = make_shared<PlainTexture>(Colour (1,1,1));
+    //scene.shapes["square2"]->specular = make_shared<PlainTexture>(Colour (1,1,1));
+
+   /*scene.shapes["sphere3"] = SpherePtr();
    scene.shapes["sphere3"]->transformation.setShift((Point){-2,-2, 8});
    scene.shapes["sphere3"]->transformation.setScale(3.0, 3, 3);
    scene.shapes["sphere3"]->diffuse = make_shared<PlainTexture>(Colour (1,.5,1));
@@ -102,10 +107,10 @@ void testPng() {
 
    scene.views["view1"] = View (18,18,4);
    scene.views["view1"].setOutput(output);
-   scene.lights["pointlight1"] = make_shared<PointLight>(Colour(1,1,1), (Point){10,0,0});
+   scene.lights["pointlight1"] = make_shared<PointLight>(Colour(1,1,1), (Point){0,0,-10});
 
-   scene.lights["pointlight2"] = make_shared<PointLight>(Colour(1,1,1), (Point){0,3,-.5});
-   scene.lights["pointlight3"] = make_shared<PointLight>(Colour(1,1,1), (Point){10,10,-.5});
+  // scene.lights["pointlight2"] = make_shared<PointLight>(Colour(1,1,1), (Point){0,3,-.5});
+   //scene.lights["pointlight3"] = make_shared<PointLight>(Colour(1,1,1), (Point){10,10,-.5});
 
    //scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (SimpleAntiAlias(120)));
 

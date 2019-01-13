@@ -5,6 +5,9 @@
 #include  "IntersectHit.hpp"
 
 class SphereMapping:public Mapping {
+
+public:
+  SphereMapping();
   virtual UVPair getUVPair(IntersectHit &ir);
 };
 

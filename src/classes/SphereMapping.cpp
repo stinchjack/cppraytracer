@@ -2,13 +2,15 @@
 #include <math.h>
 #include "Point.hpp"
 
+SphereMapping::SphereMapping () {};
+
 UVPair SphereMapping::getUVPair(IntersectHit &ir) {
 /*
-"""
+
 Maps an intersection result for a sphere to a UV pair.
         :return: tuple (u, v)
         :param intersect_result: the intersection result dictionary
-"""
+
 */
 
     Point p = ir.getShapePoint();
@@ -26,7 +28,7 @@ Maps an intersection result for a sphere to a UV pair.
     if (x < -1.0) {
         x = -1;
     }
-    if (x > -1.0) {
+    if (x > 1.0) {
         x = 1;
     }
 
@@ -35,7 +37,7 @@ Maps an intersection result for a sphere to a UV pair.
     FLOAT a1 = ((180.0/M_PI) * asin(x)) + 90;
 
     if (p.z > 0) {
-      a1 = 180 + (180 - a1);
+      a1 = 180.0 + (180.0 - a1);
     }
 
     uvPair.u = a1 / 360.0;
@@ -43,16 +45,16 @@ Maps an intersection result for a sphere to a UV pair.
     FLOAT a2;
 
     if (p.y > 1.0) {
-      a2 = 90;
+      a2 = 90.0;
     }
     else if (p.y > 1.0) {
-      a2 = -90;
+      a2 = -90.0;
     }
 
     else {
         a2 = ((180.0/M_PI) * asin(p.y));
     }
-    a2 += 90;
+    a2 += 90.0;
 
     uvPair.v = a2 / 180.0;
 
