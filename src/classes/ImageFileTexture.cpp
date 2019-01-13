@@ -1,17 +1,19 @@
 
 #include "ImageFileTexture.hpp"
 
-ImageFileTexture(string filename){
-  image.read("bar.jpg");
-  width = img.columns();
-  height = img.rows();
-  //pixels = img.getPixels(0, 0, w, h);
+ImageFileTexture::ImageFileTexture(string filename){
+  InitializeMagick("");
+  image.read(filename);
+  width = image.columns();
+  height = image.rows();
+  pixels = image.getPixels(0, 0, width, height);
 }
-virtual Colour getColour (IntersectHit &ir, const UVPair &uvPair) {
 
-  int row = u * width;
-  int column = v * height;
-  Magick::ColorRGB px = img.pixelColor( column, row );
+Colour ImageFileTexture::getColour (IntersectHit &ir, const UVPair &uvPair) {
+
+  int row = (1.0 - uvPair.v) * (FLOAT) height;
+  int column = uvPair.u * (FLOAT) width;
+  Magick::ColorRGB px = image.pixelColor( column, row );
 
   return Colour (px.red(), px.green(), px.blue());
 

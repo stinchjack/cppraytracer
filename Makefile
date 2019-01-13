@@ -1,16 +1,34 @@
+
+#Requires package graphicsmagick-libmagick-dev-compat
+
+# use make mode=debug for compiling with debug flags
+
+
 TARGET_EXEC = rt
 SRC_DIRS = ./src
 BUILD_DIR = ./build
-CC=g++
-CFLAGS=-Werror -Wall -O2 -std=c++11
+CC=g++CFLAGS=-Werror -Wall -O2 -std=c++11
 
-#CXXFLAGS=-Werror -fpic -Wall -O3 -std=c++14
-#LDFLAGS = -lpng -flto  -pthread -pg -lGL -lglfw -lGLEW -lglut
 
-CXXFLAGS=-Werror -Wall -ggdb -pg -std=c++11
-LDFLAGS = -lm -lpng -pg -pthread -lGL -lglfw -lGLEW -lglut
 
-INC_DIRS = ./headers
+ifeq ($(mode),debug)
+	CXXFLAGS=  $(shell Magick++-config --cppflags) -Werror -Wall -ggdb -pg -std=c++11
+	LDFLAGS =  $(shell Magick++-config --ldflags --libs) -lm -lpng -pg -pthread -lGL -lglfw -lGLEW -lglut
+
+else
+   mode = release
+	 CXXFLAGS= $(shell Magick++-config --cppflags) -Werror -fpic -Wall -O3 -std=c++14
+	 LDFLAGS = $(shell Magick++-config --ldflags --libs) -lm -lpng -flto  -pthread -pg -lGL -lglfw -lGLEW -lglut
+
+endif
+
+#CXXFLAGS= $(shell Magick++-config --cppflags) -Werror -fpic -Wall -O3 -std=c++14
+#LDFLAGS = $(shell Magick++-config --ldflags --libs) -lm -lpng -flto  -pthread -pg -lGL -lglfw -lGLEW -lglut
+
+#CXXFLAGS=  $(shell Magick++-config --cppflags) -Werror -Wall -ggdb -pg -std=c++11
+#LDFLAGS =  $(shell Magick++-config --ldflags --libs) -lm -lpng -pg -pthread -lGL -lglfw -lGLEW -lglut
+
+#INC_DIRS = ./headers
 
 
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
@@ -24,6 +42,7 @@ CPPFLAGS = $(INC_FLAGS) -MMD -MP
 
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
 # assembly

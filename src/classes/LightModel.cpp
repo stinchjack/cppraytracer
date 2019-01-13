@@ -14,7 +14,7 @@ Colour LightModel::getColour(
   Colour c (0,0,0);
 
   if (scene->lights.size() > 0) {
-    c += getDiffuse(itemResults, antialiasSamples, scene) / antialiasSamples;
+    c += getDiffuse(itemResults, antialiasSamples, scene);
   }
   itemResults.begin()->second.scene = scene;
   c += reflection(itemResults.begin()->second, reflectionCount);
