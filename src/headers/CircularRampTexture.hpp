@@ -1,6 +1,6 @@
 #ifndef CIRCULARRAMPTEXTURE_HPP
 #define CIRCULARRAMPTEXTURE_HPP
-
+#include <vector>
 #include "Texture.hpp"
 
 #define POINT707 .707106781187
@@ -13,7 +13,7 @@ private:
 
 public:
   CircularRampTexture(vector<Colour> &colourArray);
-  getColour (IntersectHit &ir, shared_ptr<Mapping> map);
+  Colour getColour (IntersectHit &ir, shared_ptr<Mapping> map);
 
 };
 
