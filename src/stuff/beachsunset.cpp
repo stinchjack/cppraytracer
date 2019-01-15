@@ -1,17 +1,7 @@
-#include "Vector.hpp"
-#include "PngOutput.hpp"
+#include "RT.hpp"
+
 #include <stdio.h>
 #include <iostream>
-#include "Scene.hpp"
-#include "Sphere.hpp"
-#include "SimpleAntiAlias.hpp"
-#include "EDAntialias.hpp"
-#include "GLWindowOutput.hpp"
-#include "LightModel.hpp"
-#include "Square.hpp"
-#include "CircularRampTexture.hpp"
-#include "SphereMapping.hpp"
-#include "ImageFileTexture.hpp"
 
 #include <chrono>
 #include <thread>

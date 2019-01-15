@@ -2,6 +2,7 @@
 #define CIRCULARRAMPTEXTURE_HPP
 #include <vector>
 #include "Texture.hpp"
+#include "Mapping.hpp"
 
 #define POINT707 .707106781187
 

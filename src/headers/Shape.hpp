@@ -9,6 +9,7 @@
 
 #include "Transform.hpp"
 #include "Texture.hpp"
+#include "Mapping.hpp"
 #include <memory>
 using namespace std;
 

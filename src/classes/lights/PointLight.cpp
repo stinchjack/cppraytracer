@@ -1,39 +1,4 @@
-#include "Light.hpp"
-
-
-/*
-Light::getShadowRays is the general csae for shadow rays, allowing
-
-for area-lights + soft sahdows
-}
-*/
-/*void Light::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
-  if (shadowRays.size() != shadowTests) {
-    shadowRays.resize(shadowTests);
-  }
-
-  Point testPoints[shadowTests];
-  this->getTestPoints(testPoints, ih);
-  //shadowRays.resize(shadowTest);
-
-  //for (auto point = testPoints.begin(); point != testPoints.end(); point++) {
-  for (unsigned int i=0; i< shadowTests; i++) {
-
-
-    Vector shadowDir (
-        testPoints[0][0] - point[0],
-        testPoints[0][1] - point[1],
-        testPoints[0][2] - point[2]);
-
-    Point shadowStart = {ih.hitPoint[0] + ((FLOAT).0001 * shadowDir.x),
-      ih.hitPoint[1] + ((FLOAT).0001 * shadowDir.y),
-      ih.hitPoint[2] + ((FLOAT).0001 * shadowDir.z)};
-
-    Ray shadowRay (shadowStart, shadowDir);
-    shadowRays[i] = shadowRay;
-    i++;
-  }
-}*/
+#include "PointLight.hpp"
 
 
 void PointLight::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {

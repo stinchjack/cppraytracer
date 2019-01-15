@@ -10,10 +10,7 @@ using namespace std;
 
 
 class IntersectHit;
-
-struct UVPair{
-  FLOAT u, v;
-};
+struct UVPair;
 
 
 #define TEXTURE_PTR shared_ptr<Texture>
@@ -35,18 +32,6 @@ public:
   virtual Colour getColour (IntersectHit &ir, const UVPair &uvPair);
 };
 
-
-
-
-class Mapping {
-public:
-   virtual UVPair getUVPair(IntersectHit &ir) = 0;
-};
-
-class NoMapping: public Mapping {
-public:
-   virtual UVPair getUVPair(IntersectHit &ir);
-};
 
 
 

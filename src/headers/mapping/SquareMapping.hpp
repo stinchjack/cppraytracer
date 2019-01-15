@@ -1,7 +1,7 @@
 #ifndef SQUAREMAPPING_HPP
 #define SQUAREMAPPING_HPP
 
-#include "Texture.hpp"
+#include "Mapping.hpp"
 #include "Point.hpp"
 
 class SquareMapping: public Mapping {

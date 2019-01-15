@@ -1,7 +1,7 @@
 #ifndef SPHEREMAPPING_HPP
 #define SPHEREMAPPING_HPP
 
-#include "Texture.hpp"
+#include "Mapping.hpp"
 #include  "IntersectHit.hpp"
 
 class SphereMapping:public Mapping {

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "Texture.hpp"
+#include "Mapping.hpp"
 using namespace std;
 using namespace Magick;
 
