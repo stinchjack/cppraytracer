@@ -43,7 +43,7 @@ void testPng() {
    //PNGOUTPUT_PTR output = make_shared<PngOutput>(640, 640);
    shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
    Scene scene;
-   scene.useMultiThread = false;
+   scene.useMultiThread = true;
 
 
   /* scene.shapes["square1"] = SquarePtr(-100, 100, -100, 100);
@@ -92,7 +92,7 @@ void testPng() {
     Colour altColour (0,.8,0);
     for (FLOAT i =-2; i<1 ; i++) {
       for (FLOAT j =-1; j<2 ; j++) {
-        continue;
+
         flag ++;
         string num = to_string(i) + to_string(j);
 
@@ -170,12 +170,12 @@ void testPng() {
    scene.views["view1"].setOutput(output);
    scene.lights["pointlight1"] = make_shared<PointLight>(Colour(.4,.4,.4), (Point){-20,-20,0});
 
-   //scene.lights["pointlight2"] = make_shared<PointLight>(Colour(.4,.4,.4), (Point){-20,22,0});
-   //scene.lights["pointlight3"] = make_shared<PointLight>(Colour(.3, .3, .3), (Point){20,10,-.5});
+   scene.lights["pointlight2"] = make_shared<PointLight>(Colour(.4,.4,.4), (Point){-20,22,0});
+   //scene.lights["pointlight3"] = make_shared<PointLight>(Colour(.3, .3, .3), (Point){0,0,0});
 
    //scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (SimpleAntiAlias(20)));
-   //scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
-   //scene.views["view1"].setAntiAlias(std::make_shared<EDAntiAlias> (20, .3));
+   scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
+   //scene.views["view1"].setAntiAlias(std::make_shared<EDAntiAlias> (25, 1.8));
 
    //scene.views["view1"].setAntiAlias(
   //std::make_shared<EDAntiAlias> (EDAntiAlias(50, 0.3)));

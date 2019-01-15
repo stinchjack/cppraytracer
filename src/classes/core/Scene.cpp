@@ -152,8 +152,6 @@ void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
         if(view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) == EDA_NOT_RENDERED) {
           view->antialias->setPixelStatus(queueItem.pixel_x, queueItem.pixel_y, EDA_ONE_SAMPLE);
           // cout << view->antialias->getPixelStatus(queueItem.pixel_x, queueItem.pixel_y) <<endl;
-
-
         }
         view->antialias->getExtraQueueItems(
           view,

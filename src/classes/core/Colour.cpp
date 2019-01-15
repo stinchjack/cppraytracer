@@ -67,17 +67,21 @@ Colour Colour::operator/(FLOAT scale) {
 }
 
 Colour Colour::operator*(const Colour &c) {
-  return Colour (this->operator[](0) * c.r,
+  return Colour (this->r * c.r,
     this->g * c.g,
     this->b * c.b);
 }
 
-float Colour::diff (Colour &c1) {
-  float diff = 0.0;
+FLOAT Colour::diff (Colour &c1) {
+  FLOAT diff = 0.0;
+  FLOAT rdiff = c1.r - this->r;
+  FLOAT gdiff = c1.g - this->g;
+  FLOAT bdiff = c1.b - this->b;
 
-  diff = abs(c1.r - this->r)+
-      abs(c1.g- this->g)+
-      abs(c1.b- this->b);
+
+  diff += (rdiff > 0? rdiff: - rdiff );
+  diff += (gdiff > 0? gdiff: - gdiff );
+  diff += (bdiff > 0? bdiff: - bdiff );
 
   return diff;
 }

@@ -54,8 +54,8 @@ void EDAntiAlias::getExtraQueueItems (View *view,
   int yEnd = min (pixel_y + 1, output->height() - 1);
 
 
-  Colour newColour = output->getPixel(pixel_x, pixel_y);
 
+  Colour newColour = output->getPixel(pixel_x, pixel_y) / samples;
   bool doExtraSamples = false;
   // check the 8 pixels surrounding the current one
   for (int i = xStart; i <= xEnd && !doExtraSamples; i++ ) {
@@ -72,9 +72,19 @@ void EDAntiAlias::getExtraQueueItems (View *view,
       float diff = output->getPixel(i,j).diff(newColour);
 
 
-      if (diff>0) {
+      if (diff > threshold) {
 
         doExtraSamples = true;
+
+        if (pixelStatus[i][j] == EDA_ONE_SAMPLE) {
+          FLOAT xDiff = (i- pixel_x) * rangeX;
+          FLOAT yDiff = (j- pixel_y) * rangeY;
+          pixelStatus[i][j] = EDA_MULTI_PROCESS;
+
+          Ray adjRay(ray.start, ray.direction + (Point){xDiff, yDiff, 0});
+
+          getExtraQueueItems (view, queue, adjRay, i, j);
+        }
 
       }
 
@@ -86,9 +96,10 @@ void EDAntiAlias::getExtraQueueItems (View *view,
 
   if (doExtraSamples) {
 
+    //Colour sample1 = output->getPixel(pixel_x, pixel_y) / samples;
     output->setPixel(pixel_x, pixel_y, newColour / samples);
 
-    for (int i = 0; i <= samples; i++) {
+    for (int i = 0; i < samples - 1; i++) {
         float randX =  (((float)rand() / RAND_MAX) * rangeX) - (rangeX / 2.0);
         float randY =  (((float)rand() / RAND_MAX) * rangeY) - (rangeY / 2.0);
 
@@ -96,31 +107,11 @@ void EDAntiAlias::getExtraQueueItems (View *view,
         pixelStatus[pixel_x][pixel_y] = EDA_MULTI_SAMPLE;
 
         ViewQueueItem vqi(extraRay, pixel_x, pixel_y);
-        //queue.push_front(vqi); // MultiThread crashes here
+
         view->getScene()->renderQueueItem(view, vqi);
       }
 
-    // recursively re-test the surrounding pixels
-    /*
-    for (int i = xStart; i <= xEnd; i++ ) {
-      for (int j = yStart; j <= yEnd; j++ ) {
 
-        if (pixelStatus[i][j] == EDA_NOT_RENDERED || (i==pixel_x && j==pixel_y)) {
-          continue;
-        }
-
-
-        FLOAT xDiff = (i- pixel_x) * rangeX;
-        FLOAT yDiff = (j- pixel_y) * rangeY;
-        //FLOAT newXDir = ray.direction.x + xDiff;
-        //FLOAT newYDir = ray.direction.y + yDiff;
-
-        Ray adjRay(ray.start, ray.direction + (Point){xDiff, yDiff, 0});
-
-        getExtraQueueItems (view, queue, adjRay, i, j);
-
-      }
-    } */
   }
 
 

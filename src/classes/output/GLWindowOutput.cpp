@@ -35,12 +35,17 @@ void GLWindowOutput::addPixel(int x, int y, const Colour &c) {
     return;
   }
   int offset = ((x * myHeight) + y) * 3;
-  offset = 3 * (y * myWidth + x);
+  offset = 3 * ((y * myWidth) + x);
 
   pixels[offset + 0]  += c.r;
   pixels[offset + 1]  += c.g;
   pixels[offset + 2]  += c.b;
 
+  if (pixels[offset + 0] > 1.0) {
+    pixels[offset + 0] = 1.0;
+  }
+  if (pixels[offset + 1] > 1.0) pixels[offset + 1] = 1.0;
+  if (pixels[offset + 2] > 1.0) pixels[offset + 2] = 1.0;
 
 
 
@@ -53,11 +58,24 @@ void GLWindowOutput::setPixel(int x, int y, const Colour &c) {
   int offset = ((x * myHeight) + y) * 3;
   offset = 3 * ((y * myWidth) + x);
 
-  pixels[offset + 0]  = 1.0;
-  pixels[offset + 1]  = 1.0;
-  pixels[offset + 2]  = 0;
+  pixels[offset + 0]  = c.r;
+  pixels[offset + 1]  = c.g;
+  pixels[offset + 2]  = c.b;
 
 
+
+
+}
+
+Colour GLWindowOutput::getPixel(int x, int y) {
+  if (!pixels) {
+    return Colour(0,0,0);
+  }
+
+  int offset = ((x * myHeight) + y) * 3;
+  offset = 3 * ((y * myWidth) + x);
+
+  return Colour(pixels[offset + 0], pixels[offset + 1], pixels[offset + 2]);
 }
 
 

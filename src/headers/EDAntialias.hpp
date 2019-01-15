@@ -14,6 +14,7 @@
 // set when  multiple sample have been queued
 #define EDA_MULTI_SAMPLE 2
 
+#define EDA_MULTI_PROCESS 3
 class EDAntiAlias:public Antialias{
 
   private:

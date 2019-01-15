@@ -44,6 +44,7 @@ public:
   int makeWindow(const char *title);
   virtual void setPixel(int x, int y, const Colour &c);
   virtual void addPixel(int x, int y, const Colour &c);
+  virtual Colour getPixel(int x, int y);
   static void showImage();
   void show();
 
