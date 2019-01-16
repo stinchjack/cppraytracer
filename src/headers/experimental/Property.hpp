@@ -3,6 +3,13 @@
   #ifndef PROPERTY_HPP
   #define PROPERTY_HPP
 
+  #include "Float.hpp"
+  #include <map>
+  #include <string>
+  #include <exception>
+
+  using namespace std;
+
   enum class PropertyType {Integer, Float, Bool};
 
   class PropertyValue {
@@ -11,13 +18,13 @@
     PropertyType pType;
 
   public:
-    PropertyValue::PropertyValue(int newValue);
-    PropertyValue::PropertyValue(FLOAT value);
-    PropertyValue::PropertyValue(bool value);
+    PropertyValue(int newValue);
+    PropertyValue(FLOAT value);
+    PropertyValue(bool value);
     FLOAT getFloat();
     int getInt();
     bool getProperty();
-    ~PropertyValue()
+    ~PropertyValue();
 
   };
 
@@ -30,13 +37,15 @@
     virtual void set (string name, FLOAT value);
     virtual void set (string name, bool value);
 
-    <template class = T>
-    virtual T get(string pName) =0;
+
+    int getInt(string pName);
+    int getFloat(string pName);
+    int getBool(string pName);
 
 
   };
 
-  
+
 
   #endif
 #endif

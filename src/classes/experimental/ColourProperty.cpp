@@ -2,7 +2,7 @@
 #include "ColourProperty.hpp"
 
 
-  PropertyColour::PropertyColour {
+  PropertyColour() {
     properties["red"] = Float;
     properties["green"] = Float;
     properties["blue"] = Float;
@@ -10,7 +10,7 @@
 
 
 
-  virtual void PropertyColour::set (string name, FLOAT data) {
+  void PropertyColour::set (string name, FLOAT data) {
     if (name == "red") {
       r = (FLOAT) data;
     }
@@ -25,16 +25,16 @@
     }
   }
 
-  <template class = T>
-  virtual T PropertyColour::get(string Name) {
+  template <class T>
+  T PropertyColour::get(string Name) {
     if (name == "red") {
-      return PropertyValue(r);
+      return r;
     }
     if (name == "green") {
-      return PropertyValue(g);
+      return g;
     }
     if (name == "blue") {
-      return PropertyValue(b);
+      return b;
     }
   }
 
