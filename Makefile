@@ -10,13 +10,18 @@ BUILD_DIR = ./build
 CC=g++
 CFLAGS=-Werror -Wall -O2 -std=c++11
 
+ifeq ($(experiment),true)
+
+	EXPERIMENTFLAGS = -DEXPERIMENTAL
+endif
+
 ifeq ($(mode),debug)
-	CXXFLAGS=  $(shell Magick++-config --cppflags) -Werror -Wall -ggdb -pg -std=c++11
+	CXXFLAGS=  $(EXPERIMENTFLAGS)  $(shell Magick++-config --cppflags) -Werror -Wall -ggdb -pg -std=c++11
 	LDFLAGS =  $(shell Magick++-config --ldflags --libs) -lm -lpng -pg -pthread -lGL -lglfw -lGLEW -lglut
 
 else
    mode = release
-	 CXXFLAGS= $(shell Magick++-config --cppflags) -Werror -fpic -Wall -O3 -std=c++14
+	 CXXFLAGS= $(EXPERIMENTFLAGS)  $(shell Magick++-config --cppflags) -Werror -fpic -Wall -O3 -std=c++14
 	 LDFLAGS = $(shell Magick++-config --ldflags --libs) -lm -lpng -flto  -pthread -pg -lGL -lglfw -lGLEW -lglut
 
 endif
