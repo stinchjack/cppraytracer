@@ -41,7 +41,7 @@ void testPng() {
    //PNGOUTPUT_PTR output = make_shared<PngOutput>(640, 640);
    shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
    Scene scene;
-   scene.useMultiThread = true;
+   scene.useMultiThread = false;
 
 
 
@@ -137,8 +137,8 @@ void testPng() {
 
 
           scene.shapes["sphere5"+num] = SpherePtr();
-          scene.shapes["sphere5"+num]->transformation.setShift((Point){2.0f+ (4.0f * j),1.2f + (4.0f * i),-2.0});
-          scene.shapes["sphere5"+num]->transformation.setScale(2.0, 2, 2);
+          scene.shapes["sphere5"+num]->setShift((Point){2.0f+ (4.0f * j),1.2f + (4.0f * i),-2.0});
+          scene.shapes["sphere5"+num]->setScale(2.0, 2, 2);
           scene.shapes["sphere5"+num]->diffuse = make_shared<PlainTexture>(Colour (0,0,0));
           scene.shapes["sphere5"+num]->specular = make_shared<PlainTexture>(Colour (1,1,1));
           if (flag++ % 2 == 0) {
@@ -151,8 +151,8 @@ void testPng() {
 
 
           scene.shapes["sphere6"+num] = SpherePtr();
-          scene.shapes["sphere6"+num]->transformation.setShift((Point){3.0f+ (4.0f * j),1.8f + (4.0f * i),-3.0});
-          scene.shapes["sphere6"+num]->transformation.setScale(2.0, 2, 2);
+          scene.shapes["sphere6"+num]->setShift((Point){3.0f+ (4.0f * j),1.8f + (4.0f * i),-3.0});
+          scene.shapes["sphere6"+num]->setScale(2.0, 2, 2);
           scene.shapes["sphere6"+num]->diffuse = make_shared<PlainTexture>(altColour);
 
           if (flag++ % 2 == 0) {
