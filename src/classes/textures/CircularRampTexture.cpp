@@ -14,7 +14,7 @@ CircularRampTexture::CircularRampTexture(vector<Colour> &colourArray) {
 
 }
 
-Colour CircularRampTexture::getColour (IntersectHit &ir, const UVPair &uvPair) {
+Colour CircularRampTexture::getColour (IntersectHitPtr ir, const UVPair &uvPair) {
   FLOAT   dist = sqrt((uvPair.u - 0.5) *
                       (uvPair.u - 0.5) +
                       (uvPair.v - 0.5) *

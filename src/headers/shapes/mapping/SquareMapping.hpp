@@ -9,7 +9,7 @@ class SquareMapping: public Mapping {
 public:
 
   SquareMapping ();
-  virtual UVPair getUVPair(IntersectHit &ir);
+  virtual UVPair getUVPair(IntersectHitPtr ir);
 };
 
 #endif

@@ -3,9 +3,9 @@
 #include "Square.hpp"
 SquareMapping::SquareMapping (){}
 
-UVPair SquareMapping::getUVPair(IntersectHit &ir) {
-  Point p = ir.getShapePoint();
-  Square * square = (Square *)ir.getShape();
+UVPair SquareMapping::getUVPair(IntersectHitPtr ir) {
+  Point p = ir->getShapePoint();
+  Square * square = (Square *)ir->getShape();
   //width = rect['right'] - rect['left']
   FLOAT width = square->right - square->left;
   FLOAT height = square->bottom - square->top;

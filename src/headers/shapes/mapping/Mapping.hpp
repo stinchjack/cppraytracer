@@ -11,12 +11,12 @@ struct UVPair{
 
 class Mapping {
 public:
-   virtual UVPair getUVPair(IntersectHit &ir) = 0;
+   virtual UVPair getUVPair(IntersectHitPtr ir) = 0;
 };
 
 class NoMapping: public Mapping {
 public:
-   virtual UVPair getUVPair(IntersectHit &ir);
+   virtual UVPair getUVPair(IntersectHitPtr ir);
 };
 
 #endif

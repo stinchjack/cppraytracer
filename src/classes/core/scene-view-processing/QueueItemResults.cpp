@@ -6,7 +6,7 @@ map<float, IntersectHit> QueueItemResults::getMap() {
 }
 */
 
-void QueueItemResults::addResult (float t,  Shape * shape)) {
+IntersectHitPtr QueueItemResults::addResult (float t,  Shape * shape) {
 
   IntersectHitPtr ih = make_shared<IntersectHit>(shape, t);
 
@@ -22,7 +22,7 @@ void QueueItemResults::addResult (float t,  Shape * shape)) {
   return ih;
 }
 
-IntersectHitOtr  QueueItemResults::closestResult() {
+IntersectHitPtr  QueueItemResults::closestResult() {
   return this->begin()->second;
 }
 /*

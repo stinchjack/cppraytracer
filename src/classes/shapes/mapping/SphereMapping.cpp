@@ -4,7 +4,7 @@
 
 SphereMapping::SphereMapping () {};
 
-UVPair SphereMapping::getUVPair(IntersectHit &ir) {
+UVPair SphereMapping::getUVPair(IntersectHitPtr ir) {
 /*
 
 Maps an intersection result for a sphere to a UV pair.
@@ -13,7 +13,7 @@ Maps an intersection result for a sphere to a UV pair.
 
 */
 
-    Point p = ir.getShapePoint();
+    Point p = ir->getShapePoint();
     UVPair uvPair;
     FLOAT radius = sqrt((p.x * p.x) + (p.z * p.z)); // radius at intersect point
 

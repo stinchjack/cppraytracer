@@ -2,7 +2,7 @@
 #include "IntersectHit.hpp"
 #include "Mapping.hpp"
 
-Colour Texture::getColour (IntersectHit &ir, shared_ptr<Mapping> map) {
+Colour Texture::getColour (IntersectHitPtr ir, shared_ptr<Mapping> map) {
   return getColour (ir, map->getUVPair(ir));
 }
 
@@ -11,15 +11,15 @@ PlainTexture::PlainTexture(const Colour &c) {
   this->c = c;
 }
 
-Colour PlainTexture::getColour (IntersectHit &ir, shared_ptr<Mapping> map) {
+Colour PlainTexture::getColour (IntersectHitPtr ir, shared_ptr<Mapping> map) {
   return c;
 }
 
-Colour PlainTexture::getColour (IntersectHit &ir, const UVPair &uvPair) {
+Colour PlainTexture::getColour (IntersectHitPtr ir, const UVPair &uvPair) {
   return c;
 }
 
-UVPair NoMapping::getUVPair(IntersectHit &ir) {
+UVPair NoMapping::getUVPair(IntersectHitPtr ir) {
   UVPair pair;
   pair.u  = 0;
   pair.v  = 0;

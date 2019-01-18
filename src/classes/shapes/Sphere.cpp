@@ -5,8 +5,8 @@ SHAPE_PTR SpherePtr() {
   return std::make_shared<Sphere>();
 }
 
-Vector Sphere::getShapeNormal(IntersectHit &ih) {
-  return Vector(ih.getShapePoint());
+Vector Sphere::getShapeNormal(IntersectHit *ih) {
+  return Vector(ih->getShapePoint());
 
 }
 
@@ -40,7 +40,7 @@ void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
   if (ray.isShadowRay) {
     if ((t1 > 0  && t1 <=1.0 )||
       (t2 > 0 && t2<=1.0)) {
-      results.addResult(0, IntersectHit (this, 0));
+      results.addResult(0, this);
     }
     return;
   }

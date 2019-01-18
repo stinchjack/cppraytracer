@@ -1,20 +1,20 @@
 #include "PointLight.hpp"
 
 
-void PointLight::getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) {
+void PointLight::getShadowRays (IntersectHitPtr ih, vector<Ray> &shadowRays) {
 
   if (shadowRays.size() != 1) {
     shadowRays.resize(1);
   }
 
-  Point testPoint = ih.getWorldPoint();
+  Point testPoint = ih->getWorldPoint();
 
   Vector shadowDir (this->point - testPoint);
 
   Point shadowStart (testPoint);
 
-  Vector normal = ih.getWorldNormal();//.normalised();
-  Vector eyedir = ih.getWorldRay().direction;//.normalised();
+  Vector normal = ih->getWorldNormal();//.normalised();
+  Vector eyedir = ih->getWorldRay().direction;//.normalised();
 
   if (eyedir * normal > 0.0) {
     shadowStart =  testPoint - (normal * 0.01);
@@ -37,6 +37,6 @@ PointLight::PointLight (const Colour &c, const Point &p) {
   point = p;
 }
 
- void PointLight::getTestPoints(Point testPoints[], IntersectHit &ih) {
+ void PointLight::getTestPoints(Point testPoints[], IntersectHitPtr ih) {
    testPoints[0] = point;
  }

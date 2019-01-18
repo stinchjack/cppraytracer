@@ -16,7 +16,7 @@ private:
     int samples,
     Scene *scene);
 
-  static Colour reflection(IntersectHit &ih, int reflectionCount);
+  static Colour reflection(IntersectHitPtr ih, int reflectionCount);
 
 
 

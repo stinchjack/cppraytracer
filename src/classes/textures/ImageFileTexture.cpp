@@ -9,7 +9,7 @@ ImageFileTexture::ImageFileTexture(string filename){
   pixels = image.getPixels(0, 0, width, height);
 }
 
-Colour ImageFileTexture::getColour (IntersectHit &ir, const UVPair &uvPair) {
+Colour ImageFileTexture::getColour (IntersectHitPtr ir, const UVPair &uvPair) {
 
   int row = (1.0 - uvPair.v) * (FLOAT) height;
   int column = uvPair.u * (FLOAT) width;

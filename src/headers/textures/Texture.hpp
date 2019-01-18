@@ -9,18 +9,18 @@
 using namespace std;
 
 
-class IntersectHit;
+//typedef shared_ptr<IntersectHit> IntersectHitPtr;
 struct UVPair;
 
 
-#define TEXTURE_PTR shared_ptr<Texture>
+class IntersectHit;
 
 class Mapping;
 class Texture {
 
 public:
-  virtual Colour getColour (IntersectHit &ir, shared_ptr<Mapping> map);
-  virtual Colour getColour (IntersectHit &ir, const UVPair &uvPair) = 0;
+  virtual Colour getColour (shared_ptr<IntersectHit>  ir, shared_ptr<Mapping> map);
+  virtual Colour getColour (shared_ptr<IntersectHit>  ir, const UVPair &uvPair) = 0;
 };
 
 class PlainTexture: public Texture {
@@ -28,8 +28,8 @@ class PlainTexture: public Texture {
 
 public:
   PlainTexture(const Colour &c);
-  virtual Colour getColour (IntersectHit &ir, shared_ptr<Mapping> map);
-  virtual Colour getColour (IntersectHit &ir, const UVPair &uvPair);
+  virtual Colour getColour (shared_ptr<IntersectHit>  ir, shared_ptr<Mapping> map);
+  virtual Colour getColour (shared_ptr<IntersectHit>  ir, const UVPair &uvPair);
 };
 
 

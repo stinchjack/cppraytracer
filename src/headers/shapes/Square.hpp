@@ -25,7 +25,7 @@ public:
   Square (FLOAT left, FLOAT right, FLOAT top, FLOAT bottom);
 
   void shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &worldRay);
-  virtual Vector getShapeNormal(IntersectHit &ih);
+  virtual Vector getShapeNormal(IntersectHit *ih);
 };
 
 #endif

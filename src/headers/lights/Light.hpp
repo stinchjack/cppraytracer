@@ -13,9 +13,9 @@ public:
 
   unsigned int shadowTests;
 
-  virtual void getShadowRays (IntersectHit &ih, vector<Ray> &shadowRays) =0;;
+  virtual void getShadowRays (IntersectHitPtr ih, vector<Ray> &shadowRays) =0;;
 
-  virtual void getTestPoints(Point testPoints[], IntersectHit &ih) = 0;
+  virtual void getTestPoints(Point testPoints[], IntersectHitPtr ih) = 0;
 
 };
 

@@ -24,7 +24,7 @@ Square::Square (FLOAT left, FLOAT right, FLOAT top, FLOAT bottom) {
   mapping = make_shared<SquareMapping>();
 }
 
-Vector Square::getShapeNormal(IntersectHit &ih) {
+Vector Square::getShapeNormal(IntersectHit *ih) {
   return normal;
 
 }
@@ -53,7 +53,7 @@ void Square::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
 
 
   Point point = ray.calcPos(t);
-  
+
   if ((point.x < left) || (point.y < top) ||
     (point.x> right) || (point.y > bottom)) {
       return;

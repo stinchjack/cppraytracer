@@ -8,7 +8,7 @@ class SphereMapping:public Mapping {
 
 public:
   SphereMapping();
-  virtual UVPair getUVPair(IntersectHit &ir);
+  virtual UVPair getUVPair(IntersectHitPtr ir);
 };
 
 #endif

@@ -51,7 +51,7 @@ class Shape {
   void setRotate(const Vector &axis, FLOAT angle);
 
   virtual void shapeTestIntersect (QueueItemResults &results, Ray &shapeRay, Ray &worldRay) = 0;
-  virtual Vector getShapeNormal(IntersectHit &ih) = 0;
+  virtual Vector getShapeNormal(IntersectHit *ih) = 0;
 
 };
 

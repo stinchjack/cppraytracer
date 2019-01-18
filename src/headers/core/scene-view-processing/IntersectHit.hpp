@@ -11,6 +11,8 @@ class Shape;
 
 using namespace std;
 
+class IntersectHit;
+
 typedef shared_ptr<IntersectHit> IHPtr;
 typedef shared_ptr<IntersectHit> IntersectHitPtr;
 
@@ -42,7 +44,7 @@ class IntersectHit {
 
     IntersectHit ();
     IntersectHit (Shape *shape, FLOAT t);
-    IntersectHit (const IntersectHit &ih);
+    IntersectHit (const IntersectHitPtr ih);
     Point getShapePoint();
     Point getWorldPoint();
     void setWorldRay(Ray &worldRay);
