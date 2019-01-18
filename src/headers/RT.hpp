@@ -15,4 +15,7 @@
   #include "Texture.hpp"
   #include "PointLight.hpp"
 
+  #ifdef EXPERIMENTAL
+    #include "ColourProperty.hpp"
+  #endif
 #endif

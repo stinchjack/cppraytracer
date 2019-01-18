@@ -8,18 +8,6 @@ Shape::Shape() {
   mapping = make_shared<NoMapping>();
 }
 
-/*
-
-void Shape::setDiffuse (const shared_ptr<Texture> c) {
-  diffuse = c;
-}
-void Shape::setSpecular (const shared_ptr<Texture> c) {
-  specular = c;
-}
-void Shape::setTransparency (const shared_ptr<Texture> c) {
-  transparency =c;
-
-}*/
 
 void Shape::testIntersect (QueueItemResults &results, Ray &worldRay) {
   //Point worldRayStart = {worldRay.start[0], worldRay.start[1], worldRay.start[2]};
@@ -52,4 +40,14 @@ Ray newRay(start, this->transformation.transform (worldRay.direction));
 
 Ray Shape::transform (Ray &ray) {
   return Ray(this->transformation.transform(ray.start), this->transformation.transform (ray.direction));
+}
+
+void Shape::setShift(const Point &p) {
+  transformation.setShift (p);
+}
+void Shape::setRotate(const Vector &axis, FLOAT angle) {
+  transformation.setRotate(axis, angle);
+}
+void Shape::setScale(FLOAT scaleX, FLOAT scaleY, FLOAT scaleZ ) {
+  transformation.setScale(scaleX, scaleY, scaleZ);
 }

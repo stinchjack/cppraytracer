@@ -1,6 +1,7 @@
 
 #include "RT.hpp"
 
+
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -15,10 +16,18 @@ using std::this_thread::sleep_for;
 
 void testPng();
 
+
 int main (int argc, char **argv) {
 
 
+/*  PropertyColour c;
+  c.r = 0.812;
+  c.g = 0.712;
+  c.b = 0.512;
 
+  FLOAT g = c.getFloat("g");
+
+  cout << "g" << g <<endl;*/
   testPng();
 
 
@@ -33,6 +42,8 @@ void testPng() {
    shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
    Scene scene;
    scene.useMultiThread = true;
+
+
 
 
   /* scene.shapes["square1"] = SquarePtr(-100, 100, -100, 100);
@@ -64,10 +75,13 @@ void testPng() {
 
 
 
-    scene.shapes["outersphere"] = SpherePtr();
-    scene.shapes["outersphere"]->transformation.setShift((Point){0, 0, 0});
-    scene.shapes["outersphere"]->transformation.setScale(60,25,60);
-    scene.shapes["outersphere"]->transformation.setRotate(Vector(0,1,0), 180);
+    //scene.shapes["outersphere"] = SpherePtr();
+
+    scene.add<Sphere>("outersphere");
+
+    scene.shapes["outersphere"]->setShift((Point){0, 0, 0});
+    scene.shapes["outersphere"]->setScale(60,25,60);
+    scene.shapes["outersphere"]->setRotate(Vector(0,1,0), 180);
 
     //rampColours = {Colour(1,0,0), Colour(0,1,0), Colour (1,0,1), Colour(0,0,0)};
     //scene.shapes["outersphere"]->diffuse = make_shared<CircularRampTexture>(rampColours);
@@ -108,6 +122,18 @@ void testPng() {
           else {
             scene.shapes["sphere4"+num]->diffuse = make_shared<PlainTexture>(altColour);
           }
+
+          /*
+            SpherePtr sphere1= MakeSphere();
+            scene.["sphere1"] = sphere1l
+            sphere1.setShift (1,2,3);
+            sphere1.diffuse = makePlainTexture(Color 1,1,1);
+            sphere,
+
+
+          */
+
+
 
 
           scene.shapes["sphere5"+num] = SpherePtr();
@@ -154,16 +180,23 @@ void testPng() {
    scene.shapes["sphere5"]->specular = make_shared<PlainTexture>(Colour (1,1,1));*/
 
 
+   scene.add<Sphere>("sphere");
+   scene.add<View>("View1", 30,30,28);
+   scene.views["View1"]->setOutput(output);
 
-   scene.views["view1"] = View (30,30,28);
-   scene.views["view1"].setOutput(output);
-   scene.lights["pointlight1"] = make_shared<PointLight>(Colour(.4,.4,.4), (Point){-20,-20,0});
 
-   scene.lights["pointlight2"] = make_shared<PointLight>(Colour(.4,.4,.4), (Point){-20,22,0});
-   //scene.lights["pointlight3"] = make_shared<PointLight>(Colour(.3, .3, .3), (Point){0,0,0});
+
+   //scene.views["view1"] = make_shared<View> (30,30,28);
+
+   //scene.lights["pointlight1"] = make_shared<PointLight>(Colour(.4,.4,.4), (Point){-20,-20,0});
+   scene.add<PointLight>("pointlight", Colour(.4,.4,.4), (Point){-20,-20,0});
+   scene.add<PointLight>("pointlight2", Colour(.4,.4,.4), (Point){-20,22,0});
+
+
+
 
    //scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (SimpleAntiAlias(20)));
-   scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
+   scene.views["View1"]->setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
    //scene.views["view1"].setAntiAlias(std::make_shared<EDAntiAlias> (25, 1.8));
 
    //scene.views["view1"].setAntiAlias(
@@ -171,7 +204,7 @@ void testPng() {
 
 
    LightModel::processShadows  = true;
-   scene.render("view1");
+   scene.render("View1");
 
    time_point<Clock> end = Clock::now();
    milliseconds diff = duration_cast<milliseconds>(end - start);

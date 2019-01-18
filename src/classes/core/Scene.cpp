@@ -4,6 +4,7 @@
 #include <map>
 #include <thread>
 #include <iterator>
+#include <memory>
 #include "MultiThread.hpp"
 #include "QueueChunker.hpp"
 #include "EDAntialias.hpp"
@@ -14,8 +15,22 @@
 using namespace std;
 
 
+
+
+void Scene::adder(string label, shared_ptr<Shape> shape) {
+  shapes[label] = shape;
+}
+
+void  Scene::adder(string label, shared_ptr<Light> light) {
+  lights[label] = light;
+}
+
+void Scene::adder(string label, shared_ptr<View> view) {
+  views[label] = view;
+}
+
 //https://stackoverflow.com/questions/10988338/c-unlocking-a-stdmutex-before-calling-stdunique-lock-wait
-void Scene::renderQueue (View *view) {
+void Scene::renderQueue (ViewPtr view) {
   deque<ViewQueueItem> &renderQueue = view->renderQueue;
   while (!renderQueue.empty()) {
 
@@ -28,16 +43,16 @@ void Scene::renderQueue (View *view) {
 
 
 void Scene::render(const std::string &viewName) {
-  views[viewName].setScene(this);
+  views[viewName]->setScene(this);
   if (useMultiThread) {
     cout << "MultiThread render ... " << endl;
     MTrender(viewName);
   }
   else {
     cout << "Single thread render ... " << endl;
-    views[viewName].makeInitialRenderQueue();
+    views[viewName]->makeInitialRenderQueue();
 
-    renderQueue(&views[viewName]);
+    renderQueue(views[viewName]);
   }
 }
 
@@ -72,8 +87,8 @@ void Scene::MTrender(const std::string &viewName) {
 
   int processes = 4; //std::thread::hardware_concurrency();
 
-  View view = views[viewName];
-  view.makeInitialRenderQueue();
+  ViewPtr view = views[viewName];
+  view->makeInitialRenderQueue();
 
 
 
@@ -82,13 +97,13 @@ void Scene::MTrender(const std::string &viewName) {
   vector <MTInfo> threadInfos(processes);
 
 
-  QueueChunker chunker(&view.renderQueue, 50000);
+  QueueChunker chunker(&view->renderQueue, 50000);
 
   for (int i = 0; i < processes; i++) {
 
 
       threadInfos[i].scene = this;
-      threadInfos[i].view = &view;
+      threadInfos[i].view = view;
 
       threadInfos[i].chunker = &chunker;
 
@@ -115,7 +130,7 @@ void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemR
   }
 }
 
-void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
+void Scene::renderQueueItem(ViewPtr view, ViewQueueItem &queueItem) {
 
 
       //cout <<"RQi  "<<endl;

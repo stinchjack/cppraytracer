@@ -15,12 +15,11 @@
   public:
 
     PropertyColour();
-
+    PropertyColour (FLOAT r, FLOAT g, FLOAT b);
+    PropertyColour (const Colour&);
+    PropertyColour (const Colour*);
     virtual void set (string name, FLOAT data);
-
-    template <class T>
-    virtual T get(string pName);
-    PropertyValue get(string name);
+    virtual FLOAT getFloat (string name);
   };
 
 

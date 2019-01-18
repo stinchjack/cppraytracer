@@ -33,7 +33,7 @@ class EDAntiAlias:public Antialias{
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y);
-  virtual void getExtraQueueItems (View *view,
+  virtual void getExtraQueueItems (ViewPtr view,
         std::deque<ViewQueueItem> &queue,
         Ray & ray,
         int pixel_x,

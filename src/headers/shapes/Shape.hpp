@@ -17,6 +17,7 @@ using namespace std;
 //class Transform;
 
 #define SHAPE_PTR shared_ptr<Shape>
+typedef shared_ptr<Shape> ShapePtr;
 
 //class Shape;
 //typedef shared_ptr<Shape> ShapePtr;
@@ -44,6 +45,10 @@ class Shape {
 
   void testIntersect (QueueItemResults &results, Ray &ray);
   Ray transform (Ray &ray);
+
+  void setShift(const Point &p);
+  void setScale(FLOAT scaleX, FLOAT scaleY, FLOAT scaleZ );
+  void setRotate(const Vector &axis, FLOAT angle);
 
   virtual void shapeTestIntersect (QueueItemResults &results, Ray &shapeRay, Ray &worldRay) = 0;
   virtual Vector getShapeNormal(IntersectHit &ih) = 0;

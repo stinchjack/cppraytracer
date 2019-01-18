@@ -12,8 +12,8 @@
 #include "ViewQueueItem.hpp"
 using namespace std;
 
-#define VIEW_PTR std::shared_ptr<View>
-
+//#define VIEW_PTR std::shared_ptr<View>
+typedef std::shared_ptr<View> ViewPtr;
 class Scene;
 
 class View {

@@ -54,7 +54,7 @@ void NoAntiAlias::getInitalQueueItems(
 
 }
 
-void Antialias::getExtraQueueItems(View *view,
+void Antialias::getExtraQueueItems(ViewPtr view,
       std::deque<ViewQueueItem> &queue,
       Ray & ray,
       int pixel_x,

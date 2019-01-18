@@ -12,7 +12,7 @@
 
   enum class PropertyType {Integer, Float, Bool};
 
-  class PropertyValue {
+/*  class PropertyValue {
   private:
     void * value = nullptr;
     PropertyType pType;
@@ -26,10 +26,10 @@
     bool getProperty();
     ~PropertyValue();
 
-  };
+  };*/
 
   class PropertyHolder {
-  private:
+  protected:
     map <string, PropertyType> properties;
   public:
     virtual void set (string name, int value);
@@ -37,13 +37,13 @@
     virtual void set (string name, FLOAT value);
     virtual void set (string name, bool value);
 
-
-    int getInt(string pName);
-    int getFloat(string pName);
-    int getBool(string pName);
+    virtual int getInt(string pName);
+    virtual FLOAT getFloat(string pName);
+    virtual bool  getBool(string pName);
 
 
   };
+
 
 
 

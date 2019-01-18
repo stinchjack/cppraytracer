@@ -13,6 +13,7 @@
 using namespace std;
 
 class View;
+typedef shared_ptr<View> ViewPtr ;
 
 class Antialias {
 
@@ -41,7 +42,7 @@ class Antialias {
         unsigned int pixel_x,
         unsigned int pixel_y) = 0;
 
-  virtual void getExtraQueueItems(View *view,
+  virtual void getExtraQueueItems(ViewPtr view,
         std::deque<ViewQueueItem> &queue,
         Ray & ray,
         int pixel_x,

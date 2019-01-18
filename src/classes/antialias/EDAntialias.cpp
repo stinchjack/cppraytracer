@@ -32,7 +32,7 @@ int EDAntiAlias::getSamples(int screenX, int screenY) {
     return 1;
 }
 
-void EDAntiAlias::getExtraQueueItems (View *view,
+void EDAntiAlias::getExtraQueueItems (ViewPtr view,
       std::deque<ViewQueueItem> &queue,
   Ray & ray,
   int pixel_x, int pixel_y) {
