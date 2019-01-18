@@ -117,3 +117,9 @@ IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
     return shapePoint;
 
   }
+
+
+void IntersectHit::setShapePoint(Point &p) {
+  shapePoint = p;
+  hasShapePoint = true;
+}

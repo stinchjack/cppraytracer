@@ -49,38 +49,28 @@ void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
   if (t1 < 0 && t2 >= 0) {
     //Point p = ray.calcPos(t2);
 
-    IntersectHit hit(this, t2);
-    hit.setShapeRay(ray);
-    hit.setWorldRay(worldRay);
-
-    results.addResult(t2, hit);
+    IHPtr hit = results.addResult (t2, this);
+    hit->setShapeRay(ray);
+    hit->setWorldRay(worldRay);
   }
   else if (t1 >= 0 && t2 < 0) {
     //Point p = ray.calcPos(t1);
 
-    IntersectHit hit(this, t1);
-    hit.setShapeRay(ray);
-    hit.setWorldRay(worldRay);
+    IHPtr hit = results.addResult (t1, this);
+    hit->setShapeRay(ray);
+    hit->setWorldRay(worldRay);
 
-
-    results.addResult(t1, hit);
 
   }
   else if (t1 > 0  &&  t2 > 0) {
 
-      IntersectHit hit1(this, t1);
-      hit1.setShapeRay(ray);
-      hit1.setWorldRay(worldRay);
+      IHPtr hit = results.addResult (t1, this);
+      hit->setShapeRay(ray);
+      hit->setWorldRay(worldRay);
 
-
-      results.addResult(t1, hit1);
-
-      IntersectHit hit2(this, t2);
-      hit2.setShapeRay(ray);
-      hit2.setWorldRay(worldRay);
-
-      results.addResult(t2, hit2);
-
+      IHPtr hit2 = results.addResult (t2, this);
+      hit2->setShapeRay(ray);
+      hit2->setWorldRay(worldRay);
 
   }
 

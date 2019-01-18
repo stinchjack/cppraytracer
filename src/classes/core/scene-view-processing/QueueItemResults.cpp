@@ -6,7 +6,9 @@ map<float, IntersectHit> QueueItemResults::getMap() {
 }
 */
 
-void QueueItemResults::addResult (float t, const IntersectHit &ih) {
+void QueueItemResults::addResult (float t,  Shape * shape)) {
+
+  IntersectHitPtr ih = make_shared<IntersectHit>(shape, t);
 
   if (find(t) == end() ) {
       // newT not found in main map
@@ -17,9 +19,10 @@ void QueueItemResults::addResult (float t, const IntersectHit &ih) {
     this->operator[](t+.0001) = ih;
   }
 
+  return ih;
 }
 
-IntersectHit  QueueItemResults::closestResult() {
+IntersectHitOtr  QueueItemResults::closestResult() {
   return this->begin()->second;
 }
 /*

@@ -48,22 +48,24 @@ void Square::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
 
   FLOAT t = (0 - ray.start.z) / ray.direction.z;
 
-  IntersectHit ih(this, t);
-  //shared_ptr<IntersectHit> ih (this, t);
-  ih.setShapeRay(ray);
 
-  Point point = ih.getShapePoint();
+
+
+
+  Point point = ray.calcPos(t);
+  
   if ((point.x < left) || (point.y < top) ||
     (point.x> right) || (point.y > bottom)) {
       return;
     }
 
-  if (!worldRay.isShadowRay) {
-    ih.setWorldRay(worldRay);
-    results.addResult(t, ih);
+  if (!worldRay.isShadowRay
+    || (worldRay.isShadowRay && t < 1.0 && t>0)) {
+
+      IHPtr hit = results.addResult (t, this);
+      hit->setShapeRay(ray);
+      hit->setWorldRay(worldRay);
   }
-  if (worldRay.isShadowRay && t < 1.0 && t>0) {
-    results.addResult(t, ih);
-  }
+
 
 }
