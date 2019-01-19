@@ -3,14 +3,21 @@
 
 #include "Point.hpp"
 #include "Vector.hpp"
+#include <memory>
+
 class Ray;
+
+
+using namespace std;
+
 typedef shared_ptr<Ray> RayPtr;
+
+
 
 class Ray {
 
   public:
 
-  static inline makePtr(const Point& start, const Vector& direction);
 
   Point start;
   Vector direction;
@@ -21,7 +28,7 @@ class Ray {
   inline Ray(){};
 
   inline Ray(const Point& start, const Vector& direction);
-  inline Ray(const Point& start, FLOAT vx, FLOAT vy, FLOAT vx);
+  inline Ray(const Point& start, FLOAT vx, FLOAT vy, FLOAT vz);
 
   Point calcPos(FLOAT t);
 
@@ -29,7 +36,7 @@ class Ray {
 };
 
 
-RayPtr makePtr(const Point& start, const Vector& direction) {
+inline RayPtr makeRayPtr(const Point& start, const Vector& direction) {
   return make_shared<Ray>(start, direction);
 }
 
@@ -39,7 +46,7 @@ Ray::Ray (const Point& start, const Vector& direction) {
 
 }
 
-Ray::Ray (const Point& start, FLOAT vx, FLOAT vy, FLOAT vx) {
+Ray::Ray (const Point& start, FLOAT vx, FLOAT vy, FLOAT vz) {
   this->start = start;
   this->direction = Vector(vx, vy, vz);
 
