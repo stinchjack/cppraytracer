@@ -131,9 +131,9 @@ Colour LightModel::reflection(IntersectHitPtr ih, int reflectionCount) {
   Vector dir = ih->getWorldRay().reflection(normal);
 
   Ray reflectedRay(start, dir);
-  ViewQueueItem newQueueItem(reflectedRay);
+
   QueueItemResults queueItemResults;
-  ih->scene->testQueueItem( newQueueItem, queueItemResults);
+  ih->scene->testQueueItem( make_shared <ViewQueueItem>(reflectedRay), queueItemResults);
   if (queueItemResults.size() == 0) {
     return Colour (0,0,0);
   }

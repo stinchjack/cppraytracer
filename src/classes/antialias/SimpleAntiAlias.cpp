@@ -8,7 +8,7 @@ SimpleAntiAlias::SimpleAntiAlias(unsigned int samples) {
 }
 
 void SimpleAntiAlias::getInitalQueueItems(
-      std::deque<ViewQueueItem> &queue,
+      std::deque<shared_ptr<ViewQueueItem>> &queue,
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y) {
@@ -23,7 +23,7 @@ void SimpleAntiAlias::getInitalQueueItems(
       Ray extraRay = Ray(ray.start, ray.direction + p);
       extraRay.startIsEye = true;
 
-      queue.push_back(ViewQueueItem(extraRay, pixel_x, pixel_y));
+      queue.push_back(make_shared<ViewQueueItem>(extraRay, pixel_x, pixel_y));
   }
 
 

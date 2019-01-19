@@ -11,12 +11,12 @@ EDAntiAlias::EDAntiAlias(unsigned int samples, float threshold) {
 }
 
 void EDAntiAlias::getInitalQueueItems (
-      std::deque<ViewQueueItem> &queue,
+      std::deque<shared_ptr<ViewQueueItem>> &queue,
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y) {
 
-  queue.push_back(ViewQueueItem(ray, pixel_x, pixel_y));
+  queue.push_back(make_shared<ViewQueueItem>(ray, pixel_x, pixel_y));
 
 }
 
@@ -33,7 +33,7 @@ int EDAntiAlias::getSamples(int screenX, int screenY) {
 }
 
 void EDAntiAlias::getExtraQueueItems (ViewPtr view,
-      std::deque<ViewQueueItem> &queue,
+      std::deque<shared_ptr<ViewQueueItem>> &queue,
   Ray & ray,
   int pixel_x, int pixel_y) {
 
@@ -106,9 +106,8 @@ void EDAntiAlias::getExtraQueueItems (ViewPtr view,
         Ray extraRay = Ray(ray.start, ray.direction + Point{randX, randY, 0.0});
         pixelStatus[pixel_x][pixel_y] = EDA_MULTI_SAMPLE;
 
-        ViewQueueItem vqi(extraRay, pixel_x, pixel_y);
 
-        view->getScene()->renderQueueItem(view, vqi);
+        view->getScene()->renderQueueItem(view, make_shared<ViewQueueItem> (extraRay, pixel_x, pixel_y));
       }
 
 

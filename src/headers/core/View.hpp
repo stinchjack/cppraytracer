@@ -28,7 +28,7 @@ private:
 
   float viewWidth, viewHeight;
   float eyeZ;
-  deque<ViewQueueItem> renderQueue;
+  std::deque<shared_ptr<ViewQueueItem>> renderQueue;
   Ray transform(Ray &ray);
 
   shared_ptr<Output> output = nullptr;
@@ -42,7 +42,7 @@ public:
 
   vector<vector<unsigned int>> sampleCount; // to support antialiasing
 
-  ViewQueueItem popQueueItem();
+  ViewQueueItemPtr popQueueItem();
   bool queueEmpty();
 
   Scene *getScene();

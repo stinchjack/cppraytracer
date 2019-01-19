@@ -21,7 +21,7 @@ class Point {
   public:
 
     FLOAT x,y,z;
-    Point();
+    inline Point(){};
     Point (FLOAT x, FLOAT y, FLOAT z);
     Point (Vector &v);
     Point (const Point &p);

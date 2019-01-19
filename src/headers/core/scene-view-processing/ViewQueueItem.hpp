@@ -2,6 +2,14 @@
 #define VIEWQUEUEITEM_HPP
 
 #include "Ray.hpp"
+#include <memory>
+
+using namespace std;
+
+class ViewQueueItem;
+
+typedef shared_ptr<ViewQueueItem> ViewQueueItemPtr;
+typedef shared_ptr<ViewQueueItem> VQIPtr;
 
 class ViewQueueItem {
   public:

@@ -15,11 +15,11 @@ class QueueChunker {
   int size;
 
   public:
-  deque<ViewQueueItem>* queue;
-  QueueChunker (deque<ViewQueueItem> *queue, int chunk );
+  deque<ViewQueueItemPtr>* queue;
+  QueueChunker (deque<ViewQueueItemPtr> *queue, int chunk );
 
-  bool nextChunk (deque<ViewQueueItem>::iterator &chunkStart,
-      deque<ViewQueueItem>::iterator &chunkEnd);
+  bool nextChunk (deque<ViewQueueItemPtr>::iterator &chunkStart,
+      deque<ViewQueueItemPtr>::iterator &chunkEnd);
 
 
 };

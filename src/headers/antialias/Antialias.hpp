@@ -37,13 +37,13 @@ class Antialias {
   virtual int getSamples(int screenX, int screenY);
 
   virtual void getInitalQueueItems(
-        std::deque<ViewQueueItem> &queue,
+        std::deque<shared_ptr<ViewQueueItem>> &queue,
         Ray & ray,
         unsigned int pixel_x,
         unsigned int pixel_y) = 0;
 
   virtual void getExtraQueueItems(ViewPtr view,
-        std::deque<ViewQueueItem> &queue,
+        std::deque<shared_ptr<ViewQueueItem>> &queue,
         Ray & ray,
         int pixel_x,
         int pixel_y);
@@ -57,7 +57,7 @@ class NoAntiAlias:public Antialias{
   public:
   NoAntiAlias();
   void getInitalQueueItems(
-      std::deque<ViewQueueItem> &queue,
+      std::deque<shared_ptr<ViewQueueItem>> &queue,
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y);

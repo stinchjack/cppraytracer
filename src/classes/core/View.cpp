@@ -29,8 +29,8 @@ void View::setOutput(OUTPUT_PTR opt) {
   output = opt;
 }
 
-ViewQueueItem View::popQueueItem() {
-  ViewQueueItem item = renderQueue.front();
+ViewQueueItemPtr View::popQueueItem() {
+  ViewQueueItemPtr item = renderQueue.front();
   renderQueue.pop_front();
   return item;
 }
@@ -72,8 +72,8 @@ void View::makeInitialRenderQueue() {
 
           if (antialias == nullptr) {
             ray.startIsEye = true;
-            ViewQueueItem item (ray, x, y);
-            renderQueue.push_back(item);
+
+            renderQueue.push_back(make_shared<ViewQueueItem> (ray, x, y));
           }
           else {
             antialias->getInitalQueueItems(renderQueue, ray, x, y);

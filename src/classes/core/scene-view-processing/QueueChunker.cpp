@@ -1,15 +1,15 @@
 #include "QueueChunker.hpp"
 #include <iostream>
 
-QueueChunker::QueueChunker(deque<ViewQueueItem>  *queue , int chunk) {
+QueueChunker::QueueChunker(deque<ViewQueueItemPtr>  *queue , int chunk) {
   this->chunk = chunk;
   this->queue = queue;
   this->size = queue->size();
   this->current = 0;
 }
 
-bool QueueChunker::nextChunk (deque<ViewQueueItem>::iterator &chunkStart,
-    deque<ViewQueueItem>::iterator &chunkEnd) {
+bool QueueChunker::nextChunk (deque<ViewQueueItemPtr>::iterator &chunkStart,
+    deque<ViewQueueItemPtr>::iterator &chunkEnd) {
 
     if ((current + 1) >= size) {
       return false;

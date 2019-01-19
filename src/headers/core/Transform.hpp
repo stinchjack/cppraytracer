@@ -18,7 +18,7 @@ private:
   bool doScale = false;
   bool doRotate = false;
 
-  Point shift;
+  Point shift = Point(0,0,0);
   FLOAT scaleX = 1, scaleY = 1, scaleZ = 1;
   FLOAT rotateAngle;
   Vector rotateAxis;
