@@ -26,9 +26,16 @@ void Antialias::setupPixelStatus() {
   if (output != nullptr) {
     pixelStatus.resize(output->width());
     fill(pixelStatus.begin(), pixelStatus.end(), vector<int>(output->height()));
-    for (auto it = pixelStatus.begin(); it != pixelStatus.end(); it++) {
+
+    auto it = pixelStatus.begin();
+    int size = pixelStatus.size();
+
+    //for (auto it = pixelStatus.begin(); it != pixelStatus.end(); it++) {
+    for (int i=0; i<size; i++) {
       //it->resize (output->height());
+
       fill(it->begin(), it->end(), EDA_NOT_RENDERED);
+      it++;
     }
   }
 }

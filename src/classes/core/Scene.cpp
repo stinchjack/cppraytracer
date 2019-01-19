@@ -52,12 +52,15 @@ void Scene::setupTempShapes() {
   */
 
   map<string, SHAPE_PTR>::iterator it = shapes.begin();
+  int size= shapes.size();
+  int i=0;
 
   tempShapes.resize(0);
-  while (it !=shapes.end()) {
+  while (i<size) {
 
     tempShapes.push_back ( it->second);
     it++;
+    i++;
   }
 }
 
@@ -161,70 +164,19 @@ void Scene::testQueueItem(ViewQueueItemPtr queueItem, QueueItemResults &queueIte
   //loop thru each shape
 
   auto it = tempShapes.begin();
-
-  while (it !=tempShapes.end()) {
+  //auto end = tempShapes.end();
+  int size = tempShapes.size();
+  int i=0;
+  //while (it !=end())) {
+  while (i < size) {
 
     (*it)->testIntersect(queueItemResults, queueItem->ray);
 
     it++;
+    i++;
   }
 
-  /*map<string, SHAPE_PTR>::iterator it = shapes.begin();
 
-  while (it !=shapes.end()) {
-    SHAPE_PTR shape = it-void Scene::renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem) {
-
-
-      //cout <<"RQi  "<<endl;
-      QueueItemResults queueItemResults;
-
-      testQueueItem(queueItem, queueItemResults);
-
-
-
-      //if there is a hit ....
-      if (queueItemResults.size() > 0) {
-        int  samples;
-
-
-        if (view->antialias) {
-          samples = view->antialias->getSamples(queueitem->pixel_x, queueitem->pixel_y);
-        }
-        else {
-          samples = 1;
-        }
-
-
-        Colour newCol = LightModel::getColour(queueItemResults, samples, this, maxReflections) / samples;
-        //newCol = Colour(1,1,1);
-
-        view->output->addPixel(
-          queueitem->pixel_x, queueItem->pixel_y,
-          newCol);
-
-      }
-
-      if (view->antialias) {
-
-        if(view->antialias->getPixelStatus(queueitem->pixel_x, queueitem->pixel_y) == EDA_NOT_RENDERED) {
-          view->antialias->setPixelStatus(queueitem->pixel_x, queueitem->pixel_y, EDA_ONE_SAMPLE);
-          // cout << view->antialias->getPixelStatus(queueitem->pixel_x, queueitem->pixel_y) <<endl;
-        }
-        view->antialias->getExtraQueueItems(
-          view,
-          view->renderQueue,
-            queueitem->ray, queueitem->pixel_x,
-            queueitem->pixel_y);
-      }
-
-}
-
->second;
-
-    shape->testIntersect(queueItemResults, queueitem->ray);
-
-    it++;
-  }*/
 }
 
 void Scene::renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem) {
@@ -277,20 +229,18 @@ void Scene::renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem) {
 
 bool Scene::shadowTest(Ray &ray) {
 
-
-      //cout <<"RQi  "<<endl;
       QueueItemResults queueItemResults;
 
-
       //Looping thru vector much quick than looping thru map!!
-      for (auto it = tempShapes.begin(); it!=tempShapes.end(); it ++) {
+      auto it = tempShapes.begin();
+      int size = tempShapes.size();
+      for (int i =0; i<size; i++) {
 
         (*it)->testIntersect(queueItemResults, ray);
 
-        //it++;
+        it++;
       }
 
       return queueItemResults.size() > 0;
-
 
 }

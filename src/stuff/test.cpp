@@ -41,7 +41,12 @@ void testPng() {
    //PNGOUTPUT_PTR output = make_shared<PngOutput>(640, 640);
    shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
    Scene scene;
+
+   #ifdef DEBUG
    scene.useMultiThread = false;
+   #else
+   scene.useMultiThread = true;
+   #endif
 
 
 

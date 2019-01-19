@@ -62,8 +62,11 @@ Colour LightModel::getDiffuse (
 //  for (auto lightIterator = lights.begin(); lightIterator != lights.end(); lightIterator++) {
 //    shared_ptr<Light> light = lightIterator->second;
 
-   for (auto it = scene->tempLights.begin();
-    it!=scene->tempLights.end(); it++) {
+  int size = scene->tempLights.size();
+  auto it = scene->tempLights.begin();
+
+   //for (auto it = scene->tempLights.begin(); it!=scene->tempLights.end(); it++) {
+   for (int i=0; i<size; i++) {
      shared_ptr<Light> light = *it;
     //PointLight p = *((shared_ptr<PointLight>)light);
     //cout<<light->colour.r<<endl;
@@ -103,6 +106,7 @@ Colour LightModel::getDiffuse (
         (result->getShape()->diffuse->getColour(result, result->getShape()->mapping))
         * diffuseFactor * shadowFactor;
     }
+    it ++;
   }
 
 

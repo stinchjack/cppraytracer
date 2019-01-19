@@ -1,11 +1,6 @@
 #include "Ray.hpp"
 
 
-Ray::Ray (const Point& start, const Vector& direction) {
-  this->start = start;
-  this->direction = direction;
-
-}
 
 
 Point Ray::calcPos(const FLOAT t) {

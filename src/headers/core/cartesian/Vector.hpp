@@ -32,18 +32,18 @@ class Vector {
   public:
 
     inline Vector() {};
-    Vector (FLOAT, FLOAT, FLOAT);
+    inline Vector (FLOAT, FLOAT, FLOAT);
     Vector (const Point& p);
 
-    Vector operator*(FLOAT scale); // scale
-    Vector& operator*=(FLOAT scale);
-    FLOAT operator*(Vector &rhs); // dot product
+    inline Vector operator*(FLOAT scale); // scale
+    inline Vector& operator*=(FLOAT scale);
+    inline FLOAT operator*(Vector &rhs); // dot product
     FLOAT operator*(const Point &rhs) const; // dot product
     Vector operator+(const Point &rhs) const;
-    Vector operator-(Point &rhs) const;
-    Vector operator-(Vector &rhs) const;
-    Vector& operator+=(const Vector &rhs);
-    void reverse();
+    inline Vector operator-(Point &rhs) const;
+    inline Vector operator-(Vector &rhs) const;
+    inline Vector& operator+=(const Vector &rhs);
+    inline void reverse();
     FLOAT cross (const Vector &rhs);
     FLOAT length();
     Vector normalised();
@@ -51,6 +51,54 @@ class Vector {
 
 
 };
+
+Vector::Vector(FLOAT x, FLOAT y, FLOAT z) {
+
+  hasLength = 0;
+  hasNormalised = 0;
+
+  this->x = x;
+  this->y = y;
+  this->z = z;
+
+}
+
+void Vector::reverse(){
+  x = 0 - x;
+  y = 0 - y;
+  z = 0 - z;
+}
+
+Vector &Vector::operator*=(FLOAT scale) {
+
+  hasLength = 0;
+  hasNormalised = 0;
+
+  x *= scale;
+  y *= scale;
+  z *= scale;
+
+  return *this;
+}
+
+Vector Vector::operator*(FLOAT scale) {
+  return Vector(x * scale, y * scale, z* scale);
+}
+
+FLOAT Vector::operator*(Vector &rhs) {
+  return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
+}
+
+Vector Vector::operator-(Vector &rhs) const {
+  return Vector(x - rhs.x, y - rhs.y, z- rhs.z);
+}
+
+Vector & Vector::operator+=(const Vector &rhs) {
+  x += rhs.x;
+  y += rhs.y;
+  z += rhs.z;
+  return *this;
+}
 
 
 #endif
