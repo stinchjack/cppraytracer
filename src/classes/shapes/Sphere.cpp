@@ -12,10 +12,10 @@ Vector Sphere::getShapeNormal(IntersectHit *ih) {
 
 void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &worldRay) {
   FLOAT a = (ray.direction * ray.direction);
-  FLOAT b = 2.0 * (ray.direction * ray.start);
-
   FLOAT c = (ray.start * ray. start) - 1.0;//ray.start * ray.start;
+  FLOAT b = 2.0 * (ray.direction * ray.start);
   //FLOAT c = dot(ray.start, ray. start) - 1.0;//ray.start * ray.start;
+
 
   FLOAT discriminant = ((b * b) - (4.0 * a * c));
 

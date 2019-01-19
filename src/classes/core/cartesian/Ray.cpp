@@ -7,6 +7,7 @@ Ray::Ray () {
 Ray::Ray (const Point& start, const Vector& direction) {
   this->start = start;
   this->direction = direction;
+
 }
 
 

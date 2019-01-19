@@ -69,11 +69,9 @@ void View::makeInitialRenderQueue() {
           Vector direction ( (x * step_x) + viewLeft, (y * step_y) + viewTop , eyeZ);
 
           Ray ray(eye, direction);
-#ifdef EYE_TRANSFORM_SHORTCUT
-          ray.startIsEye = true;
-#endif
-          if (antialias == nullptr) {
 
+          if (antialias == nullptr) {
+            ray.startIsEye = true;
             ViewQueueItem item (ray, x, y);
             renderQueue.push_back(item);
           }

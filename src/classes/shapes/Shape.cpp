@@ -10,26 +10,22 @@ Shape::Shape() {
 
 
 void Shape::testIntersect (QueueItemResults &results, Ray &worldRay) {
-  //Point worldRayStart = {worldRay.start[0], worldRay.start[1], worldRay.start[2]};
-
-//  Ray newRay(this->tr
-
 
 Point start;
-#ifdef EYE_TRANSFORM_SHORTCUT
+
 if (worldRay.startIsEye && !hasTransformedEyePoint) {
-
-    transformedEyePoint = this->transformation.transform(worldRay.start);
-    start = transformedEyePoint;
+    start = this->transformation.transform(worldRay.start);
+    transformedEyePoint = start;
     hasTransformedEyePoint = true;
+}
+else if (worldRay.startIsEye && hasTransformedEyePoint) {
+  start = transformedEyePoint;
+}
+else  {
+    start = this->transformation.transform(worldRay.start);
+}
 
-}
-else {
-  start = this->transformation.transform(worldRay.start);
-}
-#else
-  start = this->transformation.transform(worldRay.start);
-#endif
+
 Ray newRay(start, this->transformation.transform (worldRay.direction));
 
   newRay.isShadowRay = worldRay.isShadowRay;

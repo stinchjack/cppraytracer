@@ -41,9 +41,38 @@ void Scene::renderQueue (ViewPtr view) {
   }
 }
 
+void Scene::setupTempShapes() {
+
+  /*
+  It turns out iterating thru maps is slower than iterating through vectors.
+  So, this function copies from the shapes map to vector so the vector can be used
+  for the intersection test loop;
+  */
+
+  map<string, SHAPE_PTR>::iterator it = shapes.begin();
+
+  tempShapes.resize(0);
+  while (it !=shapes.end()) {
+
+    tempShapes.push_back ( it->second);
+    it++;
+  }
+}
+
+void Scene::setupTempLights() {
+  tempLights.resize(0);
+  for (auto lightIterator = lights.begin();
+    lightIterator != lights.end(); lightIterator++) {
+    tempLights.push_back(lightIterator->second);
+  }
+
+}
+
 
 void Scene::render(const std::string &viewName) {
   views[viewName]->setScene(this);
+  setupTempShapes();
+  setupTempLights();
   if (useMultiThread) {
     cout << "MultiThread render ... " << endl;
     MTrender(viewName);
@@ -54,6 +83,7 @@ void Scene::render(const std::string &viewName) {
 
     renderQueue(views[viewName]);
   }
+
 }
 
 
@@ -85,7 +115,7 @@ void Scene::threadRenderQueue (MTInfo *mtInfo) {
 
 void Scene::MTrender(const std::string &viewName) {
 
-  int processes = 4; //std::thread::hardware_concurrency();
+  int processes = std::thread::hardware_concurrency();
 
   ViewPtr view = views[viewName];
   view->makeInitialRenderQueue();
@@ -117,9 +147,20 @@ void Scene::MTrender(const std::string &viewName) {
 
 }
 
+
 void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults) {
   //loop thru each shape
-  map<string, SHAPE_PTR>::iterator it = shapes.begin();
+
+  auto it = tempShapes.begin();
+
+  while (it !=tempShapes.end()) {
+
+    (*it)->testIntersect(queueItemResults, queueItem.ray);
+
+    it++;
+  }
+
+  /*map<string, SHAPE_PTR>::iterator it = shapes.begin();
 
   while (it !=shapes.end()) {
     SHAPE_PTR shape = it->second;
@@ -127,7 +168,7 @@ void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemR
     shape->testIntersect(queueItemResults, queueItem.ray);
 
     it++;
-  }
+  }*/
 }
 
 void Scene::renderQueueItem(ViewPtr view, ViewQueueItem &queueItem) {
@@ -184,14 +225,16 @@ bool Scene::shadowTest(Ray &ray) {
       //cout <<"RQi  "<<endl;
       QueueItemResults queueItemResults;
       //loop thru each shape
-      map<string, SHAPE_PTR>::iterator it = shapes.begin();
+      //map<string, SHAPE_PTR>::iterator it = shapes.begin();
 
-      while ((it !=shapes.end()) && (queueItemResults.size() == 0)) {
-        SHAPE_PTR shape = it->second;
+      //while ((it !=shapes.end()) && (queueItemResults.size() == 0)) {
+      //SHAPE_PTR shape = it->second;
 
-        shape->testIntersect(queueItemResults, ray);
+      for (auto it = tempShapes.begin(); it!=tempShapes.end(); it ++) {
 
-        it++;
+        (*it)->testIntersect(queueItemResults, ray);
+
+        //it++;
       }
 
       return queueItemResults.size() > 0;

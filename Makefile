@@ -16,7 +16,7 @@ ifeq ($(experiment),true)
 endif
 
 ifeq ($(mode),debug)
-	CXXFLAGS=  $(EXPERIMENTFLAGS)  $(shell Magick++-config --cppflags) -Werror -Wall -ggdb -pg -std=c++11
+	CXXFLAGS=   $(EXPERIMENTFLAGS)  $(shell Magick++-config --cppflags) -Werror -Wall -ggdb -pg -std=c++11
 	LDFLAGS =  $(shell Magick++-config --ldflags --libs) -lm -lpng -pg -pthread -lGL -lglfw -lGLEW -lglut
 
 else

@@ -37,6 +37,13 @@ class Shape {
   shared_ptr<Texture> transparency = nullptr;
   shared_ptr<Mapping> mapping = nullptr;
 
+  template <class T, class... Args>
+    shared_ptr<T> setDiffuse (Args&&... args) {
+    diffuse  = make_shared<T>(args...);
+
+    return diffuse;
+
+  }
 
   /*void setDiffuse (const shared_ptr<Texture>);
   void setSpecular (const shared_ptr<Texture>);

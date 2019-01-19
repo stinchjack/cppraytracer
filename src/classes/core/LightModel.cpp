@@ -46,18 +46,25 @@ FLOAT LightModel::shadowTest (
     return 1.0 - ((FLOAT)shadows/(FLOAT)totalShadows);
   };
 
+
+
+
 Colour LightModel::getDiffuse (
     QueueItemResults &itemResults,
     int samples,
     Scene *scene) {
   Colour diffuse(0,0,0);
 
-  map<string, shared_ptr<Light>> &lights = scene->lights;
+  //map<string, shared_ptr<Light>> &lights = scene->lights;
   IntersectHitPtr result = itemResults.begin()->second;
 
   //foreach light ...
-  for (auto lightIterator = lights.begin(); lightIterator != lights.end(); lightIterator++) {
-    shared_ptr<Light> light = lightIterator->second;
+//  for (auto lightIterator = lights.begin(); lightIterator != lights.end(); lightIterator++) {
+//    shared_ptr<Light> light = lightIterator->second;
+
+   for (auto it = scene->tempLights.begin();
+    it!=scene->tempLights.end(); it++) {
+     shared_ptr<Light> light = *it;
     //PointLight p = *((shared_ptr<PointLight>)light);
     //cout<<light->colour.r<<endl;
 

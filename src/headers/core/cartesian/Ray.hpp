@@ -1,6 +1,8 @@
 #ifndef RAY_HPP
 #define RAY_HPP
 
+#define EYE_TRANSFORM_SHORTCUT
+
 #include "Point.hpp"
 #include "Vector.hpp"
 

@@ -9,7 +9,7 @@
 using namespace std;
 
 class LightModel {
-
+  friend class Scene;
 private:
   static Colour getDiffuse(
     QueueItemResults &itemResults,

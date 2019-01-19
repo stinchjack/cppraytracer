@@ -1,6 +1,6 @@
 #ifndef FLOAT_HPP
 #define FLOAT_HPP
 
-  #define FLOAT float
+  #define FLOAT double
 
 #endif

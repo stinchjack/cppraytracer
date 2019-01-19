@@ -21,6 +21,7 @@ class Texture {
 public:
   virtual Colour getColour (shared_ptr<IntersectHit>  ir, shared_ptr<Mapping> map);
   virtual Colour getColour (shared_ptr<IntersectHit>  ir, const UVPair &uvPair) = 0;
+
 };
 
 class PlainTexture: public Texture {

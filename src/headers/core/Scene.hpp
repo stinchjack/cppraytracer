@@ -23,14 +23,23 @@ typedef shared_ptr<Scene> ScenePtr;
 #include "MultiThread.hpp"
 
 class Scene {
-
+  friend class LightModel;
  private:
   void adder(string label, shared_ptr<Shape> shape);
 
   void  adder(string label, shared_ptr<Light> light);
   void adder(string label, shared_ptr<View> view);
 
+  vector<shared_ptr<Shape>>  tempShapes;
+
+
+  std::vector<shared_ptr<Light>> tempLights;
+  void setupTempLights();
+  void setupTempShapes();
   public:
+
+
+
     bool useMultiThread = false;
     int maxReflections = 5;
 
@@ -54,6 +63,9 @@ class Scene {
     void renderQueueItem(ViewPtr view, ViewQueueItem &queueItem);
     void render(const std::string &viewName);
     void MTrender(const std::string &viewName);
+
+
+    //~Scene();
 };
 
 #endif
