@@ -13,7 +13,7 @@ class Ray {
 
   bool startIsEye = false;
 
-  Ray();
+  inline Ray(){};
 
   Ray(const Point& start, const Vector& direction);
 

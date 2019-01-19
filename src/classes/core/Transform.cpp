@@ -2,8 +2,6 @@
 #include <cmath>
 #include <stdexcept>
 
-Transform::Transform() {};
-
 void Transform::setRotate(const Vector &rotateAxis, FLOAT rotateAngle) {
   this->rotateAngle = rotateAngle;
   this->rotateAxis = rotateAxis;

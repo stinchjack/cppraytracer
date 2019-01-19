@@ -3,9 +3,6 @@
 #include <iostream>
 
 
-Vector::Vector() {
-
-}
 
 Vector::Vector(FLOAT x, FLOAT y, FLOAT z) {
 

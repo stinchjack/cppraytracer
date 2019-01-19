@@ -1,8 +1,6 @@
 #include "IntersectHit.hpp"
 #include "Shape.hpp"
 
-IntersectHit::IntersectHit () {
-}
 
 IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
   this->shape = shape;

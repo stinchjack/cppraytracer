@@ -15,7 +15,7 @@ class Colour{
   FLOAT g = 0;
   FLOAT b = 0;
 
-  Colour ();
+  inline Colour (){};
   Colour (FLOAT r, FLOAT g, FLOAT b);
   Colour (const Colour&);
   Colour (const Colour*);

@@ -2,10 +2,6 @@
 #include "Float.hpp"
 #include <stdlib.h>
 
-
-Colour::Colour () {
-}
-
 FLOAT & Colour::operator[](int i) {
   switch (i) {
     case 0:

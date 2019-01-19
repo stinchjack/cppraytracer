@@ -25,7 +25,7 @@ private:
   void rotationMatrix();
 
 public:
-  Transform();
+  inline Transform(){};
   void setShift(const Point &p);
   void setScale(FLOAT scaleX, FLOAT scaleY, FLOAT scaleZ );
   void setRotate(const Vector &axis, FLOAT angle);

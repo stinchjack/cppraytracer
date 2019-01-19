@@ -31,7 +31,7 @@ class Vector {
 
   public:
 
-    Vector();
+    inline Vector() {};
     Vector (FLOAT, FLOAT, FLOAT);
     Vector (const Point& p);
 

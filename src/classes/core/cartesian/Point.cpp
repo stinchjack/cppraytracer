@@ -1,6 +1,30 @@
 #include "Point.hpp"
 #include "Vector.hpp"
 
+Point::Point (Vector &v) {
+  x = v.x;
+  y = v.y;
+  z = v.z;
+}
+
+Point Point::operator+(const Vector &rhs)  const
+{
+  return Point (x + rhs.x, y + rhs.y, z + rhs.z);
+}
+
+Point Point::operator-(const Vector &rhs)  const
+{
+  return Point (x - rhs.x, y - rhs.y, z - rhs.z);
+}
+
+FLOAT Point::operator*(Vector &rhs) const
+{
+
+  return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
+
+}
+
+/*
 Point::Point(FLOAT x, FLOAT y, FLOAT z) {
   this->x=x;
   this->y=y;
@@ -13,11 +37,6 @@ Point::Point (const Point &p) {
   z = p.z;
 }
 
-Point::Point (Vector &v) {
-  x = v.x;
-  y = v.y;
-  z = v.z;
-}
 
 Point& Point::operator+=(const Point &rhs)
 {
@@ -42,15 +61,7 @@ Point Point::operator+(const Point &rhs)  const
 
 
 
-Point Point::operator+(const Vector &rhs)  const
-{
-  return Point (x + rhs.x, y + rhs.y, z + rhs.z);
-}
 
-Point Point::operator-(const Vector &rhs)  const
-{
-  return Point (x - rhs.x, y - rhs.y, z - rhs.z);
-}
 
 Point Point::operator-(const Point &rhs)  const
 {
@@ -64,9 +75,6 @@ FLOAT Point::operator*(Point &rhs) const
 
 }
 
-FLOAT Point::operator*(Vector &rhs) const
-{
 
-  return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
 
-}
+*/

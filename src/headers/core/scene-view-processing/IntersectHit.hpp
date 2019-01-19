@@ -42,7 +42,7 @@ class IntersectHit {
   public:
     Scene *scene = 0;
 
-    IntersectHit ();
+    inline IntersectHit (){};
     IntersectHit (Shape *shape, FLOAT t);
     IntersectHit (const IntersectHitPtr ih);
     Point getShapePoint();
