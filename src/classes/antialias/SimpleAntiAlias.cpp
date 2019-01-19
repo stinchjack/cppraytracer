@@ -21,8 +21,11 @@ void SimpleAntiAlias::getInitalQueueItems(
       Point p = {randX, randY, 0.0};
 
       Ray extraRay = Ray(ray.start, ray.direction + p);
-      //RayPtr = Ray::makePtr(ray.start, ray.direction + p));
-      extraRay.startIsEye = true;
+      RayPtr newRay = makeRayPtr(ray.start, ray.direction + p, true);
+
+      // queue.push_back(make_shared<ViewQueueItem>(
+      //  makeRayPtr(ray.start, ray.direction + p, true),
+      //             pixel_x, pixel_y));
 
       queue.push_back(make_shared<ViewQueueItem>(extraRay, pixel_x, pixel_y));
   }

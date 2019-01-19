@@ -28,6 +28,7 @@ class Ray {
   inline Ray(){};
 
   inline Ray(const Point& start, const Vector& direction);
+  inline Ray(const Point& start, const Vector& direction, bool startIsEye);
   inline Ray(const Point& start, FLOAT vx, FLOAT vy, FLOAT vz);
 
   Point calcPos(FLOAT t);
@@ -40,10 +41,19 @@ inline RayPtr makeRayPtr(const Point& start, const Vector& direction) {
   return make_shared<Ray>(start, direction);
 }
 
+inline RayPtr makeRayPtr(const Point& start, const Vector& direction, bool startIsEye) {
+  return make_shared<Ray>(start, direction, startIsEye);
+}
+
 Ray::Ray (const Point& start, const Vector& direction) {
   this->start = start;
   this->direction = direction;
 
+}
+Ray::Ray (const Point& start, const Vector& direction, bool startIsEye) {
+  this->start = start;
+  this->direction = direction;
+  this->startIsEye = startIsEye;
 }
 
 Ray::Ray (const Point& start, FLOAT vx, FLOAT vy, FLOAT vz) {
