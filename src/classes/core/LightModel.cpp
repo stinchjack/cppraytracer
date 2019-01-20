@@ -16,8 +16,11 @@ Colour LightModel::getColour(
   if (scene->lights.size() > 0) {
     c += getDiffuse(itemResults, antialiasSamples, scene);
   }
-  itemResults.begin()->second->scene = scene;
-  c += reflection(itemResults.begin()->second, reflectionCount);
+
+  IHPtr hit = *itemResults.begin();
+
+  hit->scene = scene;
+  c += reflection(hit, reflectionCount);
 
   return c;
 }
@@ -55,8 +58,7 @@ Colour LightModel::getDiffuse (
     Scene *scene) {
   Colour diffuse(0,0,0);
 
-  //map<string, shared_ptr<Light>> &lights = scene->lights;
-  IntersectHitPtr result = itemResults.begin()->second;
+  IntersectHitPtr result = *itemResults.begin();
 
   //foreach light ...
 //  for (auto lightIterator = lights.begin(); lightIterator != lights.end(); lightIterator++) {

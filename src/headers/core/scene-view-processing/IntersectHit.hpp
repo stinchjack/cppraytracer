@@ -37,11 +37,11 @@ class IntersectHit {
     Ray worldRay; // the original ray
     Ray shapeRay;
     Point worldPoint;
-    FLOAT t;
+
 
   public:
     Scene *scene = 0;
-
+    FLOAT t;
     inline IntersectHit (){};
     inline IntersectHit (Shape *shape, FLOAT t);
     IntersectHit (const IntersectHitPtr ih);

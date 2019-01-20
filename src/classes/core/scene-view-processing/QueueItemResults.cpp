@@ -10,22 +10,15 @@ IntersectHitPtr QueueItemResults::addResult (float t,  Shape * shape) {
 
   IntersectHitPtr ih = make_shared<IntersectHit>(shape, t);
 
-  if (find(t) == end() ) {
-      // newT not found in main map
-    this->operator[](t) = ih;
+/*  if (find(t) != end() ) {
+    t += .0001;
+  }*/
 
-  }
-  else {
-    this->operator[](t+.0001) = ih;
-  }
+  this->insert(ih);
 
   return ih;
 }
 
 IntersectHitPtr  QueueItemResults::closestResult() {
-  return this->begin()->second;
+  return *this->begin();
 }
-/*
-int QueueItemResults::resultCount() {
-  return queueItemResults.size();
-}*/
