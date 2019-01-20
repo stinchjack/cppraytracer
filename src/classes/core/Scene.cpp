@@ -104,7 +104,8 @@ void Scene::render(const std::string &viewName) {
 /** brief Static function to be called by std::thread
 */
 void Scene::threadRenderEntryPoint(MTInfo *info) {
-  info->scene->threadRenderQueue(info);
+  info->scene->threadRenderChunk(info);
+  //info->scene->threadRenderQueue(info);
 }
 
 void Scene::threadRenderQueue (MTInfo *mtInfo) {
