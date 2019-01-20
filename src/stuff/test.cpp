@@ -200,13 +200,12 @@ void testPng() {
 
 
 
-
-   //scene.views["view1"].setAntiAlias(std::make_shared<SimpleAntiAlias> (SimpleAntiAlias(20)));
-  // scene.views["View1"]->setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
+  scene.views["View1"]->setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
    //scene.views["view1"].setAntiAlias(std::make_shared<EDAntiAlias> (25, 1.8));
 
-   //scene.views["view1"].setAntiAlias(
-  //std::make_shared<EDAntiAlias> (EDAntiAlias(50, 0.3)));
+  // for explicitly setting no antialas, use:
+  // scene.views["view1"].setAntiAlias(nullptr);
+
 
 
    LightModel::processShadows  = true;
