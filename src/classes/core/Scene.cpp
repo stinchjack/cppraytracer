@@ -126,31 +126,23 @@ void Scene::threadRenderQueue (MTInfo *mtInfo) {
 
 }
 
-/*void Scene::threadRenderChunk (MTInfo *mtInfo) {
+void Scene::threadRenderChunk (MTInfo *mtInfo) {
 
-  mtInfo->
+  int minY, maxY;
 
-  vector<ViewQueueItemPtr>::iterator Qstart;
-  vector<ViewQueueItemPtr>::iterator Qend;
+  mtInfo->viewChunker (minY, maxY)
+
 
   int c = 0;
 
-  while (mtInfo->chunker->nextChunk(Qstart, Qend)) {
-
-    for (auto it = Qstart;
-        it != (Qend + 1); it++)
-      {
-        mtInfo->scene->renderQueueItem(mtInfo->view, *it);
-        c++;
-      }
+  while (mtInfo->chunker->nextChunk(minY, maxY)) {
+    view->processChunk(minY, maxY);
+    c++
   }
 
 
-
-  view->processChunk(minY, maxY);
-
   //cout <<"thread total "<<c<<endl;
-}*/
+}
 
 void Scene::MTrender(const std::string &viewName) {
 
