@@ -56,6 +56,7 @@ class Scene {
     void renderQueue (ViewPtr view);
     static void threadRenderEntryPoint(struct MTInfo *info);
     void threadRenderQueue(struct MTInfo *info);
+    void threadRenderChunk (MTInfo *mtInfo);
     void testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults);
     void renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem);
     void renderQueueItem(View *view, ViewQueueItem &queueItem);

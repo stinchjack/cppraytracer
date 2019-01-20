@@ -131,14 +131,11 @@ void Scene::threadRenderChunk (MTInfo *mtInfo) {
 
   int minY, maxY;
 
-  mtInfo->viewChunker (minY, maxY)
-
-
   int c = 0;
 
-  while (mtInfo->chunker->nextChunk(minY, maxY)) {
-    view->processChunk(minY, maxY);
-    c++
+  while (mtInfo->viewChunker->nextChunk(minY, maxY)) {
+    mtInfo->view->processChunk(minY, maxY);
+    c++;
   }
 
 
@@ -156,11 +153,13 @@ void Scene::MTrender(const std::string &viewName) {
   vector <MTInfo> threadInfos(processes);
 
   QueueChunker chunker(&view->renderQueue, 5000);
+  ViewChunker viewChunker(view->output->height(), 20);  // split by columns
 
   for (int i = 0; i < processes; i++) {
       threadInfos[i].scene = this;
       threadInfos[i].view = view;
       threadInfos[i].chunker = &chunker;
+      threadInfos[i].viewChunker = &viewChunker;
 
       threads[i] = std::thread (Scene::threadRenderEntryPoint, &threadInfos[i]);
   }
