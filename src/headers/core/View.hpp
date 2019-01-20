@@ -48,7 +48,7 @@ private:
 
 public:
 
-  View ();
+  inline View (){};
   View (float viewWidth, float viewHeight, float eyeZ);
 
   vector<vector<unsigned int>> sampleCount; // to support antialiasing

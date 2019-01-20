@@ -2,10 +2,10 @@
 #include "Shape.hpp"
 
 
-IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
+/*IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
   this->shape = shape;
   this->t = t;
-}
+}*/
 
 
   IntersectHit::IntersectHit (const IntersectHitPtr ih) {

@@ -43,7 +43,7 @@ class IntersectHit {
     Scene *scene = 0;
 
     inline IntersectHit (){};
-    IntersectHit (Shape *shape, FLOAT t);
+    inline IntersectHit (Shape *shape, FLOAT t);
     IntersectHit (const IntersectHitPtr ih);
     Point getShapePoint();
     Point getWorldPoint();
@@ -61,6 +61,11 @@ class IntersectHit {
 
 
 };
+
+IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
+  this->shape = shape;
+  this->t = t;
+}
 
 
 #endif

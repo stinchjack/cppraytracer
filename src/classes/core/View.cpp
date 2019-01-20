@@ -2,9 +2,6 @@
 #include "View.hpp"
 #include "Scene.hpp"
 #include <algorithm>
-View::View () {
-
-}
 
 View::View (float viewWidth, float viewHeight, float eyeZ) {
   this->viewWidth = viewWidth;
