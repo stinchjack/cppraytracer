@@ -86,6 +86,7 @@ void Scene::setupTempLights() {
 
 void Scene::render(const std::string &viewName) {
   views[viewName]->setScene(this);
+  views[viewName]->processChunkSetup();
   setupTempShapes();
   setupTempLights();
   if (useMultiThread) {
@@ -94,9 +95,8 @@ void Scene::render(const std::string &viewName) {
   }
   else {
     cout << "Single thread render ... " << endl;
-    views[viewName]->makeInitialRenderQueue();
+    views[viewName]->processChunk(0, views[viewName]->output->height()-1);
 
-    renderQueue(views[viewName]);
   }
 
 }
@@ -147,18 +147,18 @@ void Scene::MTrender(const std::string &viewName) {
   int processes = std::thread::hardware_concurrency();
 
   ViewPtr view = views[viewName];
-  view->makeInitialRenderQueue();
+  //view->makeInitialRenderQueue();
   std::thread threads[processes];
 
   vector <MTInfo> threadInfos(processes);
 
-  QueueChunker chunker(&view->renderQueue, 5000);
-  ViewChunker viewChunker(view->output->height(), 20);  // split by columns
+  //QueueChunker chunker(&view->renderQueue, 5000);
+  ViewChunker viewChunker(view->output->height()-1, 20);  // split by columns
 
   for (int i = 0; i < processes; i++) {
       threadInfos[i].scene = this;
       threadInfos[i].view = view;
-      threadInfos[i].chunker = &chunker;
+      //threadInfos[i].chunker = &chunker;
       threadInfos[i].viewChunker = &viewChunker;
 
       threads[i] = std::thread (Scene::threadRenderEntryPoint, &threadInfos[i]);
@@ -236,7 +236,7 @@ void Scene::processQueueItemResults(ViewPtr view, QueueItemResults &queueItemRes
           view->antialias->setPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y, EDA_ONE_SAMPLE);
           // cout << view->antialias->getPixelStatus(queueItem->pixel_x, queueItem->pixel_y) <<endl;
         }
-        /*view->antialias->getExtraQueueItems(
+      /*  view->antialias->getExtraQueueItems(
           view,
           view->renderQueue,
             queueItem->ray, queueItemResults.pixel_x,

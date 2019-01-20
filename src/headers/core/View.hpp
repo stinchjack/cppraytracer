@@ -33,6 +33,18 @@ private:
 
   shared_ptr<Output> output = nullptr;
 
+  /************/
+  // used for View::processChunk
+  void processChunkSetup();
+
+
+  Point eye;
+  float viewLeft;
+  float viewTop;
+
+  float step_x;
+  float step_y;
+  /*************/
 
 public:
 

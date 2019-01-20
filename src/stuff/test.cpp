@@ -43,7 +43,7 @@ void testPng() {
    Scene scene;
 
    #ifdef DEBUG
-   scene.useMultiThread = false;
+   scene.useMultiThread = true;
    #else
    scene.useMultiThread = true;
    #endif
