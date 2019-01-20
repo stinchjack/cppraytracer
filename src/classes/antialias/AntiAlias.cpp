@@ -52,7 +52,7 @@ int Antialias::getSamples(int screenX, int screenY) {
 }
 
 void NoAntiAlias::getInitalQueueItems(
-      std::deque<shared_ptr<ViewQueueItem>> &queue,
+      std::vector<shared_ptr<ViewQueueItem>> &queue,
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y) {
@@ -62,7 +62,7 @@ void NoAntiAlias::getInitalQueueItems(
 }
 
 void Antialias::getExtraQueueItems(ViewPtr view,
-      std::deque<shared_ptr<ViewQueueItem>> &queue,
+      std::vector<shared_ptr<ViewQueueItem>> &queue,
       Ray & ray,
       int pixel_x,
       int pixel_y) {

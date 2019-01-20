@@ -29,11 +29,11 @@ void View::setOutput(OUTPUT_PTR opt) {
   output = opt;
 }
 
-ViewQueueItemPtr View::popQueueItem() {
+/*ViewQueueItemPtr View::popQueueItem() {
   ViewQueueItemPtr item = renderQueue.front();
   renderQueue.pop_front();
   return item;
-}
+}*/
 
 bool View::queueEmpty() {
   return renderQueue.empty();
@@ -48,7 +48,7 @@ void View::makeInitialRenderQueue() {
   }
 
 
-  Point eye={0,0, 0- eyeZ};
+  Point eye(0,0, 0- eyeZ);
 
   float viewLeft = 0.0 - (viewWidth / 2.0);
   float viewTop = 0.0 - (viewHeight / 2.0);
@@ -70,14 +70,16 @@ void View::makeInitialRenderQueue() {
 
           Ray ray(eye, direction);
 
-          if (antialias == nullptr) {
+          renderQueue.push_back(make_shared<ViewQueueItem> (ray, x, y));
+
+          /*if (antialias == nullptr) {
             ray.startIsEye = true;
 
             renderQueue.push_back(make_shared<ViewQueueItem> (ray, x, y));
           }
           else {
             antialias->getInitalQueueItems(renderQueue, ray, x, y);
-          }
+          }*/
 
       }
 

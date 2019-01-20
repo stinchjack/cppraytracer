@@ -6,7 +6,7 @@
 #include "Colour.hpp"
 #include "ViewQueueItem.hpp"
 #include "QueueChunker.hpp"
-#include <deque>
+#include <vector>
 
 
 

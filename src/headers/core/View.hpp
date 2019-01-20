@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 #include <map>
-#include <deque>
+#include <vector>
 #include "Ray.hpp"
 #include "Output.hpp"
 #include "Antialias.hpp"
@@ -28,7 +28,7 @@ private:
 
   float viewWidth, viewHeight;
   float eyeZ;
-  std::deque<shared_ptr<ViewQueueItem>> renderQueue;
+  std::vector<shared_ptr<ViewQueueItem>> renderQueue;
   Ray transform(Ray &ray);
 
   shared_ptr<Output> output = nullptr;
@@ -42,7 +42,7 @@ public:
 
   vector<vector<unsigned int>> sampleCount; // to support antialiasing
 
-  ViewQueueItemPtr popQueueItem();
+  //ViewQueueItemPtr popQueueItem();
   bool queueEmpty();
 
   Scene *getScene();

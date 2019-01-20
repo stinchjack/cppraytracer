@@ -3,10 +3,12 @@
 #define ANTIALIAS_HPP
 
 
-#include <deque>
+#include <vector>
 #include "ViewQueueItem.hpp"
+#include "QueueItemResults.hpp"
 #include <memory>
 #include "Output.hpp"
+class Scene;
 
 #define ANTIALIAS_PTR std::shared_ptr<Antialias>
 
@@ -37,18 +39,21 @@ class Antialias {
   virtual int getSamples(int screenX, int screenY);
 
   virtual void getInitalQueueItems(
-        std::deque<shared_ptr<ViewQueueItem>> &queue,
+        std::vector<shared_ptr<ViewQueueItem>> &queue,
         Ray & ray,
         unsigned int pixel_x,
         unsigned int pixel_y) = 0;
 
   virtual void getExtraQueueItems(ViewPtr view,
-        std::deque<shared_ptr<ViewQueueItem>> &queue,
+        std::vector<shared_ptr<ViewQueueItem>> &queue,
         Ray & ray,
         int pixel_x,
         int pixel_y);
 
-  //virtual std::deque<QueueItem> outputUpdated (const View&) = 0;
+  virtual void antialias (
+        ViewQueueItemPtr queueItem, ViewPtr view, Scene *scene) = 0;
+
+  //virtual std::vector<QueueItem> outputUpdated (const View&) = 0;
 
 };
 
@@ -57,12 +62,12 @@ class NoAntiAlias:public Antialias{
   public:
   NoAntiAlias();
   void getInitalQueueItems(
-      std::deque<shared_ptr<ViewQueueItem>> &queue,
+      std::vector<shared_ptr<ViewQueueItem>> &queue,
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y);
 
-  //std::deque<QueueItem> outputUpdated (const View&);
+  //std::vector<QueueItem> outputUpdated (const View&);
 };
 
 

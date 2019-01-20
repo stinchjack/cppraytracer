@@ -31,11 +31,15 @@ void Scene::adder(string label, shared_ptr<View> view) {
 
 void Scene::renderQueue (ViewPtr view) {
 
-  while (!view->renderQueue.empty()) {
+  auto it = view->renderQueue.begin();
+  int size = view->renderQueue.size();
 
-    renderQueueItem(view, view->renderQueue.front());
-    view->renderQueue.pop_front();
+  for (int i =0;i<size;i++) {
+
+    renderQueueItem(view, *it);
+    it++;
   }
+  view->renderQueue.empty();
 }
 
 /**brief Copies the map of shapes to a vector
@@ -105,8 +109,8 @@ void Scene::threadRenderEntryPoint(MTInfo *info) {
 
 void Scene::threadRenderQueue (MTInfo *mtInfo) {
 
-  deque<ViewQueueItemPtr>::iterator Qstart;
-  deque<ViewQueueItemPtr>::iterator Qend;
+  vector<ViewQueueItemPtr>::iterator Qstart;
+  vector<ViewQueueItemPtr>::iterator Qend;
 
   int c = 0;
 
@@ -139,7 +143,7 @@ void Scene::MTrender(const std::string &viewName) {
   vector <MTInfo> threadInfos(processes);
 
 
-  QueueChunker chunker(&view->renderQueue, 50000);
+  QueueChunker chunker(&view->renderQueue, 5000);
 
   for (int i = 0; i < processes; i++) {
 
@@ -160,7 +164,7 @@ void Scene::MTrender(const std::string &viewName) {
 }
 
 
-void Scene::testQueueItem(ViewQueueItemPtr queueItem, QueueItemResults &queueItemResults) {
+void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults) {
   //loop thru each shape
 
   auto it = tempShapes.begin();
@@ -170,7 +174,9 @@ void Scene::testQueueItem(ViewQueueItemPtr queueItem, QueueItemResults &queueIte
   //while (it !=end())) {
   while (i < size) {
 
-    (*it)->testIntersect(queueItemResults, queueItem->ray);
+    //potential alternate placement for extra antialias rays
+
+    (*it)->testIntersect(queueItemResults, queueItem.ray);
 
     it++;
     i++;
@@ -183,11 +189,21 @@ void Scene::renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem) {
 
 
       //cout <<"RQi  "<<endl;
-      QueueItemResults queueItemResults;
-
-      testQueueItem(queueItem, queueItemResults);
 
 
+      if (view->antialias) {
+        view->antialias->antialias(queueItem, view, this);
+      }
+      else {
+        QueueItemResults queueItemResults;
+        queueItemResults.pixel_x = queueItem->pixel_x;
+        queueItemResults.pixel_y = queueItem->pixel_y;
+        testQueueItem(*queueItem, queueItemResults);
+        processQueueItemResults(view, queueItemResults);
+      }
+}
+
+void Scene::processQueueItemResults(ViewPtr view, QueueItemResults &queueItemResults) {
 
       //if there is a hit ....
       if (queueItemResults.size() > 0) {
@@ -195,7 +211,7 @@ void Scene::renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem) {
 
 
         if (view->antialias) {
-          samples = view->antialias->getSamples(queueItem->pixel_x, queueItem->pixel_y);
+          samples = view->antialias->getSamples(queueItemResults.pixel_x, queueItemResults.pixel_y);
         }
         else {
           samples = 1;
@@ -206,22 +222,22 @@ void Scene::renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem) {
         //newCol = Colour(1,1,1);
 
         view->output->addPixel(
-          queueItem->pixel_x, queueItem->pixel_y,
+          queueItemResults.pixel_x, queueItemResults.pixel_y,
           newCol);
 
       }
 
       if (view->antialias) {
 
-        if(view->antialias->getPixelStatus(queueItem->pixel_x, queueItem->pixel_y) == EDA_NOT_RENDERED) {
-          view->antialias->setPixelStatus(queueItem->pixel_x, queueItem->pixel_y, EDA_ONE_SAMPLE);
+        if(view->antialias->getPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y) == EDA_NOT_RENDERED) {
+          view->antialias->setPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y, EDA_ONE_SAMPLE);
           // cout << view->antialias->getPixelStatus(queueItem->pixel_x, queueItem->pixel_y) <<endl;
         }
-        view->antialias->getExtraQueueItems(
+        /*view->antialias->getExtraQueueItems(
           view,
           view->renderQueue,
-            queueItem->ray, queueItem->pixel_x,
-            queueItem->pixel_y);
+            queueItem->ray, queueItemResults.pixel_x,
+            queueItemResults.pixel_y);*/
       }
 
 }

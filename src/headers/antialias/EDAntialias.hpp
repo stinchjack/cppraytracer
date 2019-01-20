@@ -29,19 +29,19 @@ class EDAntiAlias:public Antialias{
   int getSamples(int screenX, int screenY);
   EDAntiAlias(unsigned int samples, float threshold);
   void getInitalQueueItems(
-      std::deque<shared_ptr<ViewQueueItem>> &queue,
+      std::vector<shared_ptr<ViewQueueItem>> &queue,
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y);
   virtual void getExtraQueueItems (ViewPtr view,
-        std::deque<shared_ptr<ViewQueueItem>> &queue,
+        std::vector<shared_ptr<ViewQueueItem>> &queue,
         Ray & ray,
         int pixel_x,
         int pixel_y);
 
 
 
-  //std::deque<QueueItem> outputUpdated (const View&);
+  //std::vector<QueueItem> outputUpdated (const View&);
 };
 
 

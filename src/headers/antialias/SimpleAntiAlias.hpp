@@ -12,12 +12,13 @@ class SimpleAntiAlias:public Antialias{
   public:
   SimpleAntiAlias(unsigned int samples);
   void getInitalQueueItems(
-      std::deque<shared_ptr<ViewQueueItem>> &queue,
+      std::vector<shared_ptr<ViewQueueItem>> &queue,
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y);
 
-  //std::deque<QueueItem> outputUpdated (const View&);
+  virtual void antialias (
+        ViewQueueItemPtr queueItem, ViewPtr view, Scene *scene);
 };
 
 
