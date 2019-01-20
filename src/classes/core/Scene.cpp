@@ -6,7 +6,6 @@
 #include <iterator>
 #include <memory>
 #include "MultiThread.hpp"
-#include "QueueChunker.hpp"
 #include "EDAntialias.hpp"
 #include "LightModel.hpp"
 
@@ -24,23 +23,6 @@ void Scene::adder(string label, shared_ptr<View> view) {
   views[label] = view;
 }
 
-/**brief Scene::renderQueue - process render queue for single-thread
- * renders
- * return void
- */
-
-void Scene::renderQueue (ViewPtr view) {
-
-  auto it = view->renderQueue.begin();
-  int size = view->renderQueue.size();
-
-  for (int i =0;i<size;i++) {
-
-    renderQueueItem(view, *it);
-    it++;
-  }
-  view->renderQueue.empty();
-}
 
 /**brief Copies the map of shapes to a vector
 * detail Copies the map of shapes to a vector, since vectors a much
@@ -105,27 +87,10 @@ void Scene::render(const std::string &viewName) {
 */
 void Scene::threadRenderEntryPoint(MTInfo *info) {
   info->scene->threadRenderChunk(info);
-  //info->scene->threadRenderQueue(info);
-}
-
-void Scene::threadRenderQueue (MTInfo *mtInfo) {
-
-  vector<ViewQueueItemPtr>::iterator Qstart;
-  vector<ViewQueueItemPtr>::iterator Qend;
-
-  int c = 0;
-
-  while (mtInfo->chunker->nextChunk(Qstart, Qend)) {
-
-    for (auto it = Qstart;
-        it != (Qend + 1); it++)
-      {
-        mtInfo->scene->renderQueueItem(mtInfo->view, *it);
-        c++;
-      }
-  }
 
 }
+
+
 
 void Scene::threadRenderChunk (MTInfo *mtInfo) {
 
@@ -152,13 +117,12 @@ void Scene::MTrender(const std::string &viewName) {
 
   vector <MTInfo> threadInfos(processes);
 
-  //QueueChunker chunker(&view->renderQueue, 5000);
   ViewChunker viewChunker(view->output->height()-1, 20);  // split by columns
 
   for (int i = 0; i < processes; i++) {
       threadInfos[i].scene = this;
       threadInfos[i].view = view;
-      //threadInfos[i].chunker = &chunker;
+;
       threadInfos[i].viewChunker = &viewChunker;
 
       threads[i] = std::thread (Scene::threadRenderEntryPoint, &threadInfos[i]);
@@ -189,59 +153,6 @@ void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemR
     i++;
   }
 
-
-}
-
-void Scene::renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem) {
-
-      if (view->antialias) {
-        view->antialias->antialias(queueItem, view, this);
-      }
-      else {
-        QueueItemResults queueItemResults;
-        queueItemResults.pixel_x = queueItem->pixel_x;
-        queueItemResults.pixel_y = queueItem->pixel_y;
-        testQueueItem(*queueItem, queueItemResults);
-        processQueueItemResults(view, queueItemResults);
-      }
-}
-
-
-
-void Scene::processQueueItemResults(ViewPtr view, QueueItemResults &queueItemResults) {
-
-      //if there is a hit ....
-      if (queueItemResults.size() > 0) {
-        int  samples;
-
-        if (view->antialias) {
-          samples = view->antialias->getSamples(queueItemResults.pixel_x, queueItemResults.pixel_y);
-        }
-        else {
-          samples = 1;
-        }
-
-        Colour newCol = LightModel::getColour(queueItemResults, samples, this, maxReflections) / samples;
-        //newCol = Colour(1,1,1);
-
-        view->output->addPixel(
-          queueItemResults.pixel_x, queueItemResults.pixel_y,
-          newCol);
-
-      }
-
-      if (view->antialias) {
-
-        if(view->antialias->getPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y) == EDA_NOT_RENDERED) {
-          view->antialias->setPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y, EDA_ONE_SAMPLE);
-          // cout << view->antialias->getPixelStatus(queueItem->pixel_x, queueItem->pixel_y) <<endl;
-        }
-      /*  view->antialias->getExtraQueueItems(
-          view,
-          view->renderQueue,
-            queueItem->ray, queueItemResults.pixel_x,
-            queueItemResults.pixel_y);*/
-      }
 
 }
 

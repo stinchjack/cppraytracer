@@ -29,15 +29,6 @@ void View::setOutput(OUTPUT_PTR opt) {
   output = opt;
 }
 
-/*ViewQueueItemPtr View::popQueueItem() {
-  ViewQueueItemPtr item = renderQueue.front();
-  renderQueue.pop_front();
-  return item;
-}*/
-
-bool View::queueEmpty() {
-  return renderQueue.empty();
-}
 
 
 void View::processChunkSetup() {
@@ -72,42 +63,6 @@ void View::processChunk(int minY, int maxY) {
 
           ViewQueueItem vqi(ray, x, y);
           scene->renderQueueItem(this, vqi);
-
-      }
-
-  }
-
-
-}
-
-
-
-void View::makeInitialRenderQueue() {
-
-  Point eye(0,0, 0- eyeZ);
-
-  float viewLeft = 0.0 - (viewWidth / 2.0);
-  float viewTop = 0.0 - (viewHeight / 2.0);
-
-  float step_x = viewWidth / output->width();
-  float step_y = viewHeight / output->height();
-
-  if (antialias) {
-    // tell the antialiasong object the size of the pixel in which
-    // to generate extra rays
-    this->antialias->setOutput (this->output);
-    antialias->setRange (step_x, step_y);
-  }
-
-
-  for (int x = 0; x< output->width(); x++ ) {
-    for (int y = 0; y< output->height(); y++ ) {
-
-          Vector direction ( (x * step_x) + viewLeft, (y * step_y) + viewTop , eyeZ);
-
-          Ray ray(eye, direction);
-
-          renderQueue.push_back(make_shared<ViewQueueItem> (ray, x, y));
 
       }
 

@@ -28,11 +28,11 @@ class EDAntiAlias:public Antialias{
   void setOutput (shared_ptr<Output> output);
   int getSamples(int screenX, int screenY);
   EDAntiAlias(unsigned int samples, float threshold);
-  void getInitalQueueItems(
+  /*void getInitalQueueItems(
       std::vector<shared_ptr<ViewQueueItem>> &queue,
       Ray & ray,
       unsigned int pixel_x,
-      unsigned int pixel_y);
+      unsigned int pixel_y);*/
   virtual void getExtraQueueItems (ViewPtr view,
         std::vector<shared_ptr<ViewQueueItem>> &queue,
         Ray & ray,

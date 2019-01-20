@@ -6,9 +6,7 @@
 
 using namespace std;
 
-NoAntiAlias::NoAntiAlias() {
-  samples = 1;
-}
+
 
 void Antialias::setOutput (shared_ptr<Output> output) {
   this->output = output;
@@ -49,16 +47,6 @@ void Antialias::setPixelStatus(int screenX, int screenY, int status) {
 
 int Antialias::getSamples(int screenX, int screenY) {
   return samples;
-}
-
-void NoAntiAlias::getInitalQueueItems(
-      std::vector<shared_ptr<ViewQueueItem>> &queue,
-      Ray & ray,
-      unsigned int pixel_x,
-      unsigned int pixel_y) {
-
-  queue.push_back(make_shared<ViewQueueItem>(ray, pixel_x, pixel_y));
-
 }
 
 void Antialias::getExtraQueueItems(ViewPtr view,

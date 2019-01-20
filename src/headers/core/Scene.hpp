@@ -51,22 +51,15 @@ class Scene {
         return pointer;
     }
 
-    //void render(const view&);
     bool shadowTest(Ray &ray);
-    void renderQueue (ViewPtr view);
     static void threadRenderEntryPoint(struct MTInfo *info);
-    void threadRenderQueue(struct MTInfo *info);
     void threadRenderChunk (MTInfo *mtInfo);
-    void testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults);
-    void renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem);
+    void testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults);;
     void renderQueueItem(View *view, ViewQueueItem &queueItem);
-    void processQueueItemResults(ViewPtr view, QueueItemResults &queueItemResults);
     void processQueueItemResults(View *view, QueueItemResults &queueItemResults);
     void render(const std::string &viewName);
     void MTrender(const std::string &viewName);
 
-
-    //~Scene();
 };
 
 #endif

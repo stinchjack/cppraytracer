@@ -38,11 +38,7 @@ class Antialias {
   void setPixelStatus(int screenX, int screenY, int status);
   virtual int getSamples(int screenX, int screenY);
 
-  virtual void getInitalQueueItems(
-        std::vector<shared_ptr<ViewQueueItem>> &queue,
-        Ray & ray,
-        unsigned int pixel_x,
-        unsigned int pixel_y) = 0;
+
 
   virtual void getExtraQueueItems(ViewPtr view,
         std::vector<shared_ptr<ViewQueueItem>> &queue,
@@ -50,27 +46,10 @@ class Antialias {
         int pixel_x,
         int pixel_y);
 
-  virtual void antialias (
-        ViewQueueItemPtr queueItem, ViewPtr view, Scene *scene) = 0;
 
   virtual void antialias (
         ViewQueueItem &queueItem, View *view, Scene *scene) = 0;
 
-  //virtual std::vector<QueueItem> outputUpdated (const View&) = 0;
-
-};
-
-class NoAntiAlias:public Antialias{
-
-  public:
-  NoAntiAlias();
-  void getInitalQueueItems(
-      std::vector<shared_ptr<ViewQueueItem>> &queue,
-      Ray & ray,
-      unsigned int pixel_x,
-      unsigned int pixel_y);
-
-  //std::vector<QueueItem> outputUpdated (const View&);
 };
 
 

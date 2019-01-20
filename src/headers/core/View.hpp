@@ -28,7 +28,7 @@ private:
 
   float viewWidth, viewHeight;
   float eyeZ;
-  std::vector<shared_ptr<ViewQueueItem>> renderQueue;
+
   Ray transform(Ray &ray);
 
   shared_ptr<Output> output = nullptr;
@@ -48,21 +48,16 @@ private:
 
 public:
 
-  //void setAntiAlias(ANTIALIAS_PTR a);
   View ();
   View (float viewWidth, float viewHeight, float eyeZ);
 
   vector<vector<unsigned int>> sampleCount; // to support antialiasing
 
-  //ViewQueueItemPtr popQueueItem();
-  bool queueEmpty();
   void processChunk(int minY, int maxY);
   Scene *getScene();
   void setScene(Scene * sc);
   void setOutput(shared_ptr<Output> opt);
   void setAntiAlias(ANTIALIAS_PTR antialias);
-
-  void makeInitialRenderQueue();
 
 
 };
