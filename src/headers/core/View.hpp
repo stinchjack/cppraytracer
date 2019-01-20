@@ -44,7 +44,7 @@ public:
 
   //ViewQueueItemPtr popQueueItem();
   bool queueEmpty();
-
+  void processChunk(int minY, int maxY);
   Scene *getScene();
   void setScene(Scene * sc);
   void setOutput(shared_ptr<Output> opt);

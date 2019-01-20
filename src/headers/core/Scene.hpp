@@ -26,8 +26,7 @@ class Scene {
   friend class LightModel;
  private:
   void adder(string label, shared_ptr<Shape> shape);
-
-  void  adder(string label, shared_ptr<Light> light);
+  void adder(string label, shared_ptr<Light> light);
   void adder(string label, shared_ptr<View> view);
 
   vector<shared_ptr<Shape>>  tempShapes;
@@ -37,8 +36,6 @@ class Scene {
   void setupTempLights();
   void setupTempShapes();
   public:
-
-
 
     bool useMultiThread = false;
     int maxReflections = 5;
@@ -61,7 +58,9 @@ class Scene {
     void threadRenderQueue(struct MTInfo *info);
     void testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults);
     void renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem);
+    void renderQueueItem(View *view, ViewQueueItem &queueItem);
     void processQueueItemResults(ViewPtr view, QueueItemResults &queueItemResults);
+    void processQueueItemResults(View *view, QueueItemResults &queueItemResults);
     void render(const std::string &viewName);
     void MTrender(const std::string &viewName);
 

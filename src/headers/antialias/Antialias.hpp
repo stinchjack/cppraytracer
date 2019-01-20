@@ -53,6 +53,9 @@ class Antialias {
   virtual void antialias (
         ViewQueueItemPtr queueItem, ViewPtr view, Scene *scene) = 0;
 
+  virtual void antialias (
+        ViewQueueItem &queueItem, View *view, Scene *scene) = 0;
+
   //virtual std::vector<QueueItem> outputUpdated (const View&) = 0;
 
 };

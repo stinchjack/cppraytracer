@@ -119,15 +119,38 @@ void Scene::threadRenderQueue (MTInfo *mtInfo) {
     for (auto it = Qstart;
         it != (Qend + 1); it++)
       {
-        //ViewQueueItem queueItem = *it;
-
         mtInfo->scene->renderQueueItem(mtInfo->view, *it);
         c++;
       }
   }
 
-  //cout <<"thread total "<<c<<endl;
 }
+
+/*void Scene::threadRenderChunk (MTInfo *mtInfo) {
+
+  mtInfo->
+
+  vector<ViewQueueItemPtr>::iterator Qstart;
+  vector<ViewQueueItemPtr>::iterator Qend;
+
+  int c = 0;
+
+  while (mtInfo->chunker->nextChunk(Qstart, Qend)) {
+
+    for (auto it = Qstart;
+        it != (Qend + 1); it++)
+      {
+        mtInfo->scene->renderQueueItem(mtInfo->view, *it);
+        c++;
+      }
+  }
+
+
+
+  view->processChunk(minY, maxY);
+
+  //cout <<"thread total "<<c<<endl;
+}*/
 
 void Scene::MTrender(const std::string &viewName) {
 
@@ -135,22 +158,15 @@ void Scene::MTrender(const std::string &viewName) {
 
   ViewPtr view = views[viewName];
   view->makeInitialRenderQueue();
-
-
-
   std::thread threads[processes];
 
   vector <MTInfo> threadInfos(processes);
 
-
   QueueChunker chunker(&view->renderQueue, 5000);
 
   for (int i = 0; i < processes; i++) {
-
-
       threadInfos[i].scene = this;
       threadInfos[i].view = view;
-
       threadInfos[i].chunker = &chunker;
 
       threads[i] = std::thread (Scene::threadRenderEntryPoint, &threadInfos[i]);
@@ -159,9 +175,8 @@ void Scene::MTrender(const std::string &viewName) {
   for (int i = 0; i < processes; i++) {
       threads[i].join();
   }
-
-
 }
+
 
 
 void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults) {
@@ -187,10 +202,6 @@ void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemR
 
 void Scene::renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem) {
 
-
-      //cout <<"RQi  "<<endl;
-
-
       if (view->antialias) {
         view->antialias->antialias(queueItem, view, this);
       }
@@ -203,12 +214,13 @@ void Scene::renderQueueItem(ViewPtr view, ViewQueueItemPtr queueItem) {
       }
 }
 
+
+
 void Scene::processQueueItemResults(ViewPtr view, QueueItemResults &queueItemResults) {
 
       //if there is a hit ....
       if (queueItemResults.size() > 0) {
         int  samples;
-
 
         if (view->antialias) {
           samples = view->antialias->getSamples(queueItemResults.pixel_x, queueItemResults.pixel_y);
@@ -217,6 +229,57 @@ void Scene::processQueueItemResults(ViewPtr view, QueueItemResults &queueItemRes
           samples = 1;
         }
 
+        Colour newCol = LightModel::getColour(queueItemResults, samples, this, maxReflections) / samples;
+        //newCol = Colour(1,1,1);
+
+        view->output->addPixel(
+          queueItemResults.pixel_x, queueItemResults.pixel_y,
+          newCol);
+
+      }
+
+      if (view->antialias) {
+
+        if(view->antialias->getPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y) == EDA_NOT_RENDERED) {
+          view->antialias->setPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y, EDA_ONE_SAMPLE);
+          // cout << view->antialias->getPixelStatus(queueItem->pixel_x, queueItem->pixel_y) <<endl;
+        }
+        /*view->antialias->getExtraQueueItems(
+          view,
+          view->renderQueue,
+            queueItem->ray, queueItemResults.pixel_x,
+            queueItemResults.pixel_y);*/
+      }
+
+}
+
+void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
+
+      if (view->antialias) {
+        view->antialias->antialias(queueItem, view, this);
+      }
+      else {
+        QueueItemResults queueItemResults;
+        queueItemResults.pixel_x = queueItem.pixel_x;
+        queueItemResults.pixel_y = queueItem.pixel_y;
+        testQueueItem(queueItem, queueItemResults);
+        processQueueItemResults(view, queueItemResults);
+      }
+}
+
+
+void Scene::processQueueItemResults(View *view, QueueItemResults &queueItemResults) {
+
+      //if there is a hit ....
+      if (queueItemResults.size() > 0) {
+        int  samples;
+
+        if (view->antialias) {
+          samples = view->antialias->getSamples(queueItemResults.pixel_x, queueItemResults.pixel_y);
+        }
+        else {
+          samples = 1;
+        }
 
         Colour newCol = LightModel::getColour(queueItemResults, samples, this, maxReflections) / samples;
         //newCol = Colour(1,1,1);

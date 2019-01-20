@@ -19,6 +19,9 @@ class SimpleAntiAlias:public Antialias{
 
   virtual void antialias (
         ViewQueueItemPtr queueItem, ViewPtr view, Scene *scene);
+
+  virtual void antialias (
+        ViewQueueItem &queueItem, View *view, Scene *scene);
 };
 
 
