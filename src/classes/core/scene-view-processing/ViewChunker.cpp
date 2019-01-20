@@ -14,13 +14,13 @@ bool ViewChunker::nextChunk (int &minY, int &maxY) {
     }
 
     int startY = current;
-    int endY = current + chunk - 1;
+    int endY = current + chunkSize - 1;
 
 
     if ((endY +1) >= viewMaxY) {
       endY = viewMaxY - 1;
     }
-    current = end + 1;
+    current = endY + 1;
 
     minY = startY;
     maxY = endY;
