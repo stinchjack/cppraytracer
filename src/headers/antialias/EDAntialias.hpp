@@ -27,11 +27,6 @@ class EDAntiAlias:public Antialias{
   virtual void setOutput (shared_ptr<Output> output);
   int getSamples(int screenX, int screenY);
   EDAntiAlias(unsigned int samples, float threshold);
-  /*void getInitalQueueItems(
-      std::vector<shared_ptr<ViewQueueItem>> &queue,
-      Ray & ray,
-      unsigned int pixel_x,
-      unsigned int pixel_y);*/
 
   virtual void antialias (
             ViewQueueItem &queueItem, View *view, Scene *scene);
@@ -41,9 +36,6 @@ class EDAntiAlias:public Antialias{
         int pixel_x,
         int pixel_y);
 
-
-
-  //std::vector<QueueItem> outputUpdated (const View&);
 };
 
 
