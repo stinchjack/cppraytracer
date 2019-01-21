@@ -4,25 +4,28 @@
 
 
 #include <vector>
-#include "ViewQueueItem.hpp"
-#include "QueueItemResults.hpp"
 #include <memory>
-#include "Output.hpp"
-class Scene;
 
-#define ANTIALIAS_PTR std::shared_ptr<Antialias>
+
+#include "Colour.hpp"
+
+class LightModel;
+class Output;
+class Scene;
+class Antialias;
+class ViewQueueItem;
+class QueueItemResults;
+class View;
+
+typedef std::shared_ptr<Antialias> AntialiasPtr;
+typedef std::shared_ptr<Antialias> AntiAliasPtr;
 
 using namespace std;
-
-class View;
-typedef shared_ptr<View> ViewPtr ;
 
 class Antialias {
 
   protected:
   shared_ptr<Output> output = nullptr;
-  vector<vector<int>> pixelStatus;
-
 
   int samples;
 
@@ -30,24 +33,11 @@ class Antialias {
 
   float rangeX, rangeY;
 
-
-  void setupPixelStatus();
   void setRange (float rangeX, float rangeY);
-  virtual void setOutput (shared_ptr<Output> output);
-  virtual int getPixelStatus(int screenX, int screenY);
-  void setPixelStatus(int screenX, int screenY, int status);
+  void setOutput (shared_ptr<Output> output);
   virtual int getSamples(int screenX, int screenY);
 
-
-
-  virtual void getExtraQueueItems(ViewPtr view,
-        std::vector<shared_ptr<ViewQueueItem>> &queue,
-        Ray & ray,
-        int pixel_x,
-        int pixel_y);
-
-
-  virtual void antialias (
+  virtual Colour antialias (
         ViewQueueItem &queueItem, View *view, Scene *scene) = 0;
 
 };

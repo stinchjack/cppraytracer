@@ -10,7 +10,7 @@ View::View (float viewWidth, float viewHeight, float eyeZ) {
 
 }
 
-void View::setAntiAlias(ANTIALIAS_PTR antialias) {
+void View::setAntiAlias(AntialiasPtr antialias) {
   this->antialias = antialias;
 }
 

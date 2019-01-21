@@ -158,54 +158,18 @@ void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemR
 
 void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
 
+      Colour colour(0,0,0);
       if (view->antialias) {
-        view->antialias->antialias(queueItem, view, this);
+        colour = view->antialias->antialias(queueItem, view, this);
       }
       else {
         QueueItemResults queueItemResults;
         queueItemResults.pixel_x = queueItem.pixel_x;
         queueItemResults.pixel_y = queueItem.pixel_y;
         testQueueItem(queueItem, queueItemResults);
-        processQueueItemResults(view, queueItemResults);
+        colour = LightModel::getColour(queueItemResults, view->antialias->getSamples(0,0), this, maxReflections);\
       }
-}
-
-
-void Scene::processQueueItemResults(View *view, QueueItemResults &queueItemResults) {
-
-      //if there is a hit ....
-      if (queueItemResults.size() > 0) {
-        int  samples;
-
-        if (view->antialias) {
-          samples = view->antialias->getSamples(queueItemResults.pixel_x, queueItemResults.pixel_y);
-        }
-        else {
-          samples = 1;
-        }
-
-        Colour newCol = LightModel::getColour(queueItemResults, samples, this, maxReflections) / samples;
-        //newCol = Colour(1,1,1);
-
-        view->output->addPixel(
-          queueItemResults.pixel_x, queueItemResults.pixel_y,
-          newCol);
-
-      }
-
-      if (view->antialias) {
-
-        if(view->antialias->getPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y) == EDA_NOT_RENDERED) {
-          view->antialias->setPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y, EDA_ONE_SAMPLE);
-          // cout << view->antialias->getPixelStatus(queueItem->pixel_x, queueItem->pixel_y) <<endl;
-        }
-        /*view->antialias->getExtraQueueItems(
-          view,
-          view->renderQueue,
-            queueItem->ray, queueItemResults.pixel_x,
-            queueItemResults.pixel_y);*/
-      }
-
+      view->output->setPixel(queueItem.pixel_x, queueItem.pixel_y, colour);
 }
 
 

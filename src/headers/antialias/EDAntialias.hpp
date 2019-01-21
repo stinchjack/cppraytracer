@@ -18,27 +18,24 @@
 class EDAntiAlias:public Antialias{
 
   private:
-
+  vector<vector<int>> pixelStatus;
 
   float threshold;
 
-
-
   public:
-  void setOutput (shared_ptr<Output> output);
+
   int getSamples(int screenX, int screenY);
   EDAntiAlias(unsigned int samples, float threshold);
-  /*void getInitalQueueItems(
-      std::vector<shared_ptr<ViewQueueItem>> &queue,
-      Ray & ray,
-      unsigned int pixel_x,
-      unsigned int pixel_y);*/
-  virtual void getExtraQueueItems (ViewPtr view,
-        std::vector<shared_ptr<ViewQueueItem>> &queue,
-        Ray & ray,
-        int pixel_x,
-        int pixel_y);
+  //void setupPixelStatus();
+  virtual Colour antialias (
+        ViewQueueItem &queueItem, View *view, Scene *scene);
 
+  inline int getPixelStatus(int screenX, int screenY) {
+    return pixelStatus[screenX][screenY];
+  }
+  inline void setPixelStatus(int screenX, int screenY, int status) {
+    pixelStatus[screenX][screenY] = status;
+  }
 
 
   //std::vector<QueueItem> outputUpdated (const View&);

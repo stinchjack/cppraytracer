@@ -23,7 +23,7 @@ friend class Scene;
 
 private:
   Scene *scene = 0;
-  ANTIALIAS_PTR antialias = nullptr;
+  std::shared_ptr<Antialias> antialias = nullptr;
 
 
   float viewWidth, viewHeight;
@@ -57,10 +57,13 @@ public:
   Scene *getScene();
   void setScene(Scene * sc);
   void setOutput(shared_ptr<Output> opt);
-  void setAntiAlias(ANTIALIAS_PTR antialias);
-
+  void setAntiAlias(std::shared_ptr<Antialias> antialias);
+  inline shared_ptr<Output> getOutput();
 
 };
 
+shared_ptr<Output> View::getOutput() {
+  return output;
+}
 
 #endif

@@ -3,27 +3,89 @@
 #include <algorithm>
 #include <iostream>
 #include "View.hpp"
+#include "Antialias.hpp"
+#include "ViewQueueItem.hpp"
+#include "Scene.hpp"
+#include "QueueItemResults.hpp"
+#include "Output.hpp"
+#include "SimpleAntiAlias.hpp"
+#include "Scene.hpp"
+#include "LightModel.hpp"
 
 EDAntiAlias::EDAntiAlias(unsigned int samples, float threshold) {
 
-  this->samples = samples;
-  this->threshold= threshold;
+  samples = samples;
+  threshold= threshold;
+
+
+  if (output != nullptr) {
+    pixelStatus.resize(output->width());
+    fill(pixelStatus.begin(), pixelStatus.end(), vector<int>(output->height()));
+
+    auto it = pixelStatus.begin();
+    int size = pixelStatus.size();
+
+    //for (auto it = pixelStatus.begin(); it != pixelStatus.end(); it++) {
+    for (int i=0; i<size; i++) {
+      //it->resize (output->height());
+
+      fill(it->begin(), it->end(), EDA_NOT_RENDERED);
+      it++;
+    }
+  }
 }
 
-/*void EDAntiAlias::getInitalQueueItems (
-      std::vector<shared_ptr<ViewQueueItem>> &queue,
-      Ray & ray,
-      unsigned int pixel_x,
-      unsigned int pixel_y) {
 
-  queue.push_back(make_shared<ViewQueueItem>(ray, pixel_x, pixel_y));
+Colour EDAntiAlias::antialias (
+  ViewQueueItem &queueItem, View *view, Scene *scene) {
 
-}
-*/
+  QueueItemResults queueItemResults;
+  queueItemResults.pixel_x = queueItem.pixel_x;
+  queueItemResults.pixel_y = queueItem.pixel_y;
 
-void EDAntiAlias::setOutput (shared_ptr<Output> output) {
-  this->output = output;
-  setupPixelStatus();
+  scene->testQueueItem(queueItem, queueItemResults);
+  Colour newCol = LightModel::getColour(queueItemResults, samples, scene, scene->maxReflections);
+
+  //check surrounding pixels
+
+  int xStart = max ((int)queueItem.pixel_x - 1, 0);
+  int xEnd = min ((int)queueItem.pixel_x + 1, output->width() - 1);
+
+  int yStart = max ((int)queueItem.pixel_y - 1, 0);
+  int yEnd = min ((int)queueItem.pixel_y + 1, output->height() - 1);
+
+  bool doExtraSamples = false;
+
+  for (int i = xStart; i <= xEnd && !doExtraSamples; i++ ) {
+    for (int j = yStart; j <= yEnd && !doExtraSamples; j++ ) {
+
+      //if one of mthe surrounding pixels is over the threshold, add extra sampling rays to the queue
+      float diff = view->getOutput()->getPixel(i,j).diff(newCol);
+
+
+      if (diff > threshold) {
+        doExtraSamples = true;
+        newCol = newCol * (1.0 / samples);
+        for (int i = 1; i < samples; i++) {
+            float randX =  (((float)rand() / RAND_MAX) * rangeX) - (rangeX / 2.0);
+            float randY =  (((float)rand() / RAND_MAX) * rangeY) - (rangeY / 2.0);
+
+            Point p(randX, randY, 0.0);
+
+            Ray extraRay = Ray(queueItem.ray.start, queueItem.ray.direction + p, true);
+            extraRay.startIsEye = true;
+            ViewQueueItem vqi(extraRay, queueItem.pixel_x, queueItem.pixel_y);
+
+            queueItemResults.clear();
+            scene->testQueueItem(vqi,queueItemResults );
+
+            Colour extraSample = LightModel::getColour(queueItemResults, samples, scene, scene->maxReflections);
+            newCol += extraSample /samples;
+        }
+      }
+    }
+  }
+  return newCol;
 }
 
 int EDAntiAlias::getSamples(int screenX, int screenY) {
@@ -33,67 +95,7 @@ int EDAntiAlias::getSamples(int screenX, int screenY) {
     return 1;
 }
 
-void EDAntiAlias::getExtraQueueItems (ViewPtr view,
-      std::vector<shared_ptr<ViewQueueItem>> &queue,
-  Ray & ray,
-  int pixel_x, int pixel_y) {
 
-  //if the pixel has already been antialiased, do nothing
-  if (pixelStatus[pixel_x][pixel_y] != EDA_ONE_SAMPLE) {
-    return;
-  }
-  if (output == nullptr) {
-    return;
-  }
-
-
-
-  int xStart = max (pixel_x - 1, 0);
-  int xEnd = min (pixel_x + 1, output->width() - 1);
-
-  int yStart = max (pixel_y - 1, 0);
-  int yEnd = min (pixel_y + 1, output->height() - 1);
-
-
-
-  Colour newColour = output->getPixel(pixel_x, pixel_y) / samples;
-  bool doExtraSamples = false;
-  // check the 8 pixels surrounding the current one
-  for (int i = xStart; i <= xEnd && !doExtraSamples; i++ ) {
-
-    for (int j = yStart; j <= yEnd && !doExtraSamples; j++ ) {
-
-
-      if (pixelStatus[i][j] == EDA_NOT_RENDERED || (i==pixel_x && j==pixel_y)) {
-        continue;
-      }
-
-
-      //if one of mthe surrounding pixels is over the threshold, add extra sampling rays to the queue
-      float diff = output->getPixel(i,j).diff(newColour);
-
-
-      if (diff > threshold) {
-
-        doExtraSamples = true;
-
-        if (pixelStatus[i][j] == EDA_ONE_SAMPLE) {
-          FLOAT xDiff = (i- pixel_x) * rangeX;
-          FLOAT yDiff = (j- pixel_y) * rangeY;
-          pixelStatus[i][j] = EDA_MULTI_PROCESS;
-
-          Ray adjRay(ray.start, ray.direction + (Point){xDiff, yDiff, 0});
-
-          getExtraQueueItems (view, queue, adjRay, i, j);
-        }
-
-      }
-
-
-    }
-
-
-  }
 /*
   if (doExtraSamples) {
 
@@ -113,6 +115,3 @@ void EDAntiAlias::getExtraQueueItems (ViewPtr view,
 
 
   }*/
-
-
-}
