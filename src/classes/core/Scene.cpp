@@ -156,6 +156,27 @@ void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemR
 
 }
 
+void Scene::testQueueItem(Ray &ray, QueueItemResults &queueItemResults) {
+  //loop thru each shape
+
+  auto it = tempShapes.begin();
+  //auto end = tempShapes.end();
+  int size = tempShapes.size();
+  int i=0;
+  //while (it !=end())) {
+  while (i < size) {
+
+    //potential alternate placement for extra antialias rays
+
+    (*it)->testIntersect(queueItemResults, ray);
+
+    it++;
+    i++;
+  }
+
+
+}
+
 void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
 
       Colour colour(0,0,0);

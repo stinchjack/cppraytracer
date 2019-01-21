@@ -17,12 +17,10 @@ SimpleAntiAlias::SimpleAntiAlias(unsigned int samples) {
 Colour SimpleAntiAlias::antialias (
   ViewQueueItem &queueItem, View *view, Scene *scene) {
 
-  QueueItemResults queueItemResults;
-  queueItemResults.pixel_x = queueItem.pixel_x;
-  queueItemResults.pixel_y = queueItem.pixel_y;
+  QueueItemResults queueItemResults1;
 
-  scene->testQueueItem(queueItem, queueItemResults );
-  Colour newCol = LightModel::getColour(queueItemResults, samples, scene, scene->maxReflections);
+  scene->testQueueItem(queueItem, queueItemResults1);
+  Colour newCol = LightModel::getColour(queueItemResults1, samples, scene, scene->maxReflections);
   newCol = newCol /samples;
 
   for (int i = 1; i < samples; i++) {
@@ -31,14 +29,13 @@ Colour SimpleAntiAlias::antialias (
 
       Point p(randX, randY, 0.0);
 
-      Ray extraRay = Ray(queueItem.ray.start, queueItem.ray.direction + p, true);
+      Ray extraRay(queueItem.ray.start, queueItem.ray.direction + p, true);
       extraRay.startIsEye = true;
-      ViewQueueItem vqi(extraRay, queueItem.pixel_x, queueItem.pixel_y);
 
-      queueItemResults.clear();
-      scene->testQueueItem(vqi,queueItemResults );
-      Colour extraSample = LightModel::getColour(queueItemResults, samples, scene, scene->maxReflections);
-      newCol += extraSample /samples;
+      QueueItemResults queueItemResults2;
+      scene->testQueueItem(extraRay, queueItemResults2);
+      Colour extraSample = LightModel::getColour(queueItemResults2, samples, scene, scene->maxReflections) / samples;
+      newCol += extraSample;
   }
 
   return newCol;

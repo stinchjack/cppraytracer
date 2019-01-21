@@ -54,7 +54,8 @@ class Scene {
     bool shadowTest(Ray &ray);
     static void threadRenderEntryPoint(struct MTInfo *info);
     void threadRenderChunk (MTInfo *mtInfo);
-    void testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults);;
+    void testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults);
+    void testQueueItem(Ray &ray, QueueItemResults &queueItemResults);
     void renderQueueItem(View *view, ViewQueueItem &queueItem);
     void processQueueItemResults(View *view, QueueItemResults &queueItemResults);
     void render(const std::string &viewName);
