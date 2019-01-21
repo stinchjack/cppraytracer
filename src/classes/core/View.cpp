@@ -49,6 +49,13 @@ void View::processChunkSetup() {
 }
 
 
+Ray View::getPixelRay(int x, int y) {
+  Vector direction ( (x * step_x) + viewLeft, (y * step_y) + viewTop , eyeZ);
+
+  Ray ray(eye, direction);
+  return ray;
+}
+
 void View::processChunk(int minY, int maxY) {
 
   for (int x = 0; x< output->width(); x++ ) {

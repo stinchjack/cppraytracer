@@ -6,8 +6,6 @@
 
 using namespace std;
 
-
-
 void Antialias::setOutput (shared_ptr<Output> output) {
   this->output = output;
   setupPixelStatus();
@@ -49,8 +47,7 @@ int Antialias::getSamples(int screenX, int screenY) {
   return samples;
 }
 
-void Antialias::getExtraQueueItems(ViewPtr view,
-      std::vector<shared_ptr<ViewQueueItem>> &queue,
+void Antialias::getExtraQueueItems(View *view,
       Ray & ray,
       int pixel_x,
       int pixel_y) {

@@ -8,7 +8,7 @@
 #include "MultiThread.hpp"
 #include "EDAntialias.hpp"
 #include "LightModel.hpp"
-
+#include <iostream>
 using namespace std;
 
 void Scene::adder(string label, shared_ptr<Shape> shape) {
@@ -99,6 +99,7 @@ void Scene::threadRenderChunk (MTInfo *mtInfo) {
   int c = 0;
 
   while (mtInfo->viewChunker->nextChunk(minY, maxY)) {
+
     mtInfo->view->processChunk(minY, maxY);
     c++;
   }
@@ -122,7 +123,6 @@ void Scene::MTrender(const std::string &viewName) {
   for (int i = 0; i < processes; i++) {
       threadInfos[i].scene = this;
       threadInfos[i].view = view;
-;
       threadInfos[i].viewChunker = &viewChunker;
 
       threads[i] = std::thread (Scene::threadRenderEntryPoint, &threadInfos[i]);
@@ -191,21 +191,19 @@ void Scene::processQueueItemResults(View *view, QueueItemResults &queueItemResul
           queueItemResults.pixel_x, queueItemResults.pixel_y,
           newCol);
 
-      }
+
 
       if (view->antialias) {
 
-        if(view->antialias->getPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y) == EDA_NOT_RENDERED) {
-          view->antialias->setPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y, EDA_ONE_SAMPLE);
-          // cout << view->antialias->getPixelStatus(queueItem->pixel_x, queueItem->pixel_y) <<endl;
-        }
-        /*view->antialias->getExtraQueueItems(
-          view,
-          view->renderQueue,
-            queueItem->ray, queueItemResults.pixel_x,
-            queueItemResults.pixel_y);*/
-      }
+       Ray ray = queueItemResults.begin()->second->getWorldRay();
 
+        view->antialias->getExtraQueueItems(
+            view,
+
+            ray, queueItemResults.pixel_x,
+            queueItemResults.pixel_y);
+      }
+    }
 }
 
 

@@ -15,6 +15,7 @@
 #define EDA_MULTI_SAMPLE 2
 
 #define EDA_MULTI_PROCESS 3
+
 class EDAntiAlias:public Antialias{
 
   private:
@@ -22,10 +23,8 @@ class EDAntiAlias:public Antialias{
 
   float threshold;
 
-
-
   public:
-  void setOutput (shared_ptr<Output> output);
+  virtual void setOutput (shared_ptr<Output> output);
   int getSamples(int screenX, int screenY);
   EDAntiAlias(unsigned int samples, float threshold);
   /*void getInitalQueueItems(
@@ -33,8 +32,11 @@ class EDAntiAlias:public Antialias{
       Ray & ray,
       unsigned int pixel_x,
       unsigned int pixel_y);*/
-  virtual void getExtraQueueItems (ViewPtr view,
-        std::vector<shared_ptr<ViewQueueItem>> &queue,
+
+  virtual void antialias (
+            ViewQueueItem &queueItem, View *view, Scene *scene);
+  virtual void getExtraQueueItems (View *view,
+
         Ray & ray,
         int pixel_x,
         int pixel_y);

@@ -40,8 +40,7 @@ class Antialias {
 
 
 
-  virtual void getExtraQueueItems(ViewPtr view,
-        std::vector<shared_ptr<ViewQueueItem>> &queue,
+  virtual void getExtraQueueItems(View *view,
         Ray & ray,
         int pixel_x,
         int pixel_y);

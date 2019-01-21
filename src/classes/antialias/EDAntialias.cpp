@@ -10,16 +10,7 @@ EDAntiAlias::EDAntiAlias(unsigned int samples, float threshold) {
   this->threshold= threshold;
 }
 
-/*void EDAntiAlias::getInitalQueueItems (
-      std::vector<shared_ptr<ViewQueueItem>> &queue,
-      Ray & ray,
-      unsigned int pixel_x,
-      unsigned int pixel_y) {
 
-  queue.push_back(make_shared<ViewQueueItem>(ray, pixel_x, pixel_y));
-
-}
-*/
 
 void EDAntiAlias::setOutput (shared_ptr<Output> output) {
   this->output = output;
@@ -33,8 +24,20 @@ int EDAntiAlias::getSamples(int screenX, int screenY) {
     return 1;
 }
 
-void EDAntiAlias::getExtraQueueItems (ViewPtr view,
-      std::vector<shared_ptr<ViewQueueItem>> &queue,
+void EDAntiAlias::antialias (
+  ViewQueueItem &queueItem, View *view, Scene *scene) {
+
+  QueueItemResults queueItemResults;
+  queueItemResults.pixel_x = queueItem.pixel_x;
+  queueItemResults.pixel_y = queueItem.pixel_y;
+
+  setPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y, EDA_ONE_SAMPLE);
+  scene->testQueueItem(queueItem, queueItemResults);
+  scene->processQueueItemResults (view, queueItemResults);
+
+}
+
+void EDAntiAlias::getExtraQueueItems (View *view,
   Ray & ray,
   int pixel_x, int pixel_y) {
 
@@ -56,7 +59,7 @@ void EDAntiAlias::getExtraQueueItems (ViewPtr view,
 
 
 
-  Colour newColour = output->getPixel(pixel_x, pixel_y) / samples;
+  Colour newColour = output->getPixel(pixel_x, pixel_y);
   bool doExtraSamples = false;
   // check the 8 pixels surrounding the current one
   for (int i = xStart; i <= xEnd && !doExtraSamples; i++ ) {
@@ -64,7 +67,8 @@ void EDAntiAlias::getExtraQueueItems (ViewPtr view,
     for (int j = yStart; j <= yEnd && !doExtraSamples; j++ ) {
 
 
-      if (pixelStatus[i][j] == EDA_NOT_RENDERED || (i==pixel_x && j==pixel_y)) {
+      if (pixelStatus[i][j] == EDA_NOT_RENDERED
+          || (i==pixel_x && j==pixel_y)) {
         continue;
       }
 
@@ -77,15 +81,15 @@ void EDAntiAlias::getExtraQueueItems (ViewPtr view,
 
         doExtraSamples = true;
 
-        if (pixelStatus[i][j] == EDA_ONE_SAMPLE) {
+      /*  if (pixelStatus[i][j] == EDA_ONE_SAMPLE) {
           FLOAT xDiff = (i- pixel_x) * rangeX;
           FLOAT yDiff = (j- pixel_y) * rangeY;
           pixelStatus[i][j] = EDA_MULTI_PROCESS;
 
           Ray adjRay(ray.start, ray.direction + (Point){xDiff, yDiff, 0});
 
-          getExtraQueueItems (view, queue, adjRay, i, j);
-        }
+          //getExtraQueueItems (view, queue, adjRay, i, j);
+        }*/
 
       }
 
@@ -94,25 +98,48 @@ void EDAntiAlias::getExtraQueueItems (ViewPtr view,
 
 
   }
-/*
-  if (doExtraSamples) {
 
-    //Colour sample1 = output->getPixel(pixel_x, pixel_y) / samples;
-    output->setPixel(pixel_x, pixel_y, newColour / samples);
+
+  if (doExtraSamples) {
+    QueueItemResults queueItemResults;
+    queueItemResults.pixel_x = pixel_x;
+    queueItemResults.pixel_y = pixel_y;
+
+  output->setPixel(pixel_x, pixel_y, newColour / samples);
 
     for (int i = 0; i < samples - 1; i++) {
         float randX =  (((float)rand() / RAND_MAX) * rangeX) - (rangeX / 2.0);
         float randY =  (((float)rand() / RAND_MAX) * rangeY) - (rangeY / 2.0);
 
-        Ray extraRay = Ray(ray.start, ray.direction + Point{randX, randY, 0.0});
-        pixelStatus[pixel_x][pixel_y] = EDA_MULTI_SAMPLE;
+        setPixelStatus(pixel_x, pixel_y, EDA_MULTI_SAMPLE);
+        Point p(randX, randY, 0.0);
+        Ray extraRay = Ray(ray.start, ray.direction + p, true);
 
-        // needs re-write
-      /view->getScene()->renderQueueItem(view, make_shared<ViewQueueItem> (extraRay, pixel_x, pixel_y));
+        extraRay.startIsEye = true;
+        ViewQueueItem vqi(extraRay, pixel_x, pixel_y);
+
+        queueItemResults.clear();
+        view->getScene()->testQueueItem(vqi,queueItemResults );
+        view->getScene()->processQueueItemResults (view, queueItemResults);
+      }
+
+      // surrounding pixel retest
+
+      for (int i = xStart; i <= xEnd; i++ ) {
+
+        for (int j = yStart; j <= yEnd; j++ ) {
+          if (!(pixelStatus[i][j] == EDA_ONE_SAMPLE)
+              || (i==pixel_x && j==pixel_y)) {
+            continue;
+          }
+
+          Ray adjacentRay = view->getPixelRay(i,j);
+          getExtraQueueItems (view, adjacentRay, i, j);
+        }
       }
 
 
-  }*/
+  }
 
 
 }
