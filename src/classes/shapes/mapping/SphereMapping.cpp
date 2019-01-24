@@ -47,7 +47,7 @@ Maps an intersection result for a sphere to a UV pair.
     if (p.y > 1.0) {
       a2 = 90.0;
     }
-    else if (p.y > 1.0) {
+    else if (p.y < -1.0) {
       a2 = -90.0;
     }
 

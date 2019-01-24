@@ -59,6 +59,7 @@ public:
   void setOutput(shared_ptr<Output> opt);
   void setAntiAlias(ANTIALIAS_PTR antialias);
   Ray getPixelRay(int x, int y);
+  Point getEye();
 
 };
 

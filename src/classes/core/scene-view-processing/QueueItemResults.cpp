@@ -1,10 +1,6 @@
 #include "QueueItemResults.hpp"
 
-/*
-map<float, IntersectHit> QueueItemResults::getMap() {
-  return queueItemResults;
-}
-*/
+
 
 IntersectHitPtr QueueItemResults::addResult (float t,  Shape * shape) {
 
@@ -21,11 +17,3 @@ IntersectHitPtr QueueItemResults::addResult (float t,  Shape * shape) {
 
   return ih;
 }
-
-IntersectHitPtr  QueueItemResults::closestResult() {
-  return this->begin()->second;
-}
-/*
-int QueueItemResults::resultCount() {
-  return queueItemResults.size();
-}*/

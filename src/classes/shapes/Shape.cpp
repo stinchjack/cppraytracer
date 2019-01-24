@@ -8,27 +8,30 @@ Shape::Shape() {
   mapping = make_shared<NoMapping>();
 }
 
+BoundingBoxPlanes Shape::getWorldBoundingPlanes() {
+  return box.getWorldPlanes(transformation);
+}
 
 void Shape::testIntersect (QueueItemResults &results, Ray &worldRay) {
 
-Point start;
+  Point start;
 
-if (worldRay.startIsEye && !hasTransformedEyePoint) {
-    start = this->transformation.transform(worldRay.start);
-    transformedEyePoint = start;
-    hasTransformedEyePoint = true;
-}
-else if (worldRay.startIsEye && hasTransformedEyePoint) {
-  start = transformedEyePoint;
-}
-else  {
-    start = this->transformation.transform(worldRay.start);
-}
+  if (worldRay.startIsEye && !hasTransformedEyePoint) {
+      start = this->transformation.transform(worldRay.start);
+      transformedEyePoint = start;
+      hasTransformedEyePoint = true;
+  }
+  else if (worldRay.startIsEye && hasTransformedEyePoint) {
+    start = transformedEyePoint;
+  }
+  else  {
+      start = this->transformation.transform(worldRay.start);
+  }
 
 
-Ray newRay(start, this->transformation.transform (worldRay.direction));
+  Ray newRay(start, this->transformation.transform (worldRay.direction));
 
-  newRay.isShadowRay = worldRay.isShadowRay;
+    newRay.isShadowRay = worldRay.isShadowRay;
 
   shapeTestIntersect(results, newRay, worldRay);
 

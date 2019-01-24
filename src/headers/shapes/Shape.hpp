@@ -6,7 +6,7 @@
 #include "Ray.hpp"
 #include "IntersectHit.hpp"
 #include "QueueItemResults.hpp"
-
+#include "BoundingBox.hpp"
 #include "Transform.hpp"
 #include "Texture.hpp"
 #include "Mapping.hpp"
@@ -25,9 +25,12 @@ typedef shared_ptr<Shape> ShapePtr;
 
 class Shape {
 
+  private:
 
   bool hasTransformedEyePoint = false;
   Point transformedEyePoint;
+  BoundingBox box;
+
 
   public:
   Shape();
@@ -59,7 +62,7 @@ class Shape {
 
   virtual void shapeTestIntersect (QueueItemResults &results, Ray &shapeRay, Ray &worldRay) = 0;
   virtual Vector getShapeNormal(IntersectHit *ih) = 0;
-
+  BoundingBoxPlanes getWorldBoundingPlanes();
 };
 
 

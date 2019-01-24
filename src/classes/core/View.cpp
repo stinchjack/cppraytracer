@@ -10,6 +10,10 @@ View::View (float viewWidth, float viewHeight, float eyeZ) {
 
 }
 
+Point View::getEye() {
+  return Point (0,0,-eyeZ);
+}
+
 void View::setAntiAlias(ANTIALIAS_PTR antialias) {
   this->antialias = antialias;
 }

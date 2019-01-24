@@ -1,34 +1,84 @@
 #ifndef OCTREELEAF_HPP
 #ifndef OCTREELEAF_HPP
 
+#include "BoundingBox.hpp"
+
 class OctTreeLeaf;
 class OctTreeNode;
 
-typedef OctTreeNode* OctTreeNodePtr;
+typedef shared_ptr<OctTreeNode> OctTreeNodePtr;
+typedef vector<shared_ptr<Shape>> ShapeArray;
+class NodeHolder {
+public:
+  OctTreeNodePtr node;
+  int threshold = 15
+  int converted = false;
+
+  NodeHolder::NodeHolder(int threshold) {
+    node = make_shared<OctTreeLeaf>
+  }
+
+  void convert() {
+    ShapeArray shapeList;
+    node->getAllShapes(shapeList);
+    OctTreeNodePtr newNode= make_shared<OctTreeBranch(threshold)>
+    for (auto it = shapeList.begin() ; it!=shapeList.end(); it++) {
+      newNode.addShape(*(it));
+    }
+    node = newNode;
+  }
+
+  virtual addShape(ShapePtr shape) {
+    if (!converted && node->shapeCount() > threshold) {
+      convert();
+    }
+    node.addShape(shape);
+  }
+
+
+}
 
 class OctTreeNode {
-  virtual OctTreeLeaf &getTestLeaf (Ray &ray) = 0;
+  ShapeArray shapes;
+  NodeHolder *parent;
+  BoundingBox BBbox;
+  FLOAT midX;
+  FLOAT midY;
+  FLOAT midZ;
+
+  virtual vector<shared_ptr<ShapePtr>> &getTestLeaf (Ray &ray) = 0;
   virtual addShape(shared_ptr<Shape> shape) =0;
+  virtual int shapeCount () =0;
 };
 
 class OctTreeLeaf: OctTreeNode {
-  vector<shared_ptr<Shape>> shapes;
 
-  virtual addShape(shared_ptr<Shape> shape) {
-    shapes.push_back(shape);
+
+  virtual addShape(ShapePtr shape) {
+
+      shapes.push_back(shape);
+
   }
-  virtual vector<shared_ptr<Shape>> &getShapes(Ray & ray) {
-    return shapes;
+  virtual void getShapes(Ray &ray, ShapeArray &shapes) {
+    return shapes = this->shapes;
+  }
+  virtual int shapeCount () {
+    return shapes.size();
   }
 };
 
 class OctTreeBranch: OctTreeNode {
-  vector<shared_ptr<Shape>> shapes; // for shapes that cant be split;
 
   vector<vector<vector<OctTreeNodePtr>>> leaves;
   OctTreeBranch::OctTreeBranch {
     setupLeaves();
   }
+
+  virtual addShape(shared_ptr<Shape> shape) {
+    BoundingBox shapeBbox= shape.getBoundingBox().getWorldBox();
+
+  }
+
   void setupLeaves() {
     leaves.resize(2);
     leaves[0].resize(2);
@@ -38,6 +88,20 @@ class OctTreeBranch: OctTreeNode {
     leaves[0][1].resize(2);
     leaves[1][0].resize(2);
   }
+
+
+  testIntersected(Ray &ray) {
+
+     FLOAT t = (zpos - ray.start.z) / ray.direction.z;
+
+     Point point = ray.calcPos(t);
+
+     if ((point.x < left) || (point.y < top) ||
+       (point.x> right) || (point.y > bottom)) {
+         return;
+       }
+   }
+
 
 };
 
