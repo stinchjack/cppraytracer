@@ -13,6 +13,7 @@ typedef vector<ShapePtr> ShapeArray;
 #define UNIFORMSPACESUBDIVISION
   class UniformSpaceSubdivider {
   private:
+
     ShapeArray allShapes;
     BoundingBoxPlanes bPlanes;
     int voxelSideLength = 2;
@@ -26,8 +27,12 @@ typedef vector<ShapePtr> ShapeArray;
     int zVoxles = -1;
 
   public:
+    inline UniformSpaceSubdivider(){};
+    UniformSpaceSubdivider(int voxelSideLength);
+    void addShapes(ShapeArray shapes) ;
+    void addShapes(map<std::string, ShapePtr> shapes);
     void addShape(ShapePtr shape);
-    void sort(View &view);
+    void sort(ViewPtr view);
     void calcVoxelIndices
         (FLOAT xPos, FLOAT yPos, FLOAT zPos, int &xVoxel, int &yVoxel, int &zVoxel);
     void setupVoxels(FLOAT xVoxles, FLOAT yVoxles, FLOAT zVoxles);

@@ -32,10 +32,11 @@ public:
   BoundingBox(BoundingBox &bbp);
   BoundingBox(BoundingBoxPlanes &bbp);
 
-  inline BoundingBox(){};
+  BoundingBox();
 
   BoundingBox(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom, FLOAT front, FLOAT back) ;
 
+  void setupArrays();
   void setup(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom, FLOAT front, FLOAT back);
 
   void makeWorldBox(Transform &transform);

@@ -21,6 +21,7 @@ typedef shared_ptr<Scene> ScenePtr;
 
 #include "IntersectHit.hpp"
 #include "MultiThread.hpp"
+#include "UniformSpaceSubdivision.hpp"
 
 class Scene {
   friend class LightModel;
@@ -35,12 +36,16 @@ class Scene {
   std::vector<shared_ptr<Light>> tempLights;
   void setupTempLights();
   void setupTempShapes();
-  public:
 
+#ifdef EXPERIMENTAL
+  UniformSpaceSubdivider shapeSorter;
+#endif
+  public:
+    inline Scene(){};
     bool useMultiThread = false;
     int maxReflections = 5;
 
-    map<std::string, SHAPE_PTR> shapes;
+    map<std::string, ShapePtr> shapes;
     map<std::string, shared_ptr<View>> views;
     map<std::string, shared_ptr<Light>> lights;
 

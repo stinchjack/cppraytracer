@@ -67,16 +67,26 @@ void Scene::setupTempLights() {
 
 
 void Scene::render(const std::string &viewName) {
+
+  #ifdef EXPERIMENTAL
+  shapeSorter.addShapes(shapes);
+  shapeSorter.sort(views[viewName]);
+  #endif
+  
   views[viewName]->setScene(this);
   views[viewName]->processChunkSetup();
   setupTempShapes();
   setupTempLights();
   if (useMultiThread) {
+    #ifdef DEBUG
     cout << "MultiThread render ... " << endl;
+    #endif
     MTrender(viewName);
   }
   else {
+    #ifdef DEBUG
     cout << "Single thread render ... " << endl;
+    #endif
     views[viewName]->processChunk(0, views[viewName]->output->height()-1);
 
   }
@@ -91,7 +101,9 @@ void Scene::threadRenderEntryPoint(MTInfo *info) {
 }
 
 
-
+/*
+Render a range of Y pixels
+*/
 void Scene::threadRenderChunk (MTInfo *mtInfo) {
 
   int minY, maxY;
@@ -103,9 +115,6 @@ void Scene::threadRenderChunk (MTInfo *mtInfo) {
     mtInfo->view->processChunk(minY, maxY);
     c++;
   }
-
-
-  //cout <<"thread total "<<c<<endl;
 }
 
 void Scene::MTrender(const std::string &viewName) {
@@ -113,7 +122,7 @@ void Scene::MTrender(const std::string &viewName) {
   int processes = std::thread::hardware_concurrency();
 
   ViewPtr view = views[viewName];
-  //view->makeInitialRenderQueue();
+
   std::thread threads[processes];
 
   vector <MTInfo> threadInfos(processes);
@@ -134,7 +143,9 @@ void Scene::MTrender(const std::string &viewName) {
 }
 
 
-
+/*
+test a ray against all the shapes in the scene
+*/
 void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults) {
   //loop thru each shape
 

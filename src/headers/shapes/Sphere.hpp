@@ -3,10 +3,13 @@
 
 #include  "Shape.hpp"
 
-SHAPE_PTR SpherePtr();
+class Sphere;
+
+typedef shared_ptr<Sphere> SpherePtr;
 
 class Sphere: public Shape {
-
+public:
+  Sphere();
   void shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &worldRay);
   virtual Vector getShapeNormal(IntersectHit *ih);
 };

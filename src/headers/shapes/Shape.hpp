@@ -25,14 +25,16 @@ typedef shared_ptr<Shape> ShapePtr;
 
 class Shape {
 
-  private:
+private:
 
   bool hasTransformedEyePoint = false;
   Point transformedEyePoint;
+
+protected:
   BoundingBox box;
 
 
-  public:
+public:
   Shape();
   Transform transformation;
   shared_ptr<Texture> diffuse = nullptr;

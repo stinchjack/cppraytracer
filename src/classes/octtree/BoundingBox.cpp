@@ -1,5 +1,9 @@
 #include "BoundingBox.hpp"
 
+BoundingBox::BoundingBox() {
+  setupArrays();
+}
+
 BoundingBox::BoundingBox(BoundingBox &box) {
   this->shapeBox = box.shapeBox;
   this->transformedBox = box.transformedBox;
@@ -16,9 +20,7 @@ BoundingBox::BoundingBox(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom, FLOAT
   setup(left, right, top, bottom, front, back);
 }
 
-void BoundingBox::setup(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom, FLOAT front, FLOAT back) {
-
-
+void BoundingBox::setupArrays() {
   //setup vectors
   shapeBox.resize(2);
   shapeBox[0].resize(2);
@@ -35,16 +37,23 @@ void BoundingBox::setup(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom, FLOAT 
   transformedBox[0][1].resize(2);
   transformedBox[1][0].resize(2);
   transformedBox[1][1].resize(2);
+}
+
+void BoundingBox::setup(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom, FLOAT front, FLOAT back) {
+
+
+  setupArrays();
 
 
   shapeBox [0][0][0] = Point(left, top, front);
   shapeBox [0][0][1] = Point(left, top, back);
   shapeBox [0][1][0] = Point(left, bottom, front);
   shapeBox [0][1][1] = Point(left, bottom, back);
-  shapeBox [0][0][0] = Point(right, top, front);
-  shapeBox [0][0][1] = Point(right, top, back);
-  shapeBox [0][1][0] = Point(right, bottom, front);
-  shapeBox [0][1][1] = Point(right, bottom, back);
+
+  shapeBox [1][0][0] = Point(right, top, front);
+  shapeBox [1][0][1] = Point(right, top, back);
+  shapeBox [1][1][0] = Point(right, bottom, front);
+  shapeBox [1][1][1] = Point(right, bottom, back);
 }
 
 

@@ -2,25 +2,18 @@
 #include <math.h>
 
 
-SHAPE_PTR SquarePtr() {
-  return std::make_shared<Square>();
-}
-
-SHAPE_PTR SquarePtr(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom) {
-  return std::make_shared<Square> (left, right, top, bottom);
-}
-
 
 
 Square::Square() {
   mapping = make_shared<SquareMapping>();
-
+  box = BoundingBox(-1,1,0,-1,-.0001, .0001);
 }
 Square::Square (FLOAT left, FLOAT right, FLOAT top, FLOAT bottom) {
   this->top = top;
   this->left = left;
   this->right = right;
   this->bottom = bottom;
+  box = BoundingBox(left, right, top, bottom,-.0001, .0001);
   mapping = make_shared<SquareMapping>();
 }
 

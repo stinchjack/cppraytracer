@@ -1,8 +1,8 @@
 #include  "Sphere.hpp"
 #include <math.h>
 
-SHAPE_PTR SpherePtr() {
-  return std::make_shared<Sphere>();
+Sphere::Sphere() {
+  box = BoundingBox(-1,1,-1,1,-1,1);
 }
 
 Vector Sphere::getShapeNormal(IntersectHit *ih) {

@@ -1,38 +1,68 @@
 #ifdef EXPERIMENTAL
 #include "UniformSpaceSubdivision.hpp"
+
+UniformSpaceSubdivider::UniformSpaceSubdivider(int voxelSideLength) {
+  this->voxelSideLength = voxelSideLength;
+}
+
+void UniformSpaceSubdivider::addShapes(ShapeArray shapes) {
+  auto end = shapes.end();
+  for (auto it = shapes.begin();it != end; it++) {
+    addShape(*it);
+  }
+}
+
+void UniformSpaceSubdivider::addShapes(map<std::string, ShapePtr> shapes) {
+  auto end = shapes.end();
+  for (auto it = shapes.begin();it != end; it++) {
+    addShape(it->second);
+  }
+}
+
 void UniformSpaceSubdivider::addShape(ShapePtr shape) {
 
     allShapes.push_back(shape);
-
-
-
     BoundingBoxPlanes shapeBoundingPlanes = shape->getWorldBoundingPlanes();
 
-    if (bPlanes.left > shapeBoundingPlanes.left) {
+
+    //initial bPlanes with first shape;
+    if (allShapes.size() == 1) {
       bPlanes.left = shapeBoundingPlanes.left;
-    }
-    if (bPlanes.right < shapeBoundingPlanes.right) {
       bPlanes.right = shapeBoundingPlanes.right;
-    }
-    if (bPlanes.top > shapeBoundingPlanes.top) {
       bPlanes.top = shapeBoundingPlanes.top;
-    }
-    if (bPlanes.bottom < shapeBoundingPlanes.bottom) {
       bPlanes.bottom = shapeBoundingPlanes.bottom;
-    }
-    if (bPlanes.front > shapeBoundingPlanes.front) {
       bPlanes.front= shapeBoundingPlanes.front;
-    }
-    if (bPlanes.back < shapeBoundingPlanes.back) {
       bPlanes.back= shapeBoundingPlanes.back;
+    }
+
+    else {
+
+      if (bPlanes.left > shapeBoundingPlanes.left) {
+        bPlanes.left = shapeBoundingPlanes.left;
+      }
+      if (bPlanes.right < shapeBoundingPlanes.right) {
+        bPlanes.right = shapeBoundingPlanes.right;
+      }
+      if (bPlanes.top > shapeBoundingPlanes.top) {
+        bPlanes.top = shapeBoundingPlanes.top;
+      }
+      if (bPlanes.bottom < shapeBoundingPlanes.bottom) {
+        bPlanes.bottom = shapeBoundingPlanes.bottom;
+      }
+      if (bPlanes.front > shapeBoundingPlanes.front) {
+        bPlanes.front= shapeBoundingPlanes.front;
+      }
+      if (bPlanes.back < shapeBoundingPlanes.back) {
+        bPlanes.back= shapeBoundingPlanes.back;
+      }
     }
 }
 
 
 
-void UniformSpaceSubdivider::sort(View &view) {
+void UniformSpaceSubdivider::sort(ViewPtr view) {
 
-  Point eye = view.getEye();
+  Point eye = view->getEye();
 
 
   // make sure the divided space includes the eye point
@@ -42,10 +72,10 @@ void UniformSpaceSubdivider::sort(View &view) {
   if (bPlanes.right<eye.x)  {
     bPlanes.right = eye.x;
   }
-  if (bPlanes.bottom>eye.y)  {
+  if (bPlanes.bottom<eye.y)  {
     bPlanes.bottom = eye.y;
   }
-  if (bPlanes.top<eye.y)  {
+  if (bPlanes.top>eye.y)  {
     bPlanes.top = eye.y;
   }
   if (bPlanes.front>eye.z)  {
@@ -57,7 +87,7 @@ void UniformSpaceSubdivider::sort(View &view) {
 
   //calculate size of space
   xSize = bPlanes.right - bPlanes.left;
-  ySize = bPlanes.top - bPlanes.bottom;
+  ySize = bPlanes.bottom - bPlanes.top;
   zSize = bPlanes.back - bPlanes.front;
 
   xVoxles = xSize / (FLOAT)voxelSideLength;
@@ -80,18 +110,18 @@ void UniformSpaceSubdivider::sort(View &view) {
 
     //calculate index range of voxels shape is placed into
     calcVoxelIndices (
-      shapeBoundingPlanes.left,  shapeBoundingPlanes.bottom, shapeBoundingPlanes.front,
+      shapeBoundingPlanes.left,  shapeBoundingPlanes.top, shapeBoundingPlanes.front,
       minXIndex, minYIndex, minZIndex);
 
     calcVoxelIndices (
-      shapeBoundingPlanes.right,  shapeBoundingPlanes.top, shapeBoundingPlanes.back,
+      shapeBoundingPlanes.right,  shapeBoundingPlanes.bottom, shapeBoundingPlanes.back,
       maxXIndex, maxYIndex, maxZIndex);
 
 
     //put the shape into each voxel it belongs
-    for (int x=minXIndex; x<=maxXIndex; x++) {
-      for (int y=minYIndex; y<=maxYIndex; y++) {
-        for (int z=minXIndex; z<=maxXIndex; z++) {
+    for (int x=minXIndex; x<maxXIndex; x++) {
+      for (int y=minYIndex; y<maxYIndex; y++) {
+        for (int z=minXIndex; z<maxXIndex; z++) {
           voxels[x][y][z].push_back(shape);
         }
       }
@@ -109,7 +139,7 @@ void  UniformSpaceSubdivider::calcVoxelIndices(
   xPos -= bPlanes.left;
   xVoxel = xPos / (FLOAT)voxelSideLength;
 
-  yPos -= bPlanes.bottom;
+  yPos -= bPlanes.top;
   yVoxel = yPos / (FLOAT)voxelSideLength;
 
   zPos -= bPlanes.front;
@@ -123,7 +153,7 @@ void UniformSpaceSubdivider::setupVoxels(FLOAT xVoxles, FLOAT yVoxles, FLOAT zVo
   for (int i=0; i<xVoxles; i++) {
     voxels[i].resize(yVoxles);
     for (int j=0; j<yVoxles; j++) {
-      voxels[j].resize(zVoxles);
+      voxels[i][j].resize(zVoxles);
     }
   }
 
