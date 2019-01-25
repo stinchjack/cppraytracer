@@ -6,14 +6,18 @@
 
 Square::Square() {
   mapping = make_shared<SquareMapping>();
+  #ifdef EXPERIMENTAL
   box = BoundingBox(-1,1,0,-1,-.0001, .0001);
+  #endif
 }
 Square::Square (FLOAT left, FLOAT right, FLOAT top, FLOAT bottom) {
   this->top = top;
   this->left = left;
   this->right = right;
   this->bottom = bottom;
+  #ifdef EXPERIMENTAL
   box = BoundingBox(left, right, top, bottom,-.0001, .0001);
+  #endif
   mapping = make_shared<SquareMapping>();
 }
 

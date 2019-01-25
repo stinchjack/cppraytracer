@@ -30,9 +30,10 @@ private:
   bool hasTransformedEyePoint = false;
   Point transformedEyePoint;
 
+#ifdef EXPERIMENTAL
 protected:
   BoundingBox box;
-
+#endif
 
 public:
   Shape();
@@ -64,7 +65,9 @@ public:
 
   virtual void shapeTestIntersect (QueueItemResults &results, Ray &shapeRay, Ray &worldRay) = 0;
   virtual Vector getShapeNormal(IntersectHit *ih) = 0;
-  BoundingBoxPlanes getWorldBoundingPlanes();
+  #ifdef EXPERIMENTAL
+    BoundingBoxPlanes getWorldBoundingPlanes();
+  #endif
 };
 
 

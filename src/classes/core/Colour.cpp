@@ -2,6 +2,7 @@
 #include "Float.hpp"
 #include <stdlib.h>
 
+/*
 FLOAT & Colour::operator[](int i) {
   switch (i) {
     case 0:
@@ -81,3 +82,5 @@ FLOAT Colour::diff (Colour &c1) {
 
   return diff;
 }
+
+*/

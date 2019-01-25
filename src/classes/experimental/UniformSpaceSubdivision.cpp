@@ -203,7 +203,7 @@ void UniformSpaceSubdivider::xWalk(
         y = startYIndex + ((x- startXIndex) * yGradient);
         z = startZIndex + ((x -startXIndex) * zGradient);
 
-        if (y<0 || y>yVoxles || z<0 || z>zVoxles) {
+        if (y<0 || y>=yVoxles || z<0 || z>=zVoxles) {
           continue;
         }
 
@@ -219,7 +219,7 @@ void UniformSpaceSubdivider::xWalk(
         y = startYIndex + ((startXIndex-x) * yGradient);
         z = startZIndex + ((startXIndex-x) * zGradient);
 
-        if (y<0 || y>yVoxles || z<0 || z>zVoxles) {
+        if (y<0 || y>=yVoxles || z<0 || z>=zVoxles) {
           continue;
         }
 
@@ -239,7 +239,7 @@ void UniformSpaceSubdivider::yWalk(
         x = startXIndex + ((y-startYIndex) * xGradient);
         z = startZIndex + ((y-startYIndex) * zGradient);
 
-        if (x<0 || x>yVoxles || z<0 || z>zVoxles) {
+        if (x<0 || x>=yVoxles || z<0 || z>=zVoxles) {
           continue;
         }
 
@@ -252,7 +252,7 @@ void UniformSpaceSubdivider::yWalk(
         x = startXIndex + ((startYIndex-y) * xGradient);
         z = startZIndex + ((startYIndex-y) * zGradient);
 
-        if (x<0 || x>yVoxles || z<0 || z>zVoxles) {
+        if (x<0 || x>=yVoxles || z<0 || z>=zVoxles) {
           continue;
         }
 
@@ -276,7 +276,7 @@ void UniformSpaceSubdivider::zWalk(
         if (x==3) cout << "*"<< x<< " "<< y << " "<< z << endl;
         #endif
 
-        if (x<0 || x>yVoxles || y<0 || y>zVoxles) {
+        if (x<0 || x>=yVoxles || y<0 || y>=yVoxles) {
           continue;
         }
 
@@ -286,14 +286,14 @@ void UniformSpaceSubdivider::zWalk(
     else {
       for (int z = startZIndex; z >= 0; z--) {
         int x,y;
-        x = (FLOAT)startXIndex + ((FLOAT)(startZIndex-z) * xGradient);
-        y = (FLOAT)startYIndex + ((FLOAT)(startZIndex-z) * yGradient);
+        x = (FLOAT)startXIndex + ((FLOAT)(z-startZIndex) * xGradient);
+        y = (FLOAT)startYIndex + ((FLOAT)(z-startZIndex) * yGradient);
 
         #ifdef DEBUG
         cout << x << " " << y << " "<< z <<endl;
         #endif
 
-        if (x<0 || x>yVoxles || y<0 || y>yVoxles) {
+        if (x<0 || x>=yVoxles || y<0 || y>=yVoxles) {
           continue;
         }
 

@@ -27,15 +27,11 @@ void Transform::setShift (const Point &p) {
   shift = p;
 }
 
-
-
-
-
 Point Transform::inverseTransform(const Point &p) const {
 
-  if (!doShift && !doScale && !doRotate) {
+  /*if (!doShift && !doScale && !doRotate) {
     return p;
-  }
+  }*/
   Point newPoint (p.x, p.y, p.z);
 
   if (doShift) {

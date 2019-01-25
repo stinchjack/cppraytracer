@@ -24,9 +24,8 @@ class Vector {
 
     FLOAT myLength;
     FLOAT normX, normY, normZ;
-    int hasLength;
-
-    int hasNormalised;
+    int hasLength=0;
+    int hasNormalised=0;
 
     FLOAT x,y,z;
 
@@ -54,9 +53,6 @@ class Vector {
 };
 
 Vector::Vector(FLOAT x, FLOAT y, FLOAT z) {
-
-  hasLength = 0;
-  hasNormalised = 0;
 
   this->x = x;
   this->y = y;

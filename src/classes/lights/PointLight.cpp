@@ -11,7 +11,7 @@ void PointLight::getShadowRays (IntersectHitPtr ih, vector<Ray> &shadowRays) {
 
   Vector shadowDir (this->point - testPoint);
 
-  Point shadowStart (testPoint);
+  Point shadowStart;
 
   Vector normal = ih->getWorldNormal();//.normalised();
   Vector eyedir = ih->getWorldRay().direction;//.normalised();

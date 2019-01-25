@@ -119,7 +119,7 @@ void Scene::threadRenderChunk (MTInfo *mtInfo) {
 
 void Scene::MTrender(const std::string &viewName) {
 
-  int processes = std::thread::hardware_concurrency();
+  int processes = 4;//std::thread::hardware_concurrency();
 
   ViewPtr view = views[viewName];
 
@@ -228,7 +228,7 @@ bool Scene::shadowTest(Ray &ray) {
       //Looping thru vector much quick than looping thru map!!
       auto it = tempShapes.begin();
       int size = tempShapes.size();
-      for (int i =0; i<size; i++) {
+      for (int i =0; i<size && queueItemResults.size() == 0; i++) {
 
         (*it)->testIntersect(queueItemResults, ray);
 

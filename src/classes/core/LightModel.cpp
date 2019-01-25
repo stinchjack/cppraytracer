@@ -27,10 +27,11 @@ FLOAT LightModel::shadowTest (
     Scene *scene,
     vector<Ray> &shadowRays) {
 
-
+    #ifdef DEBUG
     if (!processShadows) {
       return 1.0;
     }
+    #endif
 
     int shadows = 0;
     int totalShadows = 0;
@@ -82,12 +83,18 @@ Colour LightModel::getDiffuse (
       continue;
     }
 
-    Vector averageLightDir(0,0,0);
-    for (auto shadowRay = shadowRays.begin(); shadowRay != shadowRays.end(); shadowRay ++) {
-      averageLightDir += shadowRay->direction;
-    }
+    Vector averageLightDir;
+    if (shadowRays.size()>1) {
+      averageLightDir = Vector(0,0,0);
+      for (auto shadowRay = shadowRays.begin(); shadowRay != shadowRays.end(); shadowRay ++) {
+        averageLightDir += shadowRay->direction;
+      }
 
-    averageLightDir *= 1.0/ shadowRays.size();
+      averageLightDir *= 1.0/ shadowRays.size();
+    }
+    else {
+      averageLightDir = shadowRays[0].direction;
+    }
 
     Vector normal = result->getWorldNormal();
 

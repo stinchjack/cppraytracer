@@ -70,8 +70,7 @@ Vector Vector::normalised() {
     normX = x /  length();
     normY = y / myLength;
     normZ = z / myLength;
-
-    hasNormalised = 1;
+    hasNormalised = true;
 
   }
   Vector newVec(normX, normY, normZ);
@@ -84,9 +83,9 @@ Vector Vector::normalised() {
 
 Vector & Vector::normalise() {
 
-  if (length() != 1.0) {
+  if (!hasNormalised) {
 
-    x /=  myLength;
+    x /=  length();
     y /=  myLength;
     z /= myLength;
     myLength = 1;

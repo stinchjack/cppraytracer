@@ -42,7 +42,7 @@ class Scene {
 
     #ifdef EXPERIMENTAL
       UniformSpaceSubdivider shapeSorter;
-    #endif    
+    #endif
     inline Scene(){};
     bool useMultiThread = false;
     int maxReflections = 5;
@@ -69,4 +69,8 @@ class Scene {
 
 };
 
+/*
+void walk(FLOAT walkDirectionAmont, )
+
+*/
 #endif

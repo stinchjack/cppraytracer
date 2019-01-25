@@ -42,9 +42,9 @@ public:
 
 Point Transform::transform(const Point &p) const {
 
-  if (!doShift && !doScale && !doRotate) {
+  /*if (!doShift && !doScale && !doRotate) {
     return p;
-  }
+  }*/
 
   Point newPoint (p.x, p.y, p.z);
 

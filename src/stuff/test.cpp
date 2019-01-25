@@ -29,8 +29,8 @@ int main (int argc, char **argv) {
   FLOAT g = c.getFloat("g");
 
   cout << "g" << g <<endl;*/
-  simple();
-
+  //simple();
+  testPng();
 
   return 0;
 }

@@ -2,7 +2,9 @@
 #include <math.h>
 
 Sphere::Sphere() {
+  #ifdef EXPERIMENTAL
   box = BoundingBox(-1,1,-1,1,-1,1);
+  #endif
 }
 
 Vector Sphere::getShapeNormal(IntersectHit *ih) {

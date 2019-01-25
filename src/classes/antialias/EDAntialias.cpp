@@ -44,9 +44,9 @@ void EDAntiAlias::getExtraQueueItems (View *view,
   if (pixelStatus[pixel_x][pixel_y] != EDA_ONE_SAMPLE) {
     return;
   }
-  if (output == nullptr) {
+  /*if (output == nullptr) {
     return;
-  }
+  }*/
 
   int xStart = max (pixel_x - 1, 0);
   int xEnd = min (pixel_x + 1, output->width() - 1);

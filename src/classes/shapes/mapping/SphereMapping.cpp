@@ -32,9 +32,32 @@ Maps an intersection result for a sphere to a UV pair.
         x = 1;
     }
 
-    //  degrees = (180/PI) * radians
-  //  ((180.0/M_PI) * asin(x)) + 90;
-    FLOAT a1 = ((180.0/M_PI) * asin(x)) + 90;
+    FLOAT a1 =  asin(x) + 1.5708;
+
+
+    if (p.z > 0) {
+      a1 = M_PI + (M_PI - a1);
+    }
+
+    uvPair.u = a1 / 6.28319;
+
+    FLOAT a2;
+
+    if (p.y > 1.0) {
+      a2 = 1.5708;
+    }
+    else if (p.y < -1.0) {
+      a2 = -1.5708;
+    }
+    else {
+      a2 = asin(p.y);
+    }
+    a2 += 1.5708;
+
+    uvPair.v = a2 / M_PI;
+
+
+    /*FLOAT a1 = ((180.0/M_PI) * asin(x)) + 90;
 
     if (p.z > 0) {
       a1 = 180.0 + (180.0 - a1);
@@ -56,7 +79,7 @@ Maps an intersection result for a sphere to a UV pair.
     }
     a2 += 90.0;
 
-    uvPair.v = a2 / 180.0;
+    uvPair.v = a2 / 180.0;*/
 
 return uvPair;
 
