@@ -15,6 +15,7 @@ using std::chrono::milliseconds;
 using std::this_thread::sleep_for;
 
 void testPng();
+void simple();
 
 
 int main (int argc, char **argv) {
@@ -28,10 +29,55 @@ int main (int argc, char **argv) {
   FLOAT g = c.getFloat("g");
 
   cout << "g" << g <<endl;*/
-  testPng();
+  simple();
 
 
   return 0;
+}
+
+void simple() {
+  time_point<Clock> start = Clock::now();
+
+   //PNGOUTPUT_PTR output = make_shared<PngOutput>(640, 640);
+   shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
+   Scene scene;
+
+   #ifdef DEBUG
+   scene.useMultiThread = false;
+   #else
+   scene.useMultiThread = true;
+   #endif
+
+
+
+
+   //scene.shapes["sphere3"+num] = SpherePtr();
+   SpherePtr sph3 = scene.add<Sphere>("sphere3");
+   sph3->setShift(Point(3 , 0 ,0.0));
+
+
+    SpherePtr  sph4 = scene.add<Sphere>("sphere4");
+    sph4->setShift(Point (-3, 0, 0));
+
+
+
+   //scene.add<Sphere>("sphere");
+   ViewPtr v1 = scene.add<View>("View1", 6,6,4);
+   v1->setOutput(output);
+
+   scene.add<PointLight>("pointlight", Colour(1,1,1), Point(0,0,0));
+
+   LightModel::processShadows  = true;
+   scene.render("View1");
+
+   time_point<Clock> end = Clock::now();
+   milliseconds diff = duration_cast<milliseconds>(end - start);
+   std::cout << diff.count() << "ms" << std::endl;
+
+
+    output->makeWindow("hello world");
+    output->show();
+
 }
 
 void testPng() {

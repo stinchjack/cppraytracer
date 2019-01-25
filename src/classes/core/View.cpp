@@ -69,8 +69,10 @@ void View::processChunk(int minY, int maxY) {
 
           Ray ray(eye, direction);
 
+
           ViewQueueItem vqi(ray, x, y);
           scene->renderQueueItem(this, vqi);
+
 
       }
 

@@ -1,13 +1,15 @@
 #ifdef EXPERIMENTAL
 
 #include <vector>
+#include <set>
 #include "Shape.hpp"
 #include "View.hpp"
+#include <iostream>
 
 using namespace std;
 
-typedef vector<ShapePtr> ShapeArray;
-
+//typedef vector<ShapePtr> ShapeArray;
+typedef set<ShapePtr> ShapeArray;
 
 #ifndef UNIFORMSPACESUBDIVISION
 #define UNIFORMSPACESUBDIVISION
@@ -36,6 +38,10 @@ typedef vector<ShapePtr> ShapeArray;
     void calcVoxelIndices
         (FLOAT xPos, FLOAT yPos, FLOAT zPos, int &xVoxel, int &yVoxel, int &zVoxel);
     void setupVoxels(FLOAT xVoxles, FLOAT yVoxles, FLOAT zVoxles);
+    void testIntersect (Ray &ray, QueueItemResults &results);
+    void xWalk(  Ray &ray, int startXIndex, int startYIndex, int startZIndex, ShapeArray &testShapes);
+    void yWalk(  Ray &ray, int startXIndex, int startYIndex, int startZIndex, ShapeArray &testShapes);
+    void zWalk(  Ray &ray, int startXIndex, int startYIndex, int startZIndex, ShapeArray &testShapes);
   };
   #endif
 #endif

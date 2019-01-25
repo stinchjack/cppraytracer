@@ -18,6 +18,7 @@ class Vector {
   friend class Light;
   friend class PointLight;
   friend class Square;
+  friend class UniformSpaceSubdivider;
 
   private:
 

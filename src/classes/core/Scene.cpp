@@ -72,7 +72,7 @@ void Scene::render(const std::string &viewName) {
   shapeSorter.addShapes(shapes);
   shapeSorter.sort(views[viewName]);
   #endif
-  
+
   views[viewName]->setScene(this);
   views[viewName]->processChunkSetup();
   setupTempShapes();
@@ -149,6 +149,9 @@ test a ray against all the shapes in the scene
 void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults) {
   //loop thru each shape
 
+  #ifdef EXPERIMENTAL
+    shapeSorter.testIntersect(queueItem.ray, queueItemResults);
+  #else
   auto it = tempShapes.begin();
   //auto end = tempShapes.end();
   int size = tempShapes.size();
@@ -163,7 +166,7 @@ void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemR
     it++;
     i++;
   }
-
+  #endif
 
 }
 
