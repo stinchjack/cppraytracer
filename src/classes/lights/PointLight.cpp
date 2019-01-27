@@ -1,11 +1,17 @@
 #include "PointLight.hpp"
 
 
-void PointLight::getShadowRays (IntersectHitPtr ih, vector<Ray> &shadowRays) {
+PointLight::PointLight (const Colour &c, const Point &p) {
+  colour = c;
+  point = p;
+}
 
-  if (shadowRays.size() != 1) {
-    shadowRays.resize(1);
-  }
+
+void PointLight::getShadowInfo(
+    Scene *scene,
+    IntersectHitPtr ih,
+    Vector &averageShadowDir,
+    FLOAT &shadowFactor) {
 
   Point testPoint = ih->getWorldPoint();
 
@@ -25,18 +31,13 @@ void PointLight::getShadowRays (IntersectHitPtr ih, vector<Ray> &shadowRays) {
 
   Ray shadowRay (shadowStart, shadowDir);
   shadowRay.isShadowRay = true;
-  shadowRays[0] = shadowRay;
 
+  if (scene->shadowTest(shadowRay)) {
+    shadowFactor = 0;
+  }
+  else {
+    shadowFactor = 1;
+  }
+
+  averageShadowDir = shadowDir;
 }
-
-
-
-PointLight::PointLight (const Colour &c, const Point &p) {
-  shadowTests = 1;
-  colour = c;
-  point = p;
-}
-
- void PointLight::getTestPoints(Point testPoints[], IntersectHitPtr ih) {
-   testPoints[0] = point;
- }

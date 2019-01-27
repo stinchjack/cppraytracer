@@ -210,13 +210,13 @@ void testPng() {
    ViewPtr v1 = scene.add<View>(30,30,28);
    v1->setOutput(output);
 
-   scene.add<PointLight>(Colour(.4,.4,.4), (Point){-20,-20,0});
-   scene.add<PointLight>(Colour(.4,.4,.4), (Point){-20,22,0});
+   scene.add<PointLight>(Colour(.4,.4,.4), Point(-20,-20,0));
+   scene.add<PointLight>(Colour(.4,.4,.4), Point(-20,22,0));
 
 
 
   //v1->setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
-  v1->setAntiAlias(std::make_shared<EDAntiAlias> (20, .9));
+  //v1->setAntiAlias(std::make_shared<EDAntiAlias> (20, .9));
 
   // for explicitly setting no antialas, use:
   // scene.views["view1"].setAntiAlias(nullptr);

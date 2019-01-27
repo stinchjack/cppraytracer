@@ -83,20 +83,18 @@ void EDAntiAlias::getExtraQueueItems (View *view,
 
     output->setPixel(pixel_x, pixel_y, newColour / samples);
 
+    Ray extraRay = Ray(ray.start, ray.direction, true);
+
     for (int i = 1; i < samples ; i++) {
         float randX =  (((float)rand() / RAND_MAX) * rangeX) - (rangeX / 2.0);
         float randY =  (((float)rand() / RAND_MAX) * rangeY) - (rangeY / 2.0);
 
         setPixelStatus(pixel_x, pixel_y, EDA_MULTI_SAMPLE);
         Point p(randX, randY, 0.0);
-        Ray extraRay = Ray(ray.start, ray.direction + p, true);
-
-        //ViewQueueItem vqi(extraRay, pixel_x, pixel_y);
+        extraRay.direction =  ray.direction + p;
 
         queueItemResults.clear();
-        //view->getScene()->testQueueItem(vqi,queueItemResults );
         view->getScene()->testQueueItem(extraRay, queueItemResults );
-        //view->getScene()->processQueueItemResults (view, queueItemResults);
 
         Colour newCol = LightModel::getColour(queueItemResults,
             samples, view->getScene(), view->getScene()->maxReflections) / samples;

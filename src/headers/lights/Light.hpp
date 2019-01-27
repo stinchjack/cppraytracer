@@ -13,9 +13,11 @@ public:
 
   unsigned int shadowTests;
 
-  virtual void getShadowRays (IntersectHitPtr ih, vector<Ray> &shadowRays) =0;;
-
-  virtual void getTestPoints(Point testPoints[], IntersectHitPtr ih) = 0;
+  virtual void getShadowInfo(
+      Scene *scene,
+      IntersectHitPtr ih,
+      Vector &averageShadowDir,
+      FLOAT &shadowFactor) = 0;
 
 };
 

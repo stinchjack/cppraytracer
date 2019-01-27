@@ -23,6 +23,7 @@ Colour LightModel::getColour(
 }
 
 
+
 FLOAT LightModel::shadowTest (
     Scene *scene,
     vector<Ray> &shadowRays) {
@@ -60,9 +61,6 @@ Colour LightModel::getDiffuse (
   IntersectHitPtr result = itemResults.begin()->second;
 
   //foreach light ...
-//  for (auto lightIterator = lights.begin(); lightIterator != lights.end(); lightIterator++) {
-//    shared_ptr<Light> light = lightIterator->second;
-
   int size = scene->lights.size();
   auto it = scene->lights.begin();
 
@@ -71,31 +69,18 @@ Colour LightModel::getDiffuse (
     //PointLight p = *((shared_ptr<PointLight>)light);
     //cout<<light->colour.r<<endl;
 
-    vector<Ray> shadowRays;
-    light->getShadowRays(result, shadowRays);
+    FLOAT shadowFactor;
+    Vector averageLightDir;
 
-
-
-    FLOAT shadowFactor =  LightModel::shadowTest(scene, shadowRays);
+    light->getShadowInfo(scene, result, averageLightDir, shadowFactor);
 
     if (shadowFactor == 0.0) {
       continue;
     }
 
-    Vector averageLightDir;
-    if (shadowRays.size()>1) {
-      averageLightDir = Vector(0,0,0);
-      for (auto shadowRay = shadowRays.begin(); shadowRay != shadowRays.end(); shadowRay ++) {
-        averageLightDir += shadowRay->direction;
-      }
-
-      averageLightDir *= 1.0/ shadowRays.size();
-    }
-    else {
-      averageLightDir = shadowRays[0].direction;
-    }
-
     Vector normal = result->getWorldNormal();
+
+    //averageLightDir = averageLightDir * normal.length();
 
     normal.normalise();
     averageLightDir.normalise();

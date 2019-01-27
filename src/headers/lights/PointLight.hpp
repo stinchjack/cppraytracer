@@ -2,14 +2,18 @@
 #define POINTLIGHT_HPP
 
 #include "Light.hpp"
+#include "Scene.hpp"
 
 class PointLight: public Light {
 
 public:
     Point point;
     PointLight (const Colour &c, const Point &p);
-    virtual void getTestPoints(Point testPoints[], IntersectHitPtr ih);
-    virtual void getShadowRays (IntersectHitPtr ih, vector<Ray> &shadowRays);
+    virtual void getShadowInfo(
+        Scene *scene,
+        IntersectHitPtr ih,
+        Vector &averageShadowDir,
+        FLOAT &shadowFactor);
 };
 
 #endif
