@@ -41,6 +41,9 @@ void EDAntiAlias::antialias (
 void EDAntiAlias::getExtraQueueItems (View *view,
   Ray & ray, int pixel_x, int pixel_y) {
 
+  /*if (view->interpolate && pixel_x%2 == 0) {
+    return;
+  }*/
   //if the pixel has already been antialiased, do nothing
   if (pixelStatus[pixel_x][pixel_y] != EDA_ONE_SAMPLE) {
     return;

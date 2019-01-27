@@ -51,7 +51,7 @@ private:
 public:
 
   bool interpolate =false;
-  FLOAT interpolateThreshold = 1;
+  FLOAT interpolateThreshold = .4;
 
   inline View (){};
   View (float viewWidth, float viewHeight, float eyeZ);

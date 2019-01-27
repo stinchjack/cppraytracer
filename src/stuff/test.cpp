@@ -151,7 +151,7 @@ void testPng() {
 
          //scene.shapes["sphere3"+num] = SpherePtr();
          sph3 = scene.add<Sphere>();
-         sph3->setShift((Point){(4.0f * j),(4.0f * i),0.0});
+         sph3->setShift(Point((4.0f * j),(4.0f * i),0.0));
          sph3->setScale(2.0  , 2, 2);
 
          if (flag++ % 2 == 0) {
@@ -165,7 +165,7 @@ void testPng() {
 
 
           sph4 = scene.add<Sphere>();
-          sph4->setShift((Point){1.0f + (4.0f * j),.60f + (4.0f * i),-1.0});
+          sph4->setShift(Point (1.0f + (4.0f * j),.60f + (4.0f * i),-1.0));
           sph4->setScale(2.0, 2, 2);
           if (flag++ % 2 == 0) {
             sph4->diffuse = make_shared<PlainTexture>(Colour (0,0,0));
@@ -210,21 +210,22 @@ void testPng() {
    ViewPtr v1 = scene.add<View>(30,30,28);
    v1->setOutput(output);
    v1->interpolate = true;
-   
+   v1->interpolateThreshold =.4;
+
    scene.add<PointLight>(Colour(.4,.4,.4), Point(-20,-20,0));
    scene.add<PointLight>(Colour(.4,.4,.4), Point(-20,22,0));
 
 
 
   //v1->setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
-  //v1->setAntiAlias(std::make_shared<EDAntiAlias> (20, .9));
+  v1->setAntiAlias(std::make_shared<EDAntiAlias> (20, .8));
 
   // for explicitly setting no antialas, use:
   // scene.views["view1"].setAntiAlias(nullptr);
 
 
 
-   LightModel::processShadows  = true;
+   LightModel::processShadows  = false;
 
    time_point<Clock> startRender = Clock::now();
 

@@ -2,6 +2,7 @@
 #include "View.hpp"
 #include "Scene.hpp"
 #include <algorithm>
+#include <iostream>
 
 View::View (float viewWidth, float viewHeight, float eyeZ) {
   this->viewWidth = viewWidth;
@@ -62,17 +63,20 @@ Ray View::getPixelRay(int x, int y) {
 
 void View::processChunk(int minY, int maxY) {
 
+  int xincr = 1;
+  if (interpolate) {
+    xincr=2;
+  }
   Ray ray(eye, Vector (0,0,eyeZ));
-  for (int x = 0; x< output->width(); x++ ) {
-    for (int y = minY; y<=maxY; y++ ) {
+  for (int y = minY; y<=maxY; y++ ) {
+    for (int x = 0; x< output->width(); x+=xincr ) {
+
 
           //Vector direction ( (x * step_x) + viewLeft, (y * step_y) + viewTop , eyeZ);
 
           ray.direction.x = (x * step_x) + viewLeft;
           ray.direction.y = (y * step_y) + viewTop;
 
-          //ViewQueueItem vqi(ray, x, y);
-          //scene->renderQueueItem(this, vqi);
 
           if (antialias) {
             ViewQueueItem vqi(ray, x, y);
@@ -86,7 +90,10 @@ void View::processChunk(int minY, int maxY) {
             scene->processQueueItemResults(this, queueItemResults);
           }
 
+
+
           if (interpolate) {
+
 
             if (x>1) {
               Colour currentColour = output->getPixel(x,y);
@@ -94,30 +101,32 @@ void View::processChunk(int minY, int maxY) {
 
               FLOAT diff = prevPixel.diff(currentColour);
 
-              if (diff<interpolateThreshold) {
+              if (diff < interpolateThreshold) {
                 Colour interpolatedColour = (currentColour + prevPixel) * 0.5;
-                output->setPIxel(x-1,y, interpolatedColour);
+                output->setPixel(x-1, y, interpolatedColour);
+              }
               else {
+
+                Ray extraRay = getPixelRay(x-1,y);
                 if (antialias) {
-                  ViewQueueItem vqi(ray, x-1, y);
+                  ViewQueueItem vqi(extraRay, x-1, y);
                   antialias->antialias(vqi, this, this->scene);
                 }
                 else {
                   QueueItemResults queueItemResults;
                   queueItemResults.pixel_x = x-1;
                   queueItemResults.pixel_y = y;
-                  scene->testQueueItem(ray, queueItemResults);
+                  scene->testQueueItem(extraRay, queueItemResults);
                   scene->processQueueItemResults(this, queueItemResults);
                 }
               }
 
             }
-            x++;
+
 
           }
 
       }
-
   }
 
 

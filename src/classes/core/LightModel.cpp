@@ -28,11 +28,10 @@ FLOAT LightModel::shadowTest (
     Scene *scene,
     vector<Ray> &shadowRays) {
 
-    #ifdef DEBUG
+
     if (!processShadows) {
       return 1.0;
     }
-    #endif
 
     int shadows = 0;
     int totalShadows = 0;

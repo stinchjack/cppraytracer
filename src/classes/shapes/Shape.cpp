@@ -20,7 +20,7 @@ BoundingBoxPlanes Shape::getWorldBoundingPlanes() {
 void Shape::testIntersect (QueueItemResults &results, Ray &worldRay) {
 
 
-  getWorldBoundingPlanes();
+  if (!hasWorldPlanes) {getWorldBoundingPlanes();}
   if ((worldRay.start.x < worldPlanes.left && worldRay.direction.x < 0)
     || (worldRay.start.x > worldPlanes.right && worldRay.direction.x > 0)
     || (worldRay.start.y < worldPlanes.top && worldRay.direction.y < 0)
