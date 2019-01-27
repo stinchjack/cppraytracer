@@ -62,21 +62,34 @@ Ray View::getPixelRay(int x, int y) {
 
 void View::processChunk(int minY, int maxY) {
 
+  Ray ray(eye, Vector (0,0,eyeZ));
   for (int x = 0; x< output->width(); x++ ) {
     for (int y = minY; y<=maxY; y++ ) {
 
-          Vector direction ( (x * step_x) + viewLeft, (y * step_y) + viewTop , eyeZ);
+          //Vector direction ( (x * step_x) + viewLeft, (y * step_y) + viewTop , eyeZ);
 
-          Ray ray(eye, direction);
-          ray.startIsEye = true;
+          ray.direction.x = (x * step_x) + viewLeft;
+          ray.direction.y = (y * step_y) + viewTop;
 
-          ViewQueueItem vqi(ray, x, y);
-          scene->renderQueueItem(this, vqi);
+          //ViewQueueItem vqi(ray, x, y);
+          //scene->renderQueueItem(this, vqi);
 
+          if (antialias) {
+            ViewQueueItem vqi(ray, x, y);
+            antialias->antialias(vqi, this, this->scene);
+          }
+          else {
+            QueueItemResults queueItemResults;
+            queueItemResults.pixel_x = x;
+            queueItemResults.pixel_y = y;
+            scene->testQueueItem(ray, queueItemResults);
+            scene->processQueueItemResults(this, queueItemResults);
+          }
 
       }
 
   }
+
 
 
 }

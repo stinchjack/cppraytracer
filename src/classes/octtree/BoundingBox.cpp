@@ -21,28 +21,10 @@ BoundingBox::BoundingBox(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom, FLOAT
 }
 
 void BoundingBox::setupArrays() {
-  //setup vectors
-  shapeBox.resize(2);
-  shapeBox[0].resize(2);
-  shapeBox[1].resize(2);
-  shapeBox[0][0].resize(2);
-  shapeBox[0][1].resize(2);
-  shapeBox[1][0].resize(2);
-  shapeBox[1][1].resize(2);
 
-  transformedBox.resize(2);
-  transformedBox[0].resize(2);
-  transformedBox[1].resize(2);
-  transformedBox[0][0].resize(2);
-  transformedBox[0][1].resize(2);
-  transformedBox[1][0].resize(2);
-  transformedBox[1][1].resize(2);
 }
 
 void BoundingBox::setup(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom, FLOAT front, FLOAT back) {
-
-
-  setupArrays();
 
 
   shapeBox [0][0][0] = Point(left, top, front);
@@ -59,13 +41,18 @@ void BoundingBox::setup(FLOAT left, FLOAT right, FLOAT top, FLOAT bottom, FLOAT 
 
 void BoundingBox::makeWorldBox(Transform &transform) {
   if (hasTransformedBox) return;
-  for (int i =0; i<2; i++){
-    for (int j =0; j<2; j++){
-      for (int k =0; k<2; k++){
-        transformedBox[i][j][k] = transform.inverseTransform(shapeBox[i][j][k]);
-      }
-    }
-  }
+
+  transformedBox[0][0][0] = transform.inverseTransform(shapeBox[0][0][0]);
+  transformedBox[0][0][1] = transform.inverseTransform(shapeBox[0][0][1]);
+  transformedBox[0][1][0] = transform.inverseTransform(shapeBox[0][1][0]);
+  transformedBox[0][1][1] = transform.inverseTransform(shapeBox[0][1][1]);
+
+  transformedBox[1][0][0] = transform.inverseTransform(shapeBox[1][0][0]);
+  transformedBox[1][0][1] = transform.inverseTransform(shapeBox[1][0][1]);
+  transformedBox[1][1][0] = transform.inverseTransform(shapeBox[1][1][0]);
+  transformedBox[1][1][1] = transform.inverseTransform(shapeBox[1][1][1]);
+
+
   hasTransformedBox = true;
 }
 
@@ -78,40 +65,24 @@ BoundingBoxPlanes BoundingBox::getWorldPlanes(Transform &transform) {
   }
   makeWorldBox(transform);
 
-  BoundingBoxPlanes bbp;
-  bbp.left = shapeBox[0][0][0].x;
-  bbp.right = shapeBox[0][0][0].x;
-  bbp.top = shapeBox[0][0][0].y;
-  bbp.bottom = shapeBox[0][0][0].y;
-  bbp.front = shapeBox[0][0][0].z;
-  bbp.back = shapeBox[0][0][0].z;
 
-  for (int i =0; i<2; i++){
-    for (int j =0; j<2; j++){
-      for (int k =0; k<2; k++){
-        if (bbp.left > transformedBox[i][j][k].x) {
-          bbp.left = transformedBox[i][j][k].x;
-        }
-        if (bbp.right < transformedBox[i][j][k].x) {
-          bbp.right = transformedBox[i][j][k].x;
-        }
+  worldSpacePlanes.left = transformedBox[0][0][0].x;
+  worldSpacePlanes.right = transformedBox[0][0][0].x;
+  worldSpacePlanes.top = transformedBox[0][0][0].y;
+  worldSpacePlanes.bottom = transformedBox[0][0][0].y;
+  worldSpacePlanes.front = transformedBox[0][0][0].z;
+  worldSpacePlanes.back = transformedBox[0][0][0].z;
 
-        if (bbp.top > transformedBox[i][j][k].y) {
-          bbp.top = transformedBox[i][j][k].y;
-        }
-        if (bbp.bottom < transformedBox[i][j][k].y) {
-          bbp.bottom = transformedBox[i][j][k].y;
-        }
+  worldSpacePlanes.update (transformedBox[0][0][1]);
+  worldSpacePlanes.update (transformedBox[0][1][0]);
+  worldSpacePlanes.update (transformedBox[0][1][1]);
 
-        if (bbp.front > transformedBox[i][j][k].z) {
-          bbp.front = transformedBox[i][j][k].z;
-        }
-        if (bbp.back < transformedBox[i][j][k].z) {
-          bbp.back = transformedBox[i][j][k].z;
-        }
-      }
-    }
-  }
-  worldSpacePlanes = bbp;
+  worldSpacePlanes.update (transformedBox[1][0][0]);
+  worldSpacePlanes.update (transformedBox[1][1][0]);
+  worldSpacePlanes.update (transformedBox[1][1][0]);
+  worldSpacePlanes.update (transformedBox[1][1][1]);
+
+  hasTransformedPlanes = true;
+
   return worldSpacePlanes;
 }

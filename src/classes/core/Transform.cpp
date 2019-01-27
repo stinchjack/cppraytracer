@@ -32,11 +32,9 @@ Point Transform::inverseTransform(const Point &p) const {
   /*if (!doShift && !doScale && !doRotate) {
     return p;
   }*/
-  Point newPoint (p.x, p.y, p.z);
+  Point newPoint (p);
 
-  if (doShift) {
-    newPoint += shift;
-  }
+
 
   if (doScale && !doRotate) {
 
@@ -57,7 +55,9 @@ Point Transform::inverseTransform(const Point &p) const {
     newPoint.y = new_y;
     newPoint.z = new_z;
   }
-
+  if (doShift) {
+    newPoint += shift;
+  }
 
 
   return newPoint;

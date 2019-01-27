@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include "View.hpp"
+#include "LightModel.hpp"
 
 EDAntiAlias::EDAntiAlias(unsigned int samples, float threshold) {
 
@@ -32,7 +33,7 @@ void EDAntiAlias::antialias (
   queueItemResults.pixel_y = queueItem.pixel_y;
 
   setPixelStatus(queueItemResults.pixel_x, queueItemResults.pixel_y, EDA_ONE_SAMPLE);
-  scene->testQueueItem(queueItem, queueItemResults);
+  scene->testQueueItem(queueItem.ray, queueItemResults);
   scene->processQueueItemResults (view, queueItemResults);
 
 }
@@ -90,12 +91,20 @@ void EDAntiAlias::getExtraQueueItems (View *view,
         Point p(randX, randY, 0.0);
         Ray extraRay = Ray(ray.start, ray.direction + p, true);
 
-        extraRay.startIsEye = true;
-        ViewQueueItem vqi(extraRay, pixel_x, pixel_y);
+        //ViewQueueItem vqi(extraRay, pixel_x, pixel_y);
 
         queueItemResults.clear();
-        view->getScene()->testQueueItem(vqi,queueItemResults );
-        view->getScene()->processQueueItemResults (view, queueItemResults);
+        //view->getScene()->testQueueItem(vqi,queueItemResults );
+        view->getScene()->testQueueItem(extraRay, queueItemResults );
+        //view->getScene()->processQueueItemResults (view, queueItemResults);
+
+        Colour newCol = LightModel::getColour(queueItemResults,
+            samples, view->getScene(), view->getScene()->maxReflections) / samples;
+
+        output->addPixel(
+          pixel_x, pixel_y,
+          newCol);
+
       }
 
       // surrounding pixel retest

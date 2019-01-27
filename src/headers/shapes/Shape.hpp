@@ -30,12 +30,13 @@ private:
   bool hasTransformedEyePoint = false;
   Point transformedEyePoint;
 
-#ifdef EXPERIMENTAL
+
 protected:
   BoundingBox box;
-#endif
+
 
 public:
+  Ray tempRay;
   Shape();
   Transform transformation;
   shared_ptr<Texture> diffuse = nullptr;
@@ -65,9 +66,11 @@ public:
 
   virtual void shapeTestIntersect (QueueItemResults &results, Ray &shapeRay, Ray &worldRay) = 0;
   virtual Vector getShapeNormal(IntersectHit *ih) = 0;
-  #ifdef EXPERIMENTAL
-    BoundingBoxPlanes getWorldBoundingPlanes();
-  #endif
+
+  BoundingBoxPlanes getWorldBoundingPlanes();
+  BoundingBoxPlanes worldPlanes;
+  bool hasWorldPlanes=false;
+
 };
 
 

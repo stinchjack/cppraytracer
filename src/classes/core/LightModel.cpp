@@ -11,7 +11,7 @@ Colour LightModel::getColour(
     Scene *scene, int reflectionCount)
      {
 
-  Colour c (0,0,0);
+  Colour c;
 
   if (scene->lights.size() > 0) {
     c += getDiffuse(itemResults, antialiasSamples, scene);
@@ -54,7 +54,7 @@ Colour LightModel::getDiffuse (
     QueueItemResults &itemResults,
     int samples,
     Scene *scene) {
-  Colour diffuse(0,0,0);
+  Colour diffuse;
 
   //map<string, shared_ptr<Light>> &lights = scene->lights;
   IntersectHitPtr result = itemResults.begin()->second;
@@ -63,10 +63,9 @@ Colour LightModel::getDiffuse (
 //  for (auto lightIterator = lights.begin(); lightIterator != lights.end(); lightIterator++) {
 //    shared_ptr<Light> light = lightIterator->second;
 
-  int size = scene->tempLights.size();
-  auto it = scene->tempLights.begin();
+  int size = scene->lights.size();
+  auto it = scene->lights.begin();
 
-   //for (auto it = scene->tempLights.begin(); it!=scene->tempLights.end(); it++) {
    for (int i=0; i<size; i++) {
      shared_ptr<Light> light = *it;
     //PointLight p = *((shared_ptr<PointLight>)light);
@@ -103,8 +102,8 @@ Colour LightModel::getDiffuse (
 
 
     FLOAT diffuseFactor = normal * averageLightDir;
-    //if (result.getWorldRay().direction.normalised() * normal > 0) {
-    if (result->getWorldRay().direction.normalised() * normal > 0) {
+
+    if (result->getWorldRay().direction * normal > 0) {
       diffuseFactor = 0 - diffuseFactor;
     }
 
@@ -124,16 +123,17 @@ Colour LightModel::getDiffuse (
 Colour LightModel::reflection(IntersectHitPtr ih, int reflectionCount) {
 
   if (!ih->scene || reflectionCount < 1) {
-    return Colour (0,0,0);
+    return Colour();
   }
 
   Colour specular = ih->getShape()->specular->getColour(ih, ih->getShape()->mapping);
 
   if (specular.r <=0 && specular.g <=0  && specular.b <= 0) {
-    return Colour(0,0,0);
+    return Colour();
   }
   Vector normal = ih->getWorldNormal();
-  if (ih->getWorldRay().direction.normalised() * normal > 0.0) {
+  if (ih->getWorldRay().direction * normal > 0.0) {
+//  if (ih->getWorldRay().direction.normalised() * normal > 0.0) {
     normal.reverse();
   }
 
@@ -144,10 +144,10 @@ Colour LightModel::reflection(IntersectHitPtr ih, int reflectionCount) {
   Ray reflectedRay(start, dir);
 
   QueueItemResults queueItemResults;
-  ViewQueueItem vqi(reflectedRay);
-  ih->scene->testQueueItem(vqi , queueItemResults);
+  //ViewQueueItem vqi(reflectedRay);
+  ih->scene->testQueueItem(reflectedRay , queueItemResults);
   if (queueItemResults.size() == 0) {
-    return Colour (0,0,0);
+    return Colour();
   }
   Colour worldColour = LightModel::getColour(queueItemResults, 1, ih->scene, reflectionCount - 1);
   return worldColour * specular;

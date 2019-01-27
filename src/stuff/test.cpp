@@ -52,23 +52,23 @@ void simple() {
 
 
    //scene.shapes["sphere3"+num] = SpherePtr();
-   SpherePtr sph3 = scene.add<Sphere>("sphere3");
+   SpherePtr sph3 = scene.add<Sphere>();
    sph3->setShift(Point(3 , 0 ,0.0));
 
 
-    SpherePtr  sph4 = scene.add<Sphere>("sphere4");
+    SpherePtr  sph4 = scene.add<Sphere>();
     sph4->setShift(Point (-3, 0, 0));
 
 
 
    //scene.add<Sphere>("sphere");
-   ViewPtr v1 = scene.add<View>("View1", 6,6,4);
+   ViewPtr v1 = scene.add<View>( 6,6,4);
    v1->setOutput(output);
 
-   scene.add<PointLight>("pointlight", Colour(1,1,1), Point(0,0,0));
+   scene.add<PointLight>(Colour(1,1,1), Point(0,0,0));
 
    LightModel::processShadows  = true;
-   scene.render("View1");
+   scene.render(v1);
 
    time_point<Clock> end = Clock::now();
    milliseconds diff = duration_cast<milliseconds>(end - start);
@@ -128,7 +128,7 @@ void testPng() {
 
     //scene.shapes["outersphere"] = SpherePtr();
 
-    SpherePtr outersphere = scene.add<Sphere>("outersphere");
+    SpherePtr outersphere = scene.add<Sphere>();
 
     outersphere->setShift((Point){0, 0, 0});
     outersphere->setScale(60,25,60);
@@ -148,10 +148,9 @@ void testPng() {
       for (FLOAT j =-1; j<2 ; j++) {
 
         flag ++;
-        string num = to_string(i) + to_string(j);
 
          //scene.shapes["sphere3"+num] = SpherePtr();
-         sph3 = scene.add<Sphere>("sphere3"+num);
+         sph3 = scene.add<Sphere>();
          sph3->setShift((Point){(4.0f * j),(4.0f * i),0.0});
          sph3->setScale(2.0  , 2, 2);
 
@@ -165,7 +164,7 @@ void testPng() {
          }
 
 
-          sph4 = scene.add<Sphere>("sphere4"+num);
+          sph4 = scene.add<Sphere>();
           sph4->setShift((Point){1.0f + (4.0f * j),.60f + (4.0f * i),-1.0});
           sph4->setScale(2.0, 2, 2);
           if (flag++ % 2 == 0) {
@@ -176,7 +175,7 @@ void testPng() {
             sph4->diffuse = make_shared<PlainTexture>(altColour);
           }
 
-          sph5 = scene.add<Sphere>("sphere5"+num);
+          sph5 = scene.add<Sphere>();
           sph5->setShift((Point){2.0f+ (4.0f * j),1.2f + (4.0f * i),-2.0});
           sph5->setScale(2.0, 2, 2);
           sph5->diffuse = make_shared<PlainTexture>(Colour (0,0,0));
@@ -190,7 +189,7 @@ void testPng() {
           }
 
 
-          sph6 = scene.add<Sphere>("sphere6"+num);
+          sph6 = scene.add<Sphere>();
           sph6->setShift((Point){3.0f+ (4.0f * j),1.8f + (4.0f * i),-3.0});
           sph6->setScale(2.0, 2, 2);
           sph6->diffuse = make_shared<PlainTexture>(altColour);
@@ -208,11 +207,11 @@ void testPng() {
 
 
    //scene.add<Sphere>("sphere");
-   ViewPtr v1 = scene.add<View>("View1", 30,30,28);
+   ViewPtr v1 = scene.add<View>(30,30,28);
    v1->setOutput(output);
 
-   scene.add<PointLight>("pointlight", Colour(.4,.4,.4), (Point){-20,-20,0});
-   scene.add<PointLight>("pointlight2", Colour(.4,.4,.4), (Point){-20,22,0});
+   scene.add<PointLight>(Colour(.4,.4,.4), (Point){-20,-20,0});
+   scene.add<PointLight>(Colour(.4,.4,.4), (Point){-20,22,0});
 
 
 
@@ -225,11 +224,16 @@ void testPng() {
 
 
    LightModel::processShadows  = true;
-   scene.render("View1");
+
+   time_point<Clock> startRender = Clock::now();
+
+   scene.render(v1);
 
    time_point<Clock> end = Clock::now();
    milliseconds diff = duration_cast<milliseconds>(end - start);
-   std::cout << diff.count() << "ms" << std::endl;
+   milliseconds diffRender = duration_cast<milliseconds>(end - startRender);
+   std::cout << "render time: "<< diffRender.count() << "ms" << std::endl;
+   std::cout << "total time: "<< diff.count() << "ms" << std::endl;
 
    output->makeWindow("hello world");
    output->show();

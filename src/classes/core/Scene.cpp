@@ -11,83 +11,42 @@
 #include <iostream>
 using namespace std;
 
-void Scene::adder(string label, shared_ptr<Shape> shape) {
-  shapes[label] = shape;
+void Scene::adder(shared_ptr<Shape> shape) {
+  shapes.push_back(shape);
 }
 
-void  Scene::adder(string label, shared_ptr<Light> light) {
-  lights[label] = light;
+void  Scene::adder(shared_ptr<Light> light) {
+  lights.push_back(light);
 }
 
-void Scene::adder(string label, shared_ptr<View> view) {
-  views[label] = view;
-}
-
-
-/**brief Copies the map of shapes to a vector
-* detail Copies the map of shapes to a vector, since vectors a much
-* faster to iterate through
-* return void
-*/
-void Scene::setupTempShapes() {
-
-  /*
-  It turns out iterating thru maps is slower than iterating through vectors.
-  So, this function copies from the shapes map to vector so the vector can be used
-  for the intersection test loop;
-  */
-
-  map<string, SHAPE_PTR>::iterator it = shapes.begin();
-  int size= shapes.size();
-  int i=0;
-
-  tempShapes.resize(0);
-  while (i<size) {
-
-    tempShapes.push_back ( it->second);
-    it++;
-    i++;
-  }
+void Scene::adder(shared_ptr<View> view) {
+  views.push_back(view);
 }
 
 
-/**brief Copies the map of lights to a vector
-* detail Copies the map of lights to a vector, since vectors a much
-* faster to iterate through
-* return void
-*/
-void Scene::setupTempLights() {
-  tempLights.resize(0);
-  for (auto lightIterator = lights.begin();
-    lightIterator != lights.end(); lightIterator++) {
-    tempLights.push_back(lightIterator->second);
-  }
-
-}
 
 
-void Scene::render(const std::string &viewName) {
+void Scene::render(ViewPtr view) {
 
   #ifdef EXPERIMENTAL
-  shapeSorter.addShapes(shapes);
-  shapeSorter.sort(views[viewName]);
+  //shapeSorter.addShapes(shapes);
+  //shapeSorter.sort(views[viewName]);
   #endif
 
-  views[viewName]->setScene(this);
-  views[viewName]->processChunkSetup();
-  setupTempShapes();
-  setupTempLights();
+  view->setScene(this);
+  view->processChunkSetup();
+
   if (useMultiThread) {
     #ifdef DEBUG
     cout << "MultiThread render ... " << endl;
     #endif
-    MTrender(viewName);
+    MTrender(view);
   }
   else {
     #ifdef DEBUG
     cout << "Single thread render ... " << endl;
     #endif
-    views[viewName]->processChunk(0, views[viewName]->output->height()-1);
+    view->processChunk(0, view->output->height()-1);
 
   }
 
@@ -117,11 +76,9 @@ void Scene::threadRenderChunk (MTInfo *mtInfo) {
   }
 }
 
-void Scene::MTrender(const std::string &viewName) {
+void Scene::MTrender(ViewPtr view) {
 
-  int processes = 4;//std::thread::hardware_concurrency();
-
-  ViewPtr view = views[viewName];
+  int processes = std::thread::hardware_concurrency();
 
   std::thread threads[processes];
 
@@ -143,30 +100,27 @@ void Scene::MTrender(const std::string &viewName) {
 }
 
 
-/*
-test a ray against all the shapes in the scene
+/*brief test a ray against all the shapes in the scene
 */
-void Scene::testQueueItem(ViewQueueItem &queueItem, QueueItemResults &queueItemResults) {
+void Scene::testQueueItem(Ray &ray, QueueItemResults &queueItemResults) {
   //loop thru each shape
 
-  #ifdef EXPERIMENTAL
-    shapeSorter.testIntersect(queueItem.ray, queueItemResults);
-  #else
-  auto it = tempShapes.begin();
-  //auto end = tempShapes.end();
-  int size = tempShapes.size();
+  //#ifdef EXPERIMENTAL
+    //shapeSorter.testIntersect(ray, queueItemResults);
+  //#else
+  auto it = shapes.begin();
+  int size = shapes.size();
   int i=0;
   //while (it !=end())) {
   while (i < size) {
 
-    //potential alternate placement for extra antialias rays
 
-    (*it)->testIntersect(queueItemResults, queueItem.ray);
+    (*it)->testIntersect(queueItemResults, ray);
 
     it++;
     i++;
   }
-  #endif
+  //#endif
 
 }
 
@@ -226,8 +180,8 @@ bool Scene::shadowTest(Ray &ray) {
       QueueItemResults queueItemResults;
 
       //Looping thru vector much quick than looping thru map!!
-      auto it = tempShapes.begin();
-      int size = tempShapes.size();
+      auto it = shapes.begin();
+      int size = shapes.size();
       for (int i =0; i<size && queueItemResults.size() == 0; i++) {
 
         (*it)->testIntersect(queueItemResults, ray);

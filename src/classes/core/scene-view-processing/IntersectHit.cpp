@@ -2,12 +2,6 @@
 #include "Shape.hpp"
 #include <iostream>
 
-/*IntersectHit::IntersectHit (Shape *shape, FLOAT t) {
-  this->shape = shape;
-  this->t = t;
-}*/
-
-
   IntersectHit::IntersectHit (const IntersectHitPtr ih) {
     hasShapePoint  = ih->hasShapePoint;
     hasShapeNormal = ih->hasShapeNormal;
@@ -15,8 +9,8 @@
     hasWorldRay = ih->hasWorldRay;
     hasWorldPoint = ih->hasWorldPoint;
 
-    hasShapeRay = hasShapeRay;
-    hasHitPoint = hasHitPoint;
+    hasShapeRay = ih->hasShapeRay;
+    hasHitPoint = ih->hasHitPoint;
 
 
     shapePoint =  ih->shapePoint;
@@ -45,12 +39,8 @@
       }
       worldPoint = worldRay.calcPos(t);
       hasWorldPoint = true;
-
     }
-
     return  worldPoint;
-
-
   }
 
 

@@ -2,9 +2,9 @@
 #include <math.h>
 
 Sphere::Sphere() {
-  #ifdef EXPERIMENTAL
+
   box = BoundingBox(-1,1,-1,1,-1,1);
-  #endif
+
 }
 
 Vector Sphere::getShapeNormal(IntersectHit *ih) {
@@ -49,14 +49,14 @@ void Sphere::shapeTestIntersect (QueueItemResults &results, Ray &ray, Ray &world
 
 
   if (t1 < 0 && t2 >= 0) {
-    //Point p = ray.calcPos(t2);
+
 
     IHPtr hit = results.addResult (t2, this);
     hit->setShapeRay(ray);
     hit->setWorldRay(worldRay);
   }
   else if (t1 >= 0 && t2 < 0) {
-    //Point p = ray.calcPos(t1);
+
 
     IHPtr hit = results.addResult (t1, this);
     hit->setShapeRay(ray);

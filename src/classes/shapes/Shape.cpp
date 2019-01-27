@@ -8,13 +8,28 @@ Shape::Shape() {
   mapping = make_shared<NoMapping>();
 }
 
-#ifdef EXPERIMENTAL
+
 BoundingBoxPlanes Shape::getWorldBoundingPlanes() {
-  return box.getWorldPlanes(transformation);
+  if (!hasWorldPlanes) {
+    worldPlanes =  box.getWorldPlanes(transformation);
+    hasWorldPlanes = true;
+  }
+  return worldPlanes;
 }
-#endif
 
 void Shape::testIntersect (QueueItemResults &results, Ray &worldRay) {
+
+
+  getWorldBoundingPlanes();
+  if ((worldRay.start.x < worldPlanes.left && worldRay.direction.x < 0)
+    || (worldRay.start.x > worldPlanes.right && worldRay.direction.x > 0)
+    || (worldRay.start.y < worldPlanes.top && worldRay.direction.y < 0)
+    || (worldRay.start.y > worldPlanes.bottom && worldRay.direction.y > 0)
+    || (worldRay.start.z < worldPlanes.front && worldRay.direction.z < 0)
+    || (worldRay.start.z > worldPlanes.back && worldRay.direction.z > 0)) {
+    return;
+  }
+
 
   Point start;
 
@@ -33,11 +48,17 @@ void Shape::testIntersect (QueueItemResults &results, Ray &worldRay) {
   }
 
 
+
   Ray newRay(start, this->transformation.transform (worldRay.direction));
-
   newRay.isShadowRay = worldRay.isShadowRay;
-
   shapeTestIntersect(results, newRay, worldRay);
+
+
+  //speed up for single thread only ...
+  /*this->tempRay.start = start;
+  this->tempRay.direction = this->transformation.transform (worldRay.direction);
+  this->tempRay.isShadowRay = worldRay.isShadowRay;
+  shapeTestIntersect(results, this->tempRay, worldRay);*/
 
 }
 

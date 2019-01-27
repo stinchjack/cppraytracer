@@ -37,16 +37,20 @@ public:
   // the two methods below transform in-place
   Point inverseTransform (const Point &p) const;
   inline Point transform (const Point &p) const;
+  inline bool doesRotate();
 
 };
 
+bool Transform::doesRotate() {
+  return doRotate;
+}
 Point Transform::transform(const Point &p) const {
 
   /*if (!doShift && !doScale && !doRotate) {
     return p;
   }*/
 
-  Point newPoint (p.x, p.y, p.z);
+  Point newPoint (p);
 
   if (doShift) {
     newPoint -= shift;
