@@ -46,7 +46,12 @@ private:
   float step_y;
   /*************/
 
+
+
 public:
+
+  bool interpolate =false;
+  FLOAT interpolateThreshold = 1;
 
   inline View (){};
   View (float viewWidth, float viewHeight, float eyeZ);

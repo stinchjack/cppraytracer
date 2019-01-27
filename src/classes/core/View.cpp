@@ -86,6 +86,36 @@ void View::processChunk(int minY, int maxY) {
             scene->processQueueItemResults(this, queueItemResults);
           }
 
+          if (interpolate) {
+
+            if (x>1) {
+              Colour currentColour = output->getPixel(x,y);
+              Colour prevPixel = output->getPixel(x-2,y);
+
+              FLOAT diff = prevPixel.diff(currentColour);
+
+              if (diff<interpolateThreshold) {
+                Colour interpolatedColour = (currentColour + prevPixel) * 0.5;
+                output->setPIxel(x-1,y, interpolatedColour);
+              else {
+                if (antialias) {
+                  ViewQueueItem vqi(ray, x-1, y);
+                  antialias->antialias(vqi, this, this->scene);
+                }
+                else {
+                  QueueItemResults queueItemResults;
+                  queueItemResults.pixel_x = x-1;
+                  queueItemResults.pixel_y = y;
+                  scene->testQueueItem(ray, queueItemResults);
+                  scene->processQueueItemResults(this, queueItemResults);
+                }
+              }
+
+            }
+            x++;
+
+          }
+
       }
 
   }

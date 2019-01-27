@@ -209,7 +209,8 @@ void testPng() {
    //scene.add<Sphere>("sphere");
    ViewPtr v1 = scene.add<View>(30,30,28);
    v1->setOutput(output);
-
+   v1->interpolate = true;
+   
    scene.add<PointLight>(Colour(.4,.4,.4), Point(-20,-20,0));
    scene.add<PointLight>(Colour(.4,.4,.4), Point(-20,22,0));
 
