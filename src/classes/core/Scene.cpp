@@ -28,10 +28,9 @@ void Scene::adder(shared_ptr<View> view) {
 
 void Scene::render(ViewPtr view) {
 
-  #ifdef EXPERIMENTAL
-  //shapeSorter.addShapes(shapes);
-  //shapeSorter.sort(views[viewName]);
-  #endif
+  shapeSorter.addShapes(shapes);
+  shapeSorter.sort();
+
 
   view->setScene(this);
   view->processChunkSetup();
@@ -105,9 +104,10 @@ void Scene::MTrender(ViewPtr view) {
 void Scene::testQueueItem(Ray &ray, QueueItemResults &queueItemResults) {
   //loop thru each shape
 
-  //#ifdef EXPERIMENTAL
-    //shapeSorter.testIntersect(ray, queueItemResults);
-  //#else
+  set<ShapePtr> shapes;
+  shapeSorter.getShapes(shapes, ray);
+
+
   auto it = shapes.begin();
   int size = shapes.size();
   int i=0;
@@ -120,7 +120,6 @@ void Scene::testQueueItem(Ray &ray, QueueItemResults &queueItemResults) {
     it++;
     i++;
   }
-  //#endif
 
 }
 

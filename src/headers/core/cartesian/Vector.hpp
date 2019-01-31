@@ -21,6 +21,7 @@ class Vector {
   friend class UniformSpaceSubdivider;
   friend class View;
   friend class Shape;
+  friend class ZSplit;
 
   private:
 

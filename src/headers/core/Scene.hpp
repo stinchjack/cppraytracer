@@ -10,7 +10,7 @@
 #include <vector>
 #include <thread>
 #include <iostream>
-
+#include "ZSplit.hpp"
 
 using namespace std;
 
@@ -38,9 +38,9 @@ class Scene {
 
   public:
 
-    #ifdef EXPERIMENTAL
-      //UniformSpaceSubdivider shapeSorter;
-    #endif
+
+    ZSplit shapeSorter;
+
     inline Scene(){};
     bool useMultiThread = false;
     int maxReflections = 5;

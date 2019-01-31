@@ -204,13 +204,15 @@ void testPng() {
       }
     }
 
-
-
-   //scene.add<Sphere>("sphere");
    ViewPtr v1 = scene.add<View>(30,30,28);
    v1->setOutput(output);
+
+   /*Interpolation skips rendering alternate pixels and fills intermiedite pixels with
+   average colour unless the difference exceeds the threshold. Speeds up rendering bu
+   reduces quality a lot*/
+
    v1->interpolate = true;
-   v1->interpolateThreshold =.4;
+   v1->interpolateThreshold =.6;
 
    scene.add<PointLight>(Colour(.4,.4,.4), Point(-20,-20,0));
    scene.add<PointLight>(Colour(.4,.4,.4), Point(-20,22,0));
@@ -218,7 +220,7 @@ void testPng() {
 
 
   //v1->setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
-  v1->setAntiAlias(std::make_shared<EDAntiAlias> (20, .8));
+  //v1->setAntiAlias(std::make_shared<EDAntiAlias> (20, .8));
 
   // for explicitly setting no antialas, use:
   // scene.views["view1"].setAntiAlias(nullptr);
