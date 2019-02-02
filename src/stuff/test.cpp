@@ -16,6 +16,7 @@ using std::this_thread::sleep_for;
 
 void testPng();
 void simple();
+void lots();
 
 
 int main (int argc, char **argv) {
@@ -30,7 +31,8 @@ int main (int argc, char **argv) {
 
   cout << "g" << g <<endl;*/
   //simple();
-  testPng();
+  lots();
+  //testPng();
 
   return 0;
 }
@@ -78,6 +80,84 @@ void simple() {
     output->makeWindow("hello world");
     output->show();
 
+}
+
+template <class T>
+T rando (T max) {
+  return (((long double)rand() / RAND_MAX) * max);
+}
+
+void lots() {
+  time_point<Clock> start = Clock::now();
+
+   //PNGOUTPUT_PTR output = make_shared<PngOutput>(640, 640);
+   shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
+   Scene scene;
+
+   #ifdef DEBUG
+   scene.useMultiThread = false;
+   #else
+   scene.useMultiThread = true;
+   #endif
+
+    ShapePtr sph3;
+
+    Colour altColour (0,.8,0);
+
+    //left group
+    for (int i=0; i<10000; i++) {
+
+         sph3 = scene.add<Sphere>();
+         sph3->setShift(Point(-20+rando(40.0f), -20+rando(40.0f), rando(40.0f)));
+         sph3->setScale(0.5+rando(4.0f), 0.5+rando(4.0f), 0.5+rando(4.0f));
+         sph3->diffuse = make_shared<PlainTexture>(Colour (rando(1.0f), rando(1.0f), rando(1.0f)));
+         sph3->specular = make_shared<PlainTexture>(Colour (rando(1.0f), rando(1.0f), rando(1.0f)));
+
+
+    }
+
+   ViewPtr v1 = scene.add<View>(30,30,28);
+   v1->setOutput(output);
+
+   /*Interpolation skips rendering alternate pixels and fills intermiedite pixels with
+   average colour unless the difference exceeds the threshold. Speeds up rendering bu
+   reduces quality a lot*/
+
+   v1->interpolate = true;
+   v1->interpolateThreshold =.6;
+
+   scene.add<PointLight>(Colour(1,1,1), Point(10,0,-100));
+   //scene.add<PointLight>(Colour(1,1,1), Point(-10,0,-100));
+   scene.add<PointLight>(Colour(1,1,1), Point(-10,-10,-100));
+   scene.add<PointLight>(Colour(1,1,1), Point(0,10,-100));
+   scene.add<PointLight>(Colour(1,1,1), Point(0,-10,-100));
+   //scene.add<PointLight>(Colour(1,1,1), Point(0,0,-100));
+
+
+
+
+  //v1->setAntiAlias(std::make_shared<SimpleAntiAlias> (20));
+  //v1->setAntiAlias(std::make_shared<EDAntiAlias> (20, .8));
+
+  // for explicitly setting no antialas, use:
+  // scene.views["view1"].setAntiAlias(nullptr);
+
+
+
+   LightModel::processShadows  = false;
+
+   time_point<Clock> startRender = Clock::now();
+
+   scene.render(v1);
+
+   time_point<Clock> end = Clock::now();
+   milliseconds diff = duration_cast<milliseconds>(end - start);
+   milliseconds diffRender = duration_cast<milliseconds>(end - startRender);
+   std::cout << "render time: "<< diffRender.count() << "ms" << std::endl;
+   std::cout << "total time: "<< diff.count() << "ms" << std::endl;
+
+   output->makeWindow("hello world");
+   output->show();
 }
 
 void testPng() {
@@ -136,7 +216,7 @@ void testPng() {
 
     //rampColours = {Colour(1,0,0), Colour(0,1,0), Colour (1,0,1), Colour(0,0,0)};
     //outersphere->diffuse = make_shared<CircularRampTexture>(rampColours);
-    outersphere->diffuse = make_shared<ImageFileTexture>("./sunset.jpeg");
+    outersphere->diffuse = make_shared<ImageFileTexture>("./sunset2.jpeg");
     outersphere->mapping = make_shared<SphereMapping>();
     //outersphere->diffuse = make_shared<PlainTexture>(Colour (1,1,1));
     //outersphere->specular = make_shared<PlainTexture>(Colour (1,1,1));

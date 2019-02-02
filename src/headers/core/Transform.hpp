@@ -41,28 +41,6 @@ public:
 
 };
 
-/*
-Transform::combine (Transform &rhs) {
-  Transform new = *this;
-  if (rhs.doShift) {
-    new.shift -= rhs.shift;
-    new.doShift = true;
-  }
-
-  if (rhs.doScale) {
-    new.scaleX += rhs.scaleX;
-    new.scaleY += rhs.scaleY;
-    new.scaleZ += rhs.scaleZ;
-    new.doRotate = true;
-  }
-
-  if (rhs.doRotate) {
-
-  }
-
-  return new;
-}*/
-
 bool Transform::doesRotate() {
   return doRotate;
 }
@@ -80,9 +58,9 @@ Point Transform::transform(const Point &p) const {
 
   if (doScale && !doRotate) {
 
-    newPoint.x += scaleX;
-    newPoint.y += scaleY;
-    newPoint.z += scaleZ;
+    newPoint.x /= scaleX;
+    newPoint.y /= scaleY;
+    newPoint.z /= scaleZ;
 
   }
 

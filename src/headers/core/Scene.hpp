@@ -39,7 +39,7 @@ class Scene {
   public:
 
 
-    ZSplit shapeSorter;
+    XSplit shapeSorter = XSplit(nullptr);
 
     inline Scene(){};
     bool useMultiThread = false;

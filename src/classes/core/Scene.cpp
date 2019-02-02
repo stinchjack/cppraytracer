@@ -27,10 +27,10 @@ void Scene::adder(shared_ptr<View> view) {
 
 
 void Scene::render(ViewPtr view) {
-
+  #ifdef SPLITTERS
   shapeSorter.addShapes(shapes);
   shapeSorter.sort();
-
+  #endif
 
   view->setScene(this);
   view->processChunkSetup();
@@ -104,23 +104,19 @@ void Scene::MTrender(ViewPtr view) {
 void Scene::testQueueItem(Ray &ray, QueueItemResults &queueItemResults) {
   //loop thru each shape
 
-  set<ShapePtr> shapes;
-  shapeSorter.getShapes(shapes, ray);
+  #ifdef SPLITTERS
+  //vector<ShapePtr> shapes;
+  //shapeSorter.getShapes(shapes, ray);
+  shapeSorter.testIntersect(queueItemResults, ray);
+  #else
 
-
-  auto it = shapes.begin();
-  int size = shapes.size();
-  int i=0;
-  //while (it !=end())) {
-  while (i < size) {
-
+  for (auto it = shapes.begin(); it!=shapes.end(); it++) {
 
     (*it)->testIntersect(queueItemResults, ray);
 
-    it++;
-    i++;
-  }
 
+  }
+  #endif
 }
 
 void Scene::renderQueueItem(View *view, ViewQueueItem &queueItem) {
