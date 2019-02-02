@@ -10,7 +10,7 @@
 #include <vector>
 #include <thread>
 #include <iostream>
-#include "ZSplit.hpp"
+#include "AxisSplit.hpp"
 
 using namespace std;
 
