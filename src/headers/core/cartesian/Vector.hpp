@@ -24,6 +24,7 @@ class Vector {
   friend class XSplit;
   friend class YSplit;
   friend class ZSplit;
+  friend class OctTree;
 
   private:
 

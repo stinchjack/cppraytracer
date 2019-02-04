@@ -136,42 +136,42 @@ void sort()  {
     FLOAT startY;
     FLOAT startZ;
 
-    if (firstPoint.x < midX-.0001) {
+    if (firstPoint.x < midX+.0001) {
       startX = 0;
     }
     else {
       startX = 1;
     }
 
-    if (firstPoint.y < midY-.0001) {
+    if (firstPoint.y < midY+.0001) {
       startY = 0;
     }
     else {
       startY = 1;
     }
 
-    if (firstPoint.x < midz-.0001) {
+    if (firstPoint.x < midz+.0001) {
       startZ = 0;
     }
     else {
       startZ = 1;
     }
 
-    if (firstPoint.x < midX-.0001) {
+    if (firstPoint.x < midX+.0001) {
       endX = 0;
     }
     else {
       endX = 1;
     }
 
-    if (firstPoint.y < midY-.0001) {
+    if (firstPoint.y < midY+.0001) {
       endY = 0;
     }
     else {
       endY = 1;
     }
 
-    if (firstPoint.x < midz-.0001) {
+    if (firstPoint.x < midz+.0001) {
       endZ = 0;
     }
     else {

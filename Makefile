@@ -21,7 +21,7 @@ ifeq ($(mode),debug)
 
 else
    mode = release
-	 CXXFLAGS=  -DSPLITTERS $(EXPERIMENTFLAGS)  $(shell Magick++-config --cppflags) -Werror -fpic -Wall -O3 -std=c++14
+	 CXXFLAGS=  -DOCTREE $(EXPERIMENTFLAGS)  $(shell Magick++-config --cppflags) -Werror -fpic -Wall -O3 -std=c++14
 	 LDFLAGS = $(shell Magick++-config --ldflags --libs) -lm -lpng -flto  -pthread -pg -lGL -lglfw -lGLEW -lglut
 
 endif
