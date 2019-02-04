@@ -39,7 +39,12 @@ class Scene {
   public:
 
 
-    XSplit shapeSorter = XSplit(nullptr);
+    #ifdef SPLITTERS
+      XSplit shapeSorter = XSplit(nullptr);
+    #endif
+    #ifdef OCTTREE
+      OctTree shapeSorter;
+    #endif
 
     inline Scene(){};
     bool useMultiThread = false;
