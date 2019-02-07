@@ -27,7 +27,7 @@ void Scene::adder(shared_ptr<View> view) {
 
 
 void Scene::render(ViewPtr view) {
-  #ifdef SPLITTERS
+  #ifdef OCTTREE
   shapeSorter.addShapes(shapes);
   shapeSorter.sort();
   #endif
@@ -104,9 +104,7 @@ void Scene::MTrender(ViewPtr view) {
 void Scene::testQueueItem(Ray &ray, QueueItemResults &queueItemResults) {
   //loop thru each shape
 
-  #ifdef SPLITTERS
-  //vector<ShapePtr> shapes;
-  //shapeSorter.getShapes(shapes, ray);
+  #ifdef OCTTREE
   shapeSorter.testIntersect(queueItemResults, ray);
   #else
 

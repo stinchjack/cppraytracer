@@ -23,7 +23,7 @@ private:
   BoundingBoxPlanes worldPlanes;
 
 public:
-  int sortThreshold=10;
+  int sortThreshold=250;
 
   inline OctTree(){};
 
@@ -31,6 +31,7 @@ public:
 
 
   void addShape(ShapePtr shape);
+  void addShapes(vector<ShapePtr> shapes);
 
   void sort();
 

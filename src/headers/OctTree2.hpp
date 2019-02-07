@@ -41,7 +41,7 @@ class OctTreeNode {
       }
   }
 
-void sort()  {
+void )  {
   if (shapes.size() < splitThreshold) {
     return;
   }

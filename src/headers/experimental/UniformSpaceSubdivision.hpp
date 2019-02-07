@@ -34,7 +34,7 @@ typedef set<ShapePtr> ShapeArray;
     void addShapes(ShapeArray shapes) ;
     void addShapes(map<std::string, ShapePtr> shapes);
     void addShape(ShapePtr shape);
-    void sort(ViewPtr view);
+    void ViewPtr view);
     void calcVoxelIndices
         (FLOAT xPos, FLOAT yPos, FLOAT zPos, int &xVoxel, int &yVoxel, int &zVoxel);
     void setupVoxels(FLOAT xVoxles, FLOAT yVoxles, FLOAT zVoxles);

@@ -61,7 +61,7 @@ void UniformSpaceSubdivider::addShape(ShapePtr shape) {
 
 
 
-void UniformSpaceSubdivider::sort(ViewPtr view) {
+void UniformSpaceSubdivider::ViewPtr view) {
 
   Point eye = view->getEye();
 

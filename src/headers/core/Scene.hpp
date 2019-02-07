@@ -11,6 +11,7 @@
 #include <thread>
 #include <iostream>
 #include "AxisSplit.hpp"
+#include "OctTreeV2.hpp"
 
 using namespace std;
 

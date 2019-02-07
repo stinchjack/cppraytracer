@@ -21,6 +21,7 @@ void lots();
 
 int main (int argc, char **argv) {
 
+  srand(0);//consistent random numbers
 
 /*  PropertyColour c;
   c.r = 0.812;
