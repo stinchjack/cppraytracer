@@ -39,7 +39,10 @@
 
   void OctTree::addShape(ShapePtr shape) {
 
+    
+
     allShapes.push_back(shape);
+
     BoundingBoxPlanes shapePlanes = shape->getWorldBoundingPlanes();
     if (allShapes.size() == 1) {
       worldPlanes = shapePlanes;
@@ -172,8 +175,6 @@
     if (highX && highY && highZ) {
       sortedShapes[1][1][1]->testIntersect(results, ray);
     }
-
-
 
 
   }
