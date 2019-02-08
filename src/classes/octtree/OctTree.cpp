@@ -68,6 +68,9 @@
   }
 
   void OctTree::sort() {
+    #ifdef DEBUG
+      //printDepth();
+    #endif
 
     if (sorted || (int)allShapes.size() < sortThreshold) {
       return;
@@ -104,20 +107,31 @@
       }
       else {
 
-          for (int x = 1-lowX; lowX<highX; x++) {
-            for (int y = 1-lowY; lowY<highY; y++) {
-              for (int z = 1-lowZ; lowZ<highZ; z++) {
-                sortedShapes[0][0][0]->addShape(shape);
-              }
-            }
-          }
-      }
+          int x = (lowX?0:1);
+          int y = (lowY?0:1);
+          int z = (lowZ?0:1);
 
+          sortedShapes[x][y][z]->addShape(shape);
+      }
     }
     sorted = true;
+
+      sortedShapes[0][0][0]->sort();
+      sortedShapes[0][0][1]->sort();
+      sortedShapes[0][1][0]->sort();
+      sortedShapes[0][1][1]->sort();
+
+      sortedShapes[1][0][0]->sort();
+      sortedShapes[1][0][1]->sort();
+      sortedShapes[1][1][0]->sort();
+      sortedShapes[1][1][1]->sort();
+
   }
 
   void OctTree::testIntersect(QueueItemResults &results, Ray &ray) {
+
+
+
     if (!sorted) {
       testIntersectLoop(allShapes, results, ray);
       return;
@@ -134,13 +148,33 @@
 
     testIntersectLoop(unsortableShapes, results, ray);
 
-    for (int x = lowX; lowX<highX; x++) {
-      for (int y = lowY; lowY<highY; y++) {
-        for (int z = lowZ; lowZ<highZ; z++) {
-          sortedShapes[x][y][z]->testIntersect(results, ray);
-        }
-      }
+    if (lowX && lowY && lowZ) {
+      sortedShapes[0][0][0]->testIntersect(results, ray);
     }
+    if (lowX && lowY && highZ) {
+      sortedShapes[0][0][1]->testIntersect(results, ray);
+    }
+    if (lowX && highY && lowZ) {
+      sortedShapes[0][1][0]->testIntersect(results, ray);
+    }
+    if (lowX && highY && highZ) {
+      sortedShapes[0][1][1]->testIntersect(results, ray);
+    }
+    if (highX && lowY && lowZ) {
+      sortedShapes[1][0][0]->testIntersect(results, ray);
+    }
+    if (highX && lowY && highZ) {
+      sortedShapes[1][0][1]->testIntersect(results, ray);
+    }
+    if (highX && highY && lowZ) {
+      sortedShapes[1][1][0]->testIntersect(results, ray);
+    }
+    if (highX && highY && highZ) {
+      sortedShapes[1][1][1]->testIntersect(results, ray);
+    }
+
+
+
 
   }
 

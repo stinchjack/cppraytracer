@@ -11,7 +11,7 @@ class OctTreeNode {
   FLOAT midY;
   FLOAT midZ;
   int status = OCT_STATUS_LEAF;
-  int splitThreshold = 15;
+  int splitThreshold = 120;
   vector<vector<vector<OctTreeNode>>> leaves;
 
 

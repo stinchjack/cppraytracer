@@ -11,7 +11,7 @@ typedef vector<shared_ptr<Shape>> ShapeArray;
 class NodeHolder {
 public:
   OctTreeNodePtr node;
-  int threshold = 15
+  int threshold = 20;
   int converted = false;
 
   NodeHolder::NodeHolder(int threshold) {
@@ -69,7 +69,7 @@ class OctTreeLeaf: OctTreeNode {
 
 class OctTreeBranch: OctTreeNode {
 
-  vector<vector<vector<OctTreeNodePtr>>> leaves;
+  vector<vector<vector<OctTreeNode>>> leaves;
   OctTreeBranch::OctTreeBranch {
     setupLeaves();
   }
@@ -89,7 +89,7 @@ class OctTreeBranch: OctTreeNode {
     leaves[1][0].resize(2);
   }
 
-
+honesty
   testIntersected(Ray &ray) {
 
      FLOAT t = (zpos - ray.start.z) / ray.direction.z;

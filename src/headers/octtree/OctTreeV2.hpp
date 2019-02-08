@@ -5,6 +5,10 @@
 #include <memory>
 #include <vector>
 
+#ifdef DEBUG
+  #include <iostream>
+#endif
+
 class OctTree;
 typedef vector <ShapePtr> ShapeVector;
 typedef shared_ptr<OctTree> OctTreePtr;
@@ -23,7 +27,7 @@ private:
   BoundingBoxPlanes worldPlanes;
 
 public:
-  int sortThreshold=250;
+  int sortThreshold=15;
 
   inline OctTree(){};
 
@@ -37,6 +41,20 @@ public:
 
   void testIntersectLoop(vector<ShapePtr> shapes, QueueItemResults &results, Ray& ray);
   void testIntersect(QueueItemResults &results, Ray &ray);
+
+  #ifdef DEBUG
+   int printDepth() {
+     int depth =0 ;
+
+     for (OctTree *p=parent; p; p=p->parent) {
+       depth++;
+
+     }
+
+     cout << "depth: " << depth << endl;
+     return depth;
+   }
+  #endif
 };
 
 #endif

@@ -12,7 +12,11 @@
 using namespace std;
 
 void Scene::adder(shared_ptr<Shape> shape) {
-  shapes.push_back(shape);
+  #ifdef OCTTREE
+    shapeSorter.addShape(shape);
+  #else
+    shapes.push_back(shape);
+  #endif
 }
 
 void  Scene::adder(shared_ptr<Light> light) {
@@ -28,7 +32,7 @@ void Scene::adder(shared_ptr<View> view) {
 
 void Scene::render(ViewPtr view) {
   #ifdef OCTTREE
-  shapeSorter.addShapes(shapes);
+  //shapeSorter.addShapes(shapes);
   shapeSorter.sort();
   #endif
 

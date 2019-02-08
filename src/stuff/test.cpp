@@ -42,6 +42,7 @@ void simple() {
   time_point<Clock> start = Clock::now();
 
    //PNGOUTPUT_PTR output = make_shared<PngOutput>(640, 640);
+
    shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
    Scene scene;
 
@@ -50,8 +51,6 @@ void simple() {
    #else
    scene.useMultiThread = true;
    #endif
-
-
 
 
    //scene.shapes["sphere3"+num] = SpherePtr();
@@ -91,8 +90,9 @@ T rando (T max) {
 void lots() {
   time_point<Clock> start = Clock::now();
 
-   //PNGOUTPUT_PTR output = make_shared<PngOutput>(640, 640);
-   shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
+
+   PNGOUTPUT_PTR output = make_shared<PngOutput>(400, 400);
+   //shared_ptr<GLWindowOutput> output = make_shared<GLWindowOutput>(400, 400);
    Scene scene;
 
    #ifdef DEBUG
@@ -106,7 +106,7 @@ void lots() {
     Colour altColour (0,.8,0);
 
     //left group
-    for (int i=0; i<10000; i++) {
+    for (int i=0; i<1000; i++) {
 
          sph3 = scene.add<Sphere>();
          sph3->setShift(Point(-20+rando(40.0f), -20+rando(40.0f), rando(40.0f)));
@@ -157,8 +157,9 @@ void lots() {
    std::cout << "render time: "<< diffRender.count() << "ms" << std::endl;
    std::cout << "total time: "<< diff.count() << "ms" << std::endl;
 
-   output->makeWindow("hello world");
-   output->show();
+   //output->makeWindow("hello world");
+   //output->show();
+   output->save("1000-1.png");
 }
 
 void testPng() {
